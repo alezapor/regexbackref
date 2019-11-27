@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/regex_matcher.dir/main.cpp.o  -o regex_matcher 
