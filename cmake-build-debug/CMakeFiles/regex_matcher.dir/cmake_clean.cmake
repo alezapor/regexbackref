@@ -1,11 +1,12 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/regex_matcher.dir/lexer.cpp.o"
   "CMakeFiles/regex_matcher.dir/main.cpp.o"
-  "CMakeFiles/regex_matcher.dir/ndtm.cpp.o"
+  "CMakeFiles/regex_matcher.dir/lexer.cpp.o"
   "CMakeFiles/regex_matcher.dir/parser.cpp.o"
   "CMakeFiles/regex_matcher.dir/tape.cpp.o"
-  "regex_matcher"
+  "CMakeFiles/regex_matcher.dir/ndtm.cpp.o"
   "regex_matcher.pdb"
+  "regex_matcher.exe"
+  "libregex_matcher.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

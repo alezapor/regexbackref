@@ -7,6 +7,7 @@
 
 NDTM::NDTM(int mStart, int cnt) : m_Start(mStart) {
     m_Cnt = 1;
+    m_Cur = m_Start;
     //m_Tapes.resize(cnt+1, Tape(1, 1));
 }
 

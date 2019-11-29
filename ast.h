@@ -7,6 +7,7 @@
 
 #include <memory>
 #include "ndtm.h"
+#include <iostream>
 
 // NodeAST - Base class for all nodes.
 class NodeAST {
@@ -74,19 +75,83 @@ public:
             tm.incStateCnt();
         }
         else q2 = final;
-        //1
-        for (char i = 'a'; i != 'z'; i++){
-            std::string s0 = "" + i;
+        //1 + 2
+        //pridat prechod pro '\0' na vstupni pasce
+        for (auto it = tm.getABC().begin(); it != tm.getABC().end(); it++){
+            for (auto it1 = tm.getABC().begin(); it1 != tm.getABC().end(); it1++){
+                std::string s0 = "";
+                s0.push_back(*it);
+                std::vector<std::pair<char, int>> s1;
+                s1.emplace_back(std::make_pair(*it, 0));
+                for (int i = 0; i < tapes.size(); i++) {
+                    s0.push_back('\0');
+                    if (i == m_Num - 1) {
+                        s1.emplace_back(std::make_pair(*it1, -1));
+                    }
+                    else s1.emplace_back(std::make_pair('\0', 0));
+                }
+                tm.addTransition(qCur,s0,q1,s1);
+                tm.addTransition(q1,s0,q1,s1);
+            }
+        }
+        for (auto it1 = tm.getABC().begin(); it1 != tm.getABC().end(); it1++){
+            std::string s0 = "";
+            s0.push_back('\0');
             std::vector<std::pair<char, int>> s1;
-            s1.emplace_back(std::make_pair(i, 0));
+            s1.emplace_back(std::make_pair('\0', 0));
             for (int i = 0; i < tapes.size(); i++) {
                 s0.push_back('\0');
                 if (i == m_Num - 1) {
-                    s1.emplace_back(std::make_pair('\0', 0));
+                    s1.emplace_back(std::make_pair(*it1, -1));
                 }
                 else s1.emplace_back(std::make_pair('\0', 0));
             }
-           // TODO
+            tm.addTransition(qCur,s0,q1,s1);
+            tm.addTransition(q1,s0,q1,s1);
+        }
+        //3
+        for (auto it = tm.getABC().begin(); it != tm.getABC().end(); it++){
+                std::string s0 = "";
+                s0.push_back(*it);
+                std::vector<std::pair<char, int>> s1;
+                s1.emplace_back(std::make_pair(*it, 0));
+                for (int i = 0; i < tapes.size(); i++) {
+                    s0.push_back('\0');
+                    if (i == m_Num - 1) {
+                        s1.emplace_back(std::make_pair('\0', 1));
+                    }
+                    else s1.emplace_back(std::make_pair('\0', 0));
+                }
+                tm.addTransition(q1,s0,q2,s1);
+        }
+        for (auto it1 = tm.getABC().begin(); it1 != tm.getABC().end(); it1++) {
+            std::string s0 = "";
+            s0.push_back('\0');
+            std::vector<std::pair<char, int>> s1;
+            s1.emplace_back(std::make_pair('\0', 0));
+            for (int i = 0; i < tapes.size(); i++) {
+                s0.push_back('\0');
+                if (i == m_Num - 1) {
+                    s1.emplace_back(std::make_pair('\0', 1));
+                } else s1.emplace_back(std::make_pair('\0', 0));
+
+                tm.addTransition(q1, s0, q2, s1);
+            }
+        }
+        //4
+        for (auto it = tm.getABC().begin(); it != tm.getABC().end(); it++){
+            std::string s0 = "";
+            s0.push_back(*it);
+            std::vector<std::pair<char, int>> s1;
+            s1.emplace_back(std::make_pair(*it, 1));
+            for (int i = 0; i < tapes.size(); i++) {
+                s0.push_back('\0');
+                if (i == m_Num - 1) {
+                    s1.emplace_back(std::make_pair(*it, 1));
+                }
+                else s1.emplace_back(std::make_pair('\0', 0));
+            }
+            tm.addTransition(q2,s0,q2,s1);
         }
 
     }

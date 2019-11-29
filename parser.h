@@ -11,13 +11,16 @@
 #include <iostream>
 #include "lexer.h"
 #include "ast.h"
+#include <set>
 
 class Parser {
     int curTok;
     Lexer m_Lexer;
     int parCnt;
+    std::set<char> m_Abc;
 public:
     int getParCnt() const;
+    std::set<char>& getAbc(){return m_Abc;}
 
 public:
 

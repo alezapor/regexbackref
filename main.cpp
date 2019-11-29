@@ -19,12 +19,13 @@ int main(int argc, char * argv[]) {
     tapes.resize(parser.getParCnt(), false);
 
     NDTM tm = NDTM(0, parser.getParCnt());
+    tm.setABC(parser.getAbc());
     item->constructTM(tm, tapes);
     tm.addFinalState(tm.getMCur());
 
-    tm.loadTapes(Tape(0, "abbc"), parser.getParCnt());
+    tm.loadTapes(Tape(0, "abbcc"), parser.getParCnt());
     tm.print();
-    std::cout << (tm.accepts() ? "ACCEPTS" : "DOESNT ACCEPT") << std::endl;
+    std::cout << (tm.accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
 
     is.close();
     return 0;

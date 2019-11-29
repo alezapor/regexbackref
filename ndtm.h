@@ -43,9 +43,12 @@ public:
     int getStateCnt();
     void incStateCnt() {m_Cnt++;}
     void print();
+    std::set<char> & getABC(){ return m_Abc;}
+    void setABC (std::set<char> & abc) {m_Abc = abc;}
 private:
     int m_Start;
     std::set<int> m_End;
+    std::set<char> m_Abc;
     int m_Cur;
     int m_Cnt;
     std::vector<Tape> m_Tapes;

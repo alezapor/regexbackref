@@ -3,6 +3,7 @@
 //
 
 #include "parser.h"
+
 void Parser::MatchError(Token token) {
     printf("Match error: token %d.\n", token);
     exit(1);
@@ -128,6 +129,7 @@ std::unique_ptr<NodeAST> Parser::ParseR() {
     }
     else if (curTok == tokenLetter) {
         auto prim = std::make_unique<PrimitiveAST>(m_Lexer.val);
+        m_Abc.insert((char)m_Lexer.val);
         getNextToken();
         return std::move(prim);
     }

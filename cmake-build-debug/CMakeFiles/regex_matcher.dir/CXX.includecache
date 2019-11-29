@@ -6,13 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/osboxes/CLionProjects/regex_matcher/ast.h
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/ast.h
 memory
 -
 ndtm.h
-/home/osboxes/CLionProjects/regex_matcher/ndtm.h
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/ndtm.h
+iostream
+-
 
-/home/osboxes/CLionProjects/regex_matcher/lexer.h
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/lexer.h
 cstdio
 -
 string
@@ -20,15 +22,15 @@ string
 fstream
 -
 
-/home/osboxes/CLionProjects/regex_matcher/main.cpp
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/main.cpp
 iostream
 -
 fstream
 -
 parser.h
-/home/osboxes/CLionProjects/regex_matcher/parser.h
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/parser.h
 
-/home/osboxes/CLionProjects/regex_matcher/ndtm.h
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/ndtm.h
 set
 -
 vector
@@ -36,9 +38,9 @@ vector
 map
 -
 tape.h
-/home/osboxes/CLionProjects/regex_matcher/tape.h
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/tape.h
 
-/home/osboxes/CLionProjects/regex_matcher/parser.h
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/parser.h
 memory
 -
 algorithm
@@ -46,11 +48,13 @@ algorithm
 iostream
 -
 lexer.h
-/home/osboxes/CLionProjects/regex_matcher/lexer.h
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/lexer.h
 ast.h
-/home/osboxes/CLionProjects/regex_matcher/ast.h
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/ast.h
+set
+-
 
-/home/osboxes/CLionProjects/regex_matcher/tape.h
+/cygdrive/c/Users/zaporole/CLionProjects/regex_matcher/tape.h
 string
 -
 

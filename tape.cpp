@@ -34,6 +34,7 @@ void Tape::setMHead(int mHead) {
 }
 
 char Tape::readSymbol() const {
+    if(m_Head < 0 || m_Head >= m_Length) return '\0';
     return m_Cells[m_Head];
 }
 
