@@ -84,7 +84,34 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/ast.h">
+			<Option target="regex_matcher"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/lexer.cpp">
+			<Option target="regex_matcher"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/lexer.h">
+			<Option target="regex_matcher"/>
+		</Unit>
 		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/main.cpp">
+			<Option target="regex_matcher"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/ndtm.cpp">
+			<Option target="regex_matcher"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/ndtm.h">
+			<Option target="regex_matcher"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/parser.cpp">
+			<Option target="regex_matcher"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/parser.h">
+			<Option target="regex_matcher"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/tape.cpp">
+			<Option target="regex_matcher"/>
+		</Unit>
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/tape.h">
 			<Option target="regex_matcher"/>
 		</Unit>
 		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/CMakeLists.txt">

@@ -74,12 +74,12 @@ preinstall:
 CMakeFiles/regex_matcher.dir/all:
 	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/depend
 	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target regex_matcher"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target regex_matcher"
 .PHONY : CMakeFiles/regex_matcher.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/regex_matcher.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/regex_matcher.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/regex_matcher.dir/rule
