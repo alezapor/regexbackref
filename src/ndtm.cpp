@@ -127,8 +127,8 @@ void NDTM::print() {
         for (auto it1 = it->second.begin(); it1 != it->second.end(); it1++){
             std::cout << "\n\t("  << it1->first;
             for (int i = 0; i < m_Tapes.size(); i++){
-                if (it1->second[i].first == m_Blank) std::cout << ",<B," << it1->second[i].second << ">";
-                else std::cout << ",<" << it1->second[i].first << "," << it1->second[i].second << ">" ;
+                if (it1->second[i].first == m_Blank) std::cout << ",<B," << it1->second[i].second - 1 << ">";
+                else std::cout << ",<" << it1->second[i].first << "," << it1->second[i].second - 1 << ">" ;
             }
             std::cout << ")";
         }

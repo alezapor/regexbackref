@@ -26,7 +26,7 @@ int main(int argc, char * argv[]) {
     item->constructTM(tm, tapes);
     tm->addFinalState(tm->getMCur());
 
-    std::string word = "abbcbb";
+    std::string word = "abbbb";
     std::unique_ptr<Tape> tape= std::make_unique<Tape>(word, 0);
     tm->loadTapes(std::move(tape), parser->getParCnt());
     tm->print();
