@@ -123,167 +123,167 @@ regex_matcher/fast:
 	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/build
 .PHONY : regex_matcher/fast
 
-ast.o: ast.cpp.o
+src/ast.o: src/ast.cpp.o
 
-.PHONY : ast.o
-
-# target to build an object file
-ast.cpp.o:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/ast.cpp.o
-.PHONY : ast.cpp.o
-
-ast.i: ast.cpp.i
-
-.PHONY : ast.i
-
-# target to preprocess a source file
-ast.cpp.i:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/ast.cpp.i
-.PHONY : ast.cpp.i
-
-ast.s: ast.cpp.s
-
-.PHONY : ast.s
-
-# target to generate assembly for a file
-ast.cpp.s:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/ast.cpp.s
-.PHONY : ast.cpp.s
-
-lexer.o: lexer.cpp.o
-
-.PHONY : lexer.o
+.PHONY : src/ast.o
 
 # target to build an object file
-lexer.cpp.o:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/lexer.cpp.o
-.PHONY : lexer.cpp.o
+src/ast.cpp.o:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/ast.cpp.o
+.PHONY : src/ast.cpp.o
 
-lexer.i: lexer.cpp.i
+src/ast.i: src/ast.cpp.i
 
-.PHONY : lexer.i
+.PHONY : src/ast.i
 
 # target to preprocess a source file
-lexer.cpp.i:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/lexer.cpp.i
-.PHONY : lexer.cpp.i
+src/ast.cpp.i:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/ast.cpp.i
+.PHONY : src/ast.cpp.i
 
-lexer.s: lexer.cpp.s
+src/ast.s: src/ast.cpp.s
 
-.PHONY : lexer.s
+.PHONY : src/ast.s
 
 # target to generate assembly for a file
-lexer.cpp.s:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/lexer.cpp.s
-.PHONY : lexer.cpp.s
+src/ast.cpp.s:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/ast.cpp.s
+.PHONY : src/ast.cpp.s
 
-main.o: main.cpp.o
+src/lexer.o: src/lexer.cpp.o
 
-.PHONY : main.o
+.PHONY : src/lexer.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/main.cpp.o
-.PHONY : main.cpp.o
+src/lexer.cpp.o:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/lexer.cpp.o
+.PHONY : src/lexer.cpp.o
 
-main.i: main.cpp.i
+src/lexer.i: src/lexer.cpp.i
 
-.PHONY : main.i
+.PHONY : src/lexer.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/lexer.cpp.i:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/lexer.cpp.i
+.PHONY : src/lexer.cpp.i
 
-main.s: main.cpp.s
+src/lexer.s: src/lexer.cpp.s
 
-.PHONY : main.s
+.PHONY : src/lexer.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/lexer.cpp.s:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/lexer.cpp.s
+.PHONY : src/lexer.cpp.s
 
-ndtm.o: ndtm.cpp.o
+src/main.o: src/main.cpp.o
 
-.PHONY : ndtm.o
+.PHONY : src/main.o
 
 # target to build an object file
-ndtm.cpp.o:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/ndtm.cpp.o
-.PHONY : ndtm.cpp.o
+src/main.cpp.o:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
 
-ndtm.i: ndtm.cpp.i
+src/main.i: src/main.cpp.i
 
-.PHONY : ndtm.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-ndtm.cpp.i:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/ndtm.cpp.i
-.PHONY : ndtm.cpp.i
+src/main.cpp.i:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
 
-ndtm.s: ndtm.cpp.s
+src/main.s: src/main.cpp.s
 
-.PHONY : ndtm.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-ndtm.cpp.s:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/ndtm.cpp.s
-.PHONY : ndtm.cpp.s
+src/main.cpp.s:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
-parser.o: parser.cpp.o
+src/ndtm.o: src/ndtm.cpp.o
 
-.PHONY : parser.o
+.PHONY : src/ndtm.o
 
 # target to build an object file
-parser.cpp.o:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/parser.cpp.o
-.PHONY : parser.cpp.o
+src/ndtm.cpp.o:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/ndtm.cpp.o
+.PHONY : src/ndtm.cpp.o
 
-parser.i: parser.cpp.i
+src/ndtm.i: src/ndtm.cpp.i
 
-.PHONY : parser.i
+.PHONY : src/ndtm.i
 
 # target to preprocess a source file
-parser.cpp.i:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/parser.cpp.i
-.PHONY : parser.cpp.i
+src/ndtm.cpp.i:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/ndtm.cpp.i
+.PHONY : src/ndtm.cpp.i
 
-parser.s: parser.cpp.s
+src/ndtm.s: src/ndtm.cpp.s
 
-.PHONY : parser.s
+.PHONY : src/ndtm.s
 
 # target to generate assembly for a file
-parser.cpp.s:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/parser.cpp.s
-.PHONY : parser.cpp.s
+src/ndtm.cpp.s:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/ndtm.cpp.s
+.PHONY : src/ndtm.cpp.s
 
-tape.o: tape.cpp.o
+src/parser.o: src/parser.cpp.o
 
-.PHONY : tape.o
+.PHONY : src/parser.o
 
 # target to build an object file
-tape.cpp.o:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/tape.cpp.o
-.PHONY : tape.cpp.o
+src/parser.cpp.o:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/parser.cpp.o
+.PHONY : src/parser.cpp.o
 
-tape.i: tape.cpp.i
+src/parser.i: src/parser.cpp.i
 
-.PHONY : tape.i
+.PHONY : src/parser.i
 
 # target to preprocess a source file
-tape.cpp.i:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/tape.cpp.i
-.PHONY : tape.cpp.i
+src/parser.cpp.i:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/parser.cpp.i
+.PHONY : src/parser.cpp.i
 
-tape.s: tape.cpp.s
+src/parser.s: src/parser.cpp.s
 
-.PHONY : tape.s
+.PHONY : src/parser.s
 
 # target to generate assembly for a file
-tape.cpp.s:
-	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/tape.cpp.s
-.PHONY : tape.cpp.s
+src/parser.cpp.s:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/parser.cpp.s
+.PHONY : src/parser.cpp.s
+
+src/tape.o: src/tape.cpp.o
+
+.PHONY : src/tape.o
+
+# target to build an object file
+src/tape.cpp.o:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/tape.cpp.o
+.PHONY : src/tape.cpp.o
+
+src/tape.i: src/tape.cpp.i
+
+.PHONY : src/tape.i
+
+# target to preprocess a source file
+src/tape.cpp.i:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/tape.cpp.i
+.PHONY : src/tape.cpp.i
+
+src/tape.s: src/tape.cpp.s
+
+.PHONY : src/tape.s
+
+# target to generate assembly for a file
+src/tape.cpp.s:
+	$(MAKE) -f CMakeFiles/regex_matcher.dir/build.make CMakeFiles/regex_matcher.dir/src/tape.cpp.s
+.PHONY : src/tape.cpp.s
 
 # Help Target
 help:
@@ -294,24 +294,24 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... regex_matcher"
 	@echo "... edit_cache"
-	@echo "... ast.o"
-	@echo "... ast.i"
-	@echo "... ast.s"
-	@echo "... lexer.o"
-	@echo "... lexer.i"
-	@echo "... lexer.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... ndtm.o"
-	@echo "... ndtm.i"
-	@echo "... ndtm.s"
-	@echo "... parser.o"
-	@echo "... parser.i"
-	@echo "... parser.s"
-	@echo "... tape.o"
-	@echo "... tape.i"
-	@echo "... tape.s"
+	@echo "... src/ast.o"
+	@echo "... src/ast.i"
+	@echo "... src/ast.s"
+	@echo "... src/lexer.o"
+	@echo "... src/lexer.i"
+	@echo "... src/lexer.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/ndtm.o"
+	@echo "... src/ndtm.i"
+	@echo "... src/ndtm.s"
+	@echo "... src/parser.o"
+	@echo "... src/parser.i"
+	@echo "... src/parser.s"
+	@echo "... src/tape.o"
+	@echo "... src/tape.i"
+	@echo "... src/tape.s"
 .PHONY : help
 
 

@@ -3,4 +3,4 @@ project(regex_matcher)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(regex_matcher main.cpp lexer.cpp lexer.h parser.cpp parser.h ast.h tape.cpp tape.h ndtm.cpp ndtm.h ast.cpp)
+add_executable(regex_matcher src/main.cpp src/lexer.cpp src/lexer.h src/parser.cpp src/parser.h src/ast.h src/tape.cpp src/tape.h src/ndtm.cpp src/ndtm.h src/ast.cpp)

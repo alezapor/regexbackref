@@ -84,37 +84,37 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/ast.cpp">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/ast.cpp">
 			<Option target="regex_matcher"/>
 		</Unit>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/ast.h">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/ast.h">
 			<Option target="regex_matcher"/>
 		</Unit>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/lexer.cpp">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/lexer.cpp">
 			<Option target="regex_matcher"/>
 		</Unit>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/lexer.h">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/lexer.h">
 			<Option target="regex_matcher"/>
 		</Unit>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/main.cpp">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/main.cpp">
 			<Option target="regex_matcher"/>
 		</Unit>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/ndtm.cpp">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/ndtm.cpp">
 			<Option target="regex_matcher"/>
 		</Unit>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/ndtm.h">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/ndtm.h">
 			<Option target="regex_matcher"/>
 		</Unit>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/parser.cpp">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/parser.cpp">
 			<Option target="regex_matcher"/>
 		</Unit>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/parser.h">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/parser.h">
 			<Option target="regex_matcher"/>
 		</Unit>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/tape.cpp">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/tape.cpp">
 			<Option target="regex_matcher"/>
 		</Unit>
-		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/tape.h">
+		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/src/tape.h">
 			<Option target="regex_matcher"/>
 		</Unit>
 		<Unit filename="/home/osboxes/CLionProjects/regex_matcher/CMakeLists.txt">

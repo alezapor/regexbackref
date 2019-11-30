@@ -4,12 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/osboxes/CLionProjects/regex_matcher/ast.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/ast.cpp.o"
-  "/home/osboxes/CLionProjects/regex_matcher/lexer.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/lexer.cpp.o"
-  "/home/osboxes/CLionProjects/regex_matcher/main.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/main.cpp.o"
-  "/home/osboxes/CLionProjects/regex_matcher/ndtm.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/ndtm.cpp.o"
-  "/home/osboxes/CLionProjects/regex_matcher/parser.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/parser.cpp.o"
-  "/home/osboxes/CLionProjects/regex_matcher/tape.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/tape.cpp.o"
+  "/home/osboxes/CLionProjects/regex_matcher/src/ast.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/src/ast.cpp.o"
+  "/home/osboxes/CLionProjects/regex_matcher/src/lexer.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/src/lexer.cpp.o"
+  "/home/osboxes/CLionProjects/regex_matcher/src/main.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/src/main.cpp.o"
+  "/home/osboxes/CLionProjects/regex_matcher/src/ndtm.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/src/ndtm.cpp.o"
+  "/home/osboxes/CLionProjects/regex_matcher/src/parser.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/src/parser.cpp.o"
+  "/home/osboxes/CLionProjects/regex_matcher/src/tape.cpp" "/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir/src/tape.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

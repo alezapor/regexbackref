@@ -6,13 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/home/osboxes/CLionProjects/regex_matcher/ast.h
+/home/osboxes/CLionProjects/regex_matcher/src/ast.cpp
+iostream
+-
+ast.h
+/home/osboxes/CLionProjects/regex_matcher/src/ast.h
+
+/home/osboxes/CLionProjects/regex_matcher/src/ast.h
 memory
 -
 ndtm.h
-/home/osboxes/CLionProjects/regex_matcher/ndtm.h
+/home/osboxes/CLionProjects/regex_matcher/src/ndtm.h
 
-/home/osboxes/CLionProjects/regex_matcher/lexer.h
+/home/osboxes/CLionProjects/regex_matcher/src/lexer.cpp
+lexer.h
+/home/osboxes/CLionProjects/regex_matcher/src/lexer.h
+
+/home/osboxes/CLionProjects/regex_matcher/src/lexer.h
 cstdio
 -
 string
@@ -20,15 +30,21 @@ string
 fstream
 -
 
-/home/osboxes/CLionProjects/regex_matcher/main.cpp
+/home/osboxes/CLionProjects/regex_matcher/src/main.cpp
 iostream
 -
 fstream
 -
 parser.h
-/home/osboxes/CLionProjects/regex_matcher/parser.h
+/home/osboxes/CLionProjects/regex_matcher/src/parser.h
 
-/home/osboxes/CLionProjects/regex_matcher/ndtm.h
+/home/osboxes/CLionProjects/regex_matcher/src/ndtm.cpp
+iostream
+-
+ndtm.h
+/home/osboxes/CLionProjects/regex_matcher/src/ndtm.h
+
+/home/osboxes/CLionProjects/regex_matcher/src/ndtm.h
 set
 -
 vector
@@ -38,9 +54,13 @@ map
 memory
 -
 tape.h
-/home/osboxes/CLionProjects/regex_matcher/tape.h
+/home/osboxes/CLionProjects/regex_matcher/src/tape.h
 
-/home/osboxes/CLionProjects/regex_matcher/parser.h
+/home/osboxes/CLionProjects/regex_matcher/src/parser.cpp
+parser.h
+/home/osboxes/CLionProjects/regex_matcher/src/parser.h
+
+/home/osboxes/CLionProjects/regex_matcher/src/parser.h
 memory
 -
 algorithm
@@ -48,11 +68,15 @@ algorithm
 iostream
 -
 lexer.h
-/home/osboxes/CLionProjects/regex_matcher/lexer.h
+/home/osboxes/CLionProjects/regex_matcher/src/lexer.h
 ast.h
-/home/osboxes/CLionProjects/regex_matcher/ast.h
+/home/osboxes/CLionProjects/regex_matcher/src/ast.h
 
-/home/osboxes/CLionProjects/regex_matcher/tape.h
+/home/osboxes/CLionProjects/regex_matcher/src/tape.cpp
+tape.h
+/home/osboxes/CLionProjects/regex_matcher/src/tape.h
+
+/home/osboxes/CLionProjects/regex_matcher/src/tape.h
 string
 -
 memory

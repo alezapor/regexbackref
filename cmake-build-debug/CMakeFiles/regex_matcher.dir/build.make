@@ -57,102 +57,102 @@ include CMakeFiles/regex_matcher.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/regex_matcher.dir/flags.make
 
-CMakeFiles/regex_matcher.dir/main.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
-CMakeFiles/regex_matcher.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/regex_matcher.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/main.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/main.cpp
+CMakeFiles/regex_matcher.dir/src/main.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
+CMakeFiles/regex_matcher.dir/src/main.cpp.o: ../src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/regex_matcher.dir/src/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/src/main.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/src/main.cpp
 
-CMakeFiles/regex_matcher.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/main.cpp > CMakeFiles/regex_matcher.dir/main.cpp.i
+CMakeFiles/regex_matcher.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/src/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/src/main.cpp > CMakeFiles/regex_matcher.dir/src/main.cpp.i
 
-CMakeFiles/regex_matcher.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/main.cpp -o CMakeFiles/regex_matcher.dir/main.cpp.s
+CMakeFiles/regex_matcher.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/src/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/src/main.cpp -o CMakeFiles/regex_matcher.dir/src/main.cpp.s
 
-CMakeFiles/regex_matcher.dir/lexer.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
-CMakeFiles/regex_matcher.dir/lexer.cpp.o: ../lexer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/regex_matcher.dir/lexer.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/lexer.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/lexer.cpp
+CMakeFiles/regex_matcher.dir/src/lexer.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
+CMakeFiles/regex_matcher.dir/src/lexer.cpp.o: ../src/lexer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/regex_matcher.dir/src/lexer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/src/lexer.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/src/lexer.cpp
 
-CMakeFiles/regex_matcher.dir/lexer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/lexer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/lexer.cpp > CMakeFiles/regex_matcher.dir/lexer.cpp.i
+CMakeFiles/regex_matcher.dir/src/lexer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/src/lexer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/src/lexer.cpp > CMakeFiles/regex_matcher.dir/src/lexer.cpp.i
 
-CMakeFiles/regex_matcher.dir/lexer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/lexer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/lexer.cpp -o CMakeFiles/regex_matcher.dir/lexer.cpp.s
+CMakeFiles/regex_matcher.dir/src/lexer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/src/lexer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/src/lexer.cpp -o CMakeFiles/regex_matcher.dir/src/lexer.cpp.s
 
-CMakeFiles/regex_matcher.dir/parser.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
-CMakeFiles/regex_matcher.dir/parser.cpp.o: ../parser.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/regex_matcher.dir/parser.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/parser.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/parser.cpp
+CMakeFiles/regex_matcher.dir/src/parser.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
+CMakeFiles/regex_matcher.dir/src/parser.cpp.o: ../src/parser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/regex_matcher.dir/src/parser.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/src/parser.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/src/parser.cpp
 
-CMakeFiles/regex_matcher.dir/parser.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/parser.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/parser.cpp > CMakeFiles/regex_matcher.dir/parser.cpp.i
+CMakeFiles/regex_matcher.dir/src/parser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/src/parser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/src/parser.cpp > CMakeFiles/regex_matcher.dir/src/parser.cpp.i
 
-CMakeFiles/regex_matcher.dir/parser.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/parser.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/parser.cpp -o CMakeFiles/regex_matcher.dir/parser.cpp.s
+CMakeFiles/regex_matcher.dir/src/parser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/src/parser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/src/parser.cpp -o CMakeFiles/regex_matcher.dir/src/parser.cpp.s
 
-CMakeFiles/regex_matcher.dir/tape.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
-CMakeFiles/regex_matcher.dir/tape.cpp.o: ../tape.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/regex_matcher.dir/tape.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/tape.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/tape.cpp
+CMakeFiles/regex_matcher.dir/src/tape.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
+CMakeFiles/regex_matcher.dir/src/tape.cpp.o: ../src/tape.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/regex_matcher.dir/src/tape.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/src/tape.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/src/tape.cpp
 
-CMakeFiles/regex_matcher.dir/tape.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/tape.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/tape.cpp > CMakeFiles/regex_matcher.dir/tape.cpp.i
+CMakeFiles/regex_matcher.dir/src/tape.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/src/tape.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/src/tape.cpp > CMakeFiles/regex_matcher.dir/src/tape.cpp.i
 
-CMakeFiles/regex_matcher.dir/tape.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/tape.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/tape.cpp -o CMakeFiles/regex_matcher.dir/tape.cpp.s
+CMakeFiles/regex_matcher.dir/src/tape.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/src/tape.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/src/tape.cpp -o CMakeFiles/regex_matcher.dir/src/tape.cpp.s
 
-CMakeFiles/regex_matcher.dir/ndtm.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
-CMakeFiles/regex_matcher.dir/ndtm.cpp.o: ../ndtm.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/regex_matcher.dir/ndtm.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/ndtm.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/ndtm.cpp
+CMakeFiles/regex_matcher.dir/src/ndtm.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
+CMakeFiles/regex_matcher.dir/src/ndtm.cpp.o: ../src/ndtm.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/regex_matcher.dir/src/ndtm.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/src/ndtm.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/src/ndtm.cpp
 
-CMakeFiles/regex_matcher.dir/ndtm.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/ndtm.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/ndtm.cpp > CMakeFiles/regex_matcher.dir/ndtm.cpp.i
+CMakeFiles/regex_matcher.dir/src/ndtm.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/src/ndtm.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/src/ndtm.cpp > CMakeFiles/regex_matcher.dir/src/ndtm.cpp.i
 
-CMakeFiles/regex_matcher.dir/ndtm.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/ndtm.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/ndtm.cpp -o CMakeFiles/regex_matcher.dir/ndtm.cpp.s
+CMakeFiles/regex_matcher.dir/src/ndtm.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/src/ndtm.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/src/ndtm.cpp -o CMakeFiles/regex_matcher.dir/src/ndtm.cpp.s
 
-CMakeFiles/regex_matcher.dir/ast.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
-CMakeFiles/regex_matcher.dir/ast.cpp.o: ../ast.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/regex_matcher.dir/ast.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/ast.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/ast.cpp
+CMakeFiles/regex_matcher.dir/src/ast.cpp.o: CMakeFiles/regex_matcher.dir/flags.make
+CMakeFiles/regex_matcher.dir/src/ast.cpp.o: ../src/ast.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/regex_matcher.dir/src/ast.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/regex_matcher.dir/src/ast.cpp.o -c /home/osboxes/CLionProjects/regex_matcher/src/ast.cpp
 
-CMakeFiles/regex_matcher.dir/ast.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/ast.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/ast.cpp > CMakeFiles/regex_matcher.dir/ast.cpp.i
+CMakeFiles/regex_matcher.dir/src/ast.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/regex_matcher.dir/src/ast.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/osboxes/CLionProjects/regex_matcher/src/ast.cpp > CMakeFiles/regex_matcher.dir/src/ast.cpp.i
 
-CMakeFiles/regex_matcher.dir/ast.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/ast.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/ast.cpp -o CMakeFiles/regex_matcher.dir/ast.cpp.s
+CMakeFiles/regex_matcher.dir/src/ast.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/regex_matcher.dir/src/ast.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/osboxes/CLionProjects/regex_matcher/src/ast.cpp -o CMakeFiles/regex_matcher.dir/src/ast.cpp.s
 
 # Object files for target regex_matcher
 regex_matcher_OBJECTS = \
-"CMakeFiles/regex_matcher.dir/main.cpp.o" \
-"CMakeFiles/regex_matcher.dir/lexer.cpp.o" \
-"CMakeFiles/regex_matcher.dir/parser.cpp.o" \
-"CMakeFiles/regex_matcher.dir/tape.cpp.o" \
-"CMakeFiles/regex_matcher.dir/ndtm.cpp.o" \
-"CMakeFiles/regex_matcher.dir/ast.cpp.o"
+"CMakeFiles/regex_matcher.dir/src/main.cpp.o" \
+"CMakeFiles/regex_matcher.dir/src/lexer.cpp.o" \
+"CMakeFiles/regex_matcher.dir/src/parser.cpp.o" \
+"CMakeFiles/regex_matcher.dir/src/tape.cpp.o" \
+"CMakeFiles/regex_matcher.dir/src/ndtm.cpp.o" \
+"CMakeFiles/regex_matcher.dir/src/ast.cpp.o"
 
 # External object files for target regex_matcher
 regex_matcher_EXTERNAL_OBJECTS =
 
-regex_matcher: CMakeFiles/regex_matcher.dir/main.cpp.o
-regex_matcher: CMakeFiles/regex_matcher.dir/lexer.cpp.o
-regex_matcher: CMakeFiles/regex_matcher.dir/parser.cpp.o
-regex_matcher: CMakeFiles/regex_matcher.dir/tape.cpp.o
-regex_matcher: CMakeFiles/regex_matcher.dir/ndtm.cpp.o
-regex_matcher: CMakeFiles/regex_matcher.dir/ast.cpp.o
+regex_matcher: CMakeFiles/regex_matcher.dir/src/main.cpp.o
+regex_matcher: CMakeFiles/regex_matcher.dir/src/lexer.cpp.o
+regex_matcher: CMakeFiles/regex_matcher.dir/src/parser.cpp.o
+regex_matcher: CMakeFiles/regex_matcher.dir/src/tape.cpp.o
+regex_matcher: CMakeFiles/regex_matcher.dir/src/ndtm.cpp.o
+regex_matcher: CMakeFiles/regex_matcher.dir/src/ast.cpp.o
 regex_matcher: CMakeFiles/regex_matcher.dir/build.make
 regex_matcher: CMakeFiles/regex_matcher.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable regex_matcher"
