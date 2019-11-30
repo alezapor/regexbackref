@@ -6,44 +6,87 @@
 #define REGEX_MATCHER_TAPE_H
 
 #include <string>
+#include <memory>
 
+/**
+ * An enumeration that describes shift direction
+ */
+enum ShiftType {
+    left,
+    noShift,
+    right
+};
+
+
+/**
+ * A class that simulates a tape of an NDTM
+ */
 class Tape {
 public:
-    Tape(int mLength, int mHead);
-    Tape(int mHead, std::string s);
+    /**
+     * A constructor that creates an empty tape
+     * @param mLength a length of the tape
+     * @param mHead an initial position of the tape head
+     * @param mBlank a blank symbol
+     */
+    Tape(int mLength, int mHead = 0, char mBlank = '\0');
+
+    /**
+     * A constructor that creates a tape which contains a string
+     * @param s the string to initialize the tape with
+     * @param mHead an initial position of the tape
+     */
+    Tape(std::string s, int mHead = 0);
+
+    /**
+     * A copy constructor
+     * @param tape a tape to copy
+     */
+    Tape(const Tape & tape);
 
     const std::string &getMCells() const;
 
-    void setMCells(const std::string &mCells);
-
-    int getMLength() const;
-
-    void setMLength(int mLength);
+    void setMCells(std::string mCells);
 
     int getMHead() const;
 
     void setMHead(int mHead);
 
+    /**
+     * A member function that the symbol scanned by the head
+     * @return a symbol scanned by the head
+     */
     char readSymbol() const;
 
+    /**
+     * A member function that replaces the symbol scanned by the head by the other one
+     * @param c a symbol to replace with
+     */
     void writeSymbol(char c);
 
-    void moveHead(int dir){
-        if (dir == 1) m_Head++;
-        else if (dir == -1) m_Head--;
-    }
+    /**
+     * A member function that moves the tape one position to the left, to the right, or no position
+     * @param shiftType a type of shift operation
+     */
+    void moveHead(ShiftType shiftType);
 
-    bool isEmpty(){
-        for (int i = 0; i < m_Cells.size(); i++){
-            if (m_Cells[i] != '\0') return false;
-        }
-        return true;
-    }
+    bool isEmpty(char blank = '\0');
 
-    Tape clone();
+    /**
+     * A member function that creates a replica of the tape
+     * @return a copy of the tape
+     */
+    std::shared_ptr<Tape> clone();
+
 private:
+    /**
+     * A sequence of cells
+     */
     std::string m_Cells;
-    int m_Length;
+
+    /**
+     * A tape head location
+     */
     int m_Head;
 };
 

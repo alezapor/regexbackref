@@ -11,20 +11,42 @@
 #include <iostream>
 #include "lexer.h"
 #include "ast.h"
-#include <set>
 
+/**
+ * A class that simulates a parser of the regular expression with backreferences
+ */
 class Parser {
-    int curTok;
-    Lexer m_Lexer;
-    int parCnt;
-    std::set<char> m_Abc;
+    /**
+     * A token to be read
+     */
+    int m_CurTok;
+
+    /**
+     * A pointer to the lexer
+     */
+    std::unique_ptr<Lexer> m_Lexer;
+
+    /**
+     * Count of parentheses read
+     */
+    int m_ParCnt;
+
+    /**
+     * A set of input symbols from regular expression
+     */
+    std::set<char> m_Input;
+
 public:
+    /**
+     * A constructor
+     * @param is a file stream that contains a regular expression to be parsed
+     */
+    Parser(std::fstream * is);
+
+    std::set<char> & getInput();
+
     int getParCnt() const;
-    std::set<char>& getAbc(){return m_Abc;}
 
-public:
-
-    Parser(std::fstream * is) : m_Lexer(Lexer(is)), parCnt(0) { }
 
     std::unique_ptr<NodeAST> ParseS();
 
@@ -42,9 +64,7 @@ public:
 
     std::unique_ptr<NodeAST> ParseR();
 
-    int getNextToken() {
-        return curTok = m_Lexer.getTok();
-    }
+    int getNextToken();
 
     void MatchError(Token token);
 

@@ -4,6 +4,10 @@
 
 #include "parser.h"
 
+Parser::Parser(std::fstream *is) : m_Lexer(std::make_unique<Lexer>(is)), m_ParCnt(0) {
+
+}
+
 void Parser::MatchError(Token token) {
     printf("Match error: token %d.\n", token);
     exit(1);
@@ -16,15 +20,15 @@ void Parser::ExpandError(std::string nonTerminal, Token token) {
 
 // S -> A | eps
 std::unique_ptr<NodeAST> Parser::ParseS(){
-    if(curTok == tokenLetter ||
-       curTok == '(' || curTok == tokenBackreference){
+    if(m_CurTok == tokenCharacter ||
+       m_CurTok == '(' || m_CurTok == tokenBackreference){
         return std::move(ParseA());
     }
-    else if (curTok == tokenEOF) {
+    else if (m_CurTok == tokenEOF) {
         return std::make_unique<EmptyAST>();
     }
     else {
-        ExpandError("S", (Token) curTok);
+        ExpandError("S", (Token) m_CurTok);
         return nullptr;
     }
 
@@ -32,119 +36,129 @@ std::unique_ptr<NodeAST> Parser::ParseS(){
 
 // A -> B A'
 std::unique_ptr<NodeAST> Parser::ParseA(){
-    if(curTok == tokenLetter ||
-       curTok == '(' || curTok == tokenBackreference){
+    if(m_CurTok == tokenCharacter||
+       m_CurTok == '(' || m_CurTok == tokenBackreference){
         return std::move(ParseARest(std::move(ParseB())));
     }
     else {
-        ExpandError("A", (Token) curTok);
+        ExpandError("A", (Token) m_CurTok);
         return nullptr;
     }
 }
 
 // A' -> + A | eps
 std::unique_ptr<NodeAST> Parser::ParseARest(std::unique_ptr<NodeAST> left) {
-    if(curTok == tokenAlternation){
+    if(m_CurTok == tokenAlternation){
         getNextToken();
         auto right = std::move(ParseA());
         return std::make_unique<AlterationAST>(std::move(left), std::move(right));
     }
-    else if (curTok == tokenEOF || curTok == ')') {
+    else if (m_CurTok == tokenEOF || m_CurTok == ')') {
         return std::move(left);
     }
     else {
-        ExpandError("A'", (Token) curTok);
+        ExpandError("A'", (Token) m_CurTok);
         return nullptr;
     }
 }
 
 // B -> C B'
 std::unique_ptr<NodeAST> Parser::ParseB(){
-    if(curTok == tokenLetter ||
-       curTok == '(' || curTok == tokenBackreference){
+    if(m_CurTok == tokenCharacter ||
+       m_CurTok == '(' || m_CurTok == tokenBackreference){
         return std::move(ParseBRest(std::move(ParseC())));
     }
     else {
-        ExpandError("B", (Token) curTok);
+        ExpandError("B", (Token) m_CurTok);
         return nullptr;
     }
 }
 
 // B' -> B | eps
 std::unique_ptr<NodeAST> Parser::ParseBRest(std::unique_ptr<NodeAST> left) {
-    if(curTok == tokenLetter ||
-       curTok == '(' || curTok == tokenBackreference){
+    if(m_CurTok == tokenCharacter ||
+       m_CurTok == '(' || m_CurTok == tokenBackreference){
         auto right = std::move(ParseB());
         return std::make_unique<ConcatenationAST>(std::move(left), std::move(right));
     }
-    else if (curTok == tokenAlternation || curTok == ')' ||
-        curTok == tokenEOF) {
+    else if (m_CurTok == tokenAlternation || m_CurTok == ')' ||
+        m_CurTok == tokenEOF) {
         return std::move(left);
     }
     else {
-        ExpandError("B'", (Token) curTok);
+        ExpandError("B'", (Token) m_CurTok);
         return nullptr;
     }
 }
 
 // C -> R C'
 std::unique_ptr<NodeAST> Parser::ParseC(){
-    if(curTok == tokenLetter ||
-       curTok == '(' || curTok == tokenBackreference){
+    if(m_CurTok == tokenCharacter ||
+       m_CurTok == '(' || m_CurTok == tokenBackreference){
         return std::move(ParseCRest(std::move(ParseR())));
     }
     else {
-        ExpandError("C", (Token) curTok);
+        ExpandError("C", (Token) m_CurTok);
         return nullptr;
     }
 }
 
 // C' -> * | eps
 std::unique_ptr<NodeAST> Parser::ParseCRest(std::unique_ptr<NodeAST> left) {
-    if(curTok == tokenIteration){
+    if(m_CurTok == tokenIteration){
         getNextToken();
         return std::make_unique<IterationAST>(std::move(left));
     }
-    else if (curTok == tokenAlternation || curTok == ')' || curTok == tokenBackreference ||
-             curTok == tokenEOF || curTok == '(' || curTok == tokenLetter) {
+    else if (m_CurTok == tokenAlternation || m_CurTok == ')' || m_CurTok == tokenBackreference ||
+             m_CurTok == tokenEOF || m_CurTok == '(' || m_CurTok == tokenCharacter) {
         return std::move(left);
     }
     else {
-        ExpandError("C'", (Token) curTok);
+        ExpandError("C'", (Token) m_CurTok);
         return nullptr;
     }
 }
 
 // R -> num | let | ( A )
 std::unique_ptr<NodeAST> Parser::ParseR() {
-    if(curTok == '('){
+    if(m_CurTok == '('){
         getNextToken();
-        auto expr = std::make_unique<ParenthesesAST>(++parCnt, std::move(ParseA()));
-        if (curTok != ')'){
-            MatchError((Token) curTok);
+        auto expr = std::make_unique<ParenthesesAST>(++m_ParCnt, std::move(ParseA()));
+        if (m_CurTok != ')'){
+            MatchError((Token) m_CurTok);
             return nullptr;
         }
         getNextToken();
         return std::move(expr);
     }
-    else if (curTok == tokenLetter) {
-        auto prim = std::make_unique<PrimitiveAST>(m_Lexer.val);
-        m_Abc.insert((char)m_Lexer.val);
+    else if (m_CurTok == tokenCharacter) {
+        m_Input.insert(m_Lexer->val);
+        auto prim = std::make_unique<PrimitiveAST>(m_Lexer->val);
         getNextToken();
         return std::move(prim);
     }
-    else if (curTok == tokenBackreference) {
-        auto back = std::make_unique<BackreferenceAST>(m_Lexer.numVal);
+    else if (m_CurTok == tokenBackreference) {
+        auto back = std::make_unique<BackreferenceAST>(m_Lexer->numVal);
         getNextToken();
         return std::move(back);
     }
 
     else {
-        ExpandError("R", (Token) curTok);
+        ExpandError("R", (Token) m_CurTok);
         return nullptr;
     }
 }
 
 int Parser::getParCnt() const {
-    return parCnt;
+    return m_ParCnt;
 }
+
+int Parser::getNextToken() {
+    return m_CurTok = m_Lexer->getTok();
+
+}
+
+std::set<char> &Parser::getInput() {
+    return m_Input;
+}
+

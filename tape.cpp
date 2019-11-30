@@ -4,25 +4,24 @@
 
 #include "tape.h"
 
-Tape::Tape(int mLength, int mHead) : m_Length(mLength), m_Head(mHead) {
-    m_Cells.resize(m_Length, '\0');
-    m_Head = 0;
+Tape::Tape(int mLength, int mHead, char mBlank) : m_Head(mHead) {
+    m_Cells.resize(mLength, mBlank);
+}
+
+Tape::Tape(std::string s, int mHead) : m_Head(mHead), m_Cells(s){
+}
+
+Tape::Tape(const Tape &tape) {
+    this->m_Cells = tape.getMCells();
+    this->m_Head = tape.getMHead();
 }
 
 const std::string &Tape::getMCells() const {
     return m_Cells;
 }
 
-void Tape::setMCells(const std::string &mCells) {
+void Tape::setMCells(std::string mCells) {
     m_Cells = mCells;
-}
-
-int Tape::getMLength() const {
-    return m_Length;
-}
-
-void Tape::setMLength(int mLength) {
-    m_Length = mLength;
 }
 
 int Tape::getMHead() const {
@@ -34,7 +33,6 @@ void Tape::setMHead(int mHead) {
 }
 
 char Tape::readSymbol() const {
-    if(m_Head < 0 || m_Head >= m_Length) return '\0';
     return m_Cells[m_Head];
 }
 
@@ -42,13 +40,19 @@ void Tape::writeSymbol(char c) {
     m_Cells[m_Head] = c;
 }
 
-Tape Tape::clone() {
-    return Tape(m_Head, m_Cells);
+std::shared_ptr<Tape> Tape::clone() {
+    return std::make_shared<Tape>(*this);
 }
 
-Tape::Tape(int mHead, std::string s) {
-    m_Head = mHead;
-    m_Cells = s;
-    m_Length = s.size();
+void Tape::moveHead(ShiftType shiftType) {
+        if (shiftType == left) m_Head++;
+        else if (shiftType == right) m_Head--;
+}
+
+bool Tape::isEmpty(char blank) {
+    for (int i = 0; i < m_Cells.size(); i++){
+        if (m_Cells[i] != blank) return false;
+    }
+    return true;
 }
 

@@ -13,10 +13,10 @@ int Lexer::getTok() {
     while (isspace(lastChar))
         lastChar = is->get();
 
-    if (isalpha(lastChar)) { // letter: [a-zA-Z]
+    if (isalpha(lastChar) || isdigit(lastChar)) { // letter: [a-zA-Z0-9]
         val = lastChar;
         lastChar = is->get();
-        return tokenLetter;
+        return tokenCharacter;
     }
 
     if (lastChar == '*') {

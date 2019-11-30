@@ -9,6 +9,9 @@
 #include <string>
 #include <fstream>
 
+/**
+ * An enumeration that represents token types of a lexer
+ */
 enum Token {
     tokenEOF = -1,
 
@@ -19,9 +22,12 @@ enum Token {
     //tokenEmpty = -5,
 
     // groups
-    tokenLetter = -20
+    tokenCharacter = -20
 };
 
+/**
+ * A class that represents a lexer
+ */
 class Lexer {
 public:
     Lexer(std::fstream * is) {this->is = is;}
