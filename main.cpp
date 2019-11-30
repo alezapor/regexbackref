@@ -26,11 +26,11 @@ int main(int argc, char * argv[]) {
     item->constructTM(tm, tapes);
     tm->addFinalState(tm->getMCur());
 
-    std::string word = "abbbb";
+    std::string word = "abbcbb";
     std::unique_ptr<Tape> tape= std::make_unique<Tape>(word, 0);
     tm->loadTapes(std::move(tape), parser->getParCnt());
     tm->print();
-    std::cout << word << " " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
+    std::cout << word << " is " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
 
     is.close();
     return 0;

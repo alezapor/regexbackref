@@ -53,6 +53,41 @@ void BackreferenceAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &
 
     // 1 + 2: add transitions to find the beginning of the tape m_Num
     for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){
+            std::string s0 = "";
+            s0.push_back(*it);
+            tapesOperations s1;
+            s1.emplace_back(std::make_pair(*it, noShift));
+            for (int i = 0; i < tapes.size(); i++) {
+                if (i == m_Num - 1) {
+                    s0.push_back(tm->getMBlank());
+                    s1.emplace_back(std::make_pair(tm->getMBlank(),  left));
+                }
+                else {
+                    s0.push_back(tm->getMBlank());
+                    s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
+                }
+            }
+            tm->addTransition(qCur,s0,q1,s1);
+    }
+    {
+        std::string s0 = "";
+        s0.push_back(tm->getMBlank());
+        tapesOperations s1;
+        s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
+        for (int i = 0; i < tapes.size(); i++) {
+            s0.push_back(tm->getMBlank());
+            if (i == m_Num - 1) {
+                s0.push_back(tm->getMBlank());
+                s1.emplace_back(std::make_pair(tm->getMBlank(), left));
+            } else {
+                s0.push_back(tm->getMBlank());
+                s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
+            }
+        }
+        tm->addTransition(qCur, s0, q1, s1);
+    }
+
+    for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){
         for (auto it1 = tm->getInput().begin(); it1 != tm->getInput().end(); it1++){
             std::string s0 = "";
             s0.push_back(*it);
@@ -68,7 +103,6 @@ void BackreferenceAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &
                     s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
                 }
             }
-            tm->addTransition(qCur,s0,q1,s1);
             tm->addTransition(q1,s0,q1,s1);
         }
     }
@@ -78,7 +112,6 @@ void BackreferenceAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &
         tapesOperations s1;
         s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
         for (int i = 0; i < tapes.size(); i++) {
-            s0.push_back(tm->getMBlank());
             if (i == m_Num - 1) {
                 s0.push_back(*it1);
                 s1.emplace_back(std::make_pair(*it1,  left));
@@ -88,7 +121,6 @@ void BackreferenceAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &
                 s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
             }
         }
-        tm->addTransition(qCur,s0,q1,s1);
         tm->addTransition(q1,s0,q1,s1);
     }
     //3: add transitions to move head of the m_Num tape to the first index
@@ -148,10 +180,7 @@ void BackreferenceAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &
         s1.emplace_back(std::make_pair(*it, noShift));
         for (int i = 0; i < tapes.size(); i++) {
             s0.push_back(tm->getMBlank());
-            if (i == m_Num - 1) {
-                s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-            }
-            else s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
+            s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
         }
         tm->addTransition(q2,s0,p,s1);
     }
@@ -162,10 +191,7 @@ void BackreferenceAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &
     s2.emplace_back(std::make_pair(tm->getMBlank(), noShift));
     for (int i = 0; i < tapes.size(); i++) {
         s0.push_back(tm->getMBlank());
-        if (i == m_Num - 1) {
-            s2.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-        }
-        else s2.emplace_back(std::make_pair(tm->getMBlank(), noShift));
+        s2.emplace_back(std::make_pair(tm->getMBlank(), noShift));
     }
     tm->addTransition(q2,s0,p,s2);
 

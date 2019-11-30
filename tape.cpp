@@ -33,6 +33,7 @@ void Tape::setMHead(int mHead) {
 }
 
 char Tape::readSymbol() const {
+    if (m_Head >= m_Cells.size()) return 'B';
     return m_Cells[m_Head];
 }
 
@@ -45,8 +46,8 @@ std::shared_ptr<Tape> Tape::clone() {
 }
 
 void Tape::moveHead(ShiftType shiftType) {
-        if (shiftType == left) m_Head++;
-        else if (shiftType == right) m_Head--;
+        if (shiftType == left) m_Head--;
+        else if (shiftType == right) m_Head++;
 }
 
 bool Tape::isEmpty(char blank) {

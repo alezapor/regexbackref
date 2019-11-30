@@ -5,7 +5,7 @@
 #include <iostream>
 #include "ndtm.h"
 
-NDTM::NDTM() : m_InitialState(0), m_StateCnt(1), m_Blank('\0'), m_CurState(0){}
+NDTM::NDTM() : m_InitialState(0), m_StateCnt(1), m_Blank('B'), m_CurState(0){}
 
 
 NDTM::NDTM(const NDTM & tm) {
@@ -70,7 +70,7 @@ bool NDTM::accepts() {
         tm->execTransition(trans[i]);
         if (tm->accepts()) return true;
     }
-    return m_Tapes[0]->isEmpty(m_Blank) && m_FinalStates.find(m_CurState) != m_FinalStates.end();
+    return m_Tapes[0]->isEmpty() && m_FinalStates.find(m_CurState) != m_FinalStates.end();
 }
 
 std::shared_ptr<NDTM> NDTM::clone() {

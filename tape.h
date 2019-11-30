@@ -29,7 +29,7 @@ public:
      * @param mHead an initial position of the tape head
      * @param mBlank a blank symbol
      */
-    Tape(int mLength, int mHead = 0, char mBlank = '\0');
+    Tape(int mLength, int mHead = 0, char mBlank = 'B');
 
     /**
      * A constructor that creates a tape which contains a string
@@ -70,8 +70,7 @@ public:
      */
     void moveHead(ShiftType shiftType);
 
-    bool isEmpty(char blank = '\0');
-
+    bool isEmpty(char blank = 'B');
     /**
      * A member function that creates a replica of the tape
      * @return a copy of the tape
