@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/regex_matcher.dir/src/main.cpp.o CMakeFiles/regex_matcher.dir/src/lexer.cpp.o CMakeFiles/regex_matcher.dir/src/parser.cpp.o CMakeFiles/regex_matcher.dir/src/tape.cpp.o CMakeFiles/regex_matcher.dir/src/ndtm.cpp.o CMakeFiles/regex_matcher.dir/src/ast.cpp.o  -o regex_matcher 

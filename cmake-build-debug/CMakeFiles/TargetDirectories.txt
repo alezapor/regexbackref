@@ -1,3 +1,0 @@
-/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/regex_matcher.dir
-/home/osboxes/CLionProjects/regex_matcher/cmake-build-debug/CMakeFiles/edit_cache.dir
