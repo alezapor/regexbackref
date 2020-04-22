@@ -5,7 +5,7 @@
 #include <iostream>
 #include "ndtm.h"
 
-NDTM::NDTM() : m_InitialState(0), m_StateCnt(1), m_Blank('B'), m_CurState(0){}
+NDTM::NDTM() : m_InitialState(0), m_FinalState(1), m_StateCnt(2), m_Blank('B'), m_CurState(0){}
 
 
 NDTM::NDTM(const NDTM & tm) {
@@ -14,7 +14,7 @@ NDTM::NDTM(const NDTM & tm) {
     this->m_CurState = tm.m_CurState;
     this->m_StateCnt = tm.m_StateCnt;
     this->m_Input = tm.m_Input;
-    this->m_FinalStates = tm.m_FinalStates;
+    this->m_FinalState = tm.m_FinalState;
     this->m_Transitions = tm.m_Transitions;
     for (auto tape = tm.m_Tapes.begin(); tape != tm.m_Tapes.end(); tape++){
         this->m_Tapes.emplace_back((*tape)->clone());
@@ -27,7 +27,7 @@ void NDTM::loadTapes(std::shared_ptr<Tape> t, int cnt) {
     m_Tapes.emplace_back(t);
 
     for (int i = 0 ; i < cnt; i++){
-        m_Tapes.push_back(std::make_shared<Tape>(t->getMCells().size()+2, 1));
+        m_Tapes.push_back(std::make_shared<Tape>(t->getMCells().size(), 1));
     }
 }
 
@@ -46,7 +46,7 @@ void NDTM::addTransition(int state, std::string readSym, int newState, tapesOper
 void NDTM::execTransition(std::pair<int, tapesOperations> trans) {
     m_CurState = trans.first;
     for (int i = 0; i < trans.second.size(); i++){
-        m_Tapes[i]->writeSymbol(trans.second[i].first);
+        if (trans.second[i].first != 'E' && trans.second[i].first != 'A') m_Tapes[i]->writeSymbol(trans.second[i].first);
         m_Tapes[i]->moveHead(trans.second[i].second);
     }
 }
@@ -59,18 +59,47 @@ std::set<char> &NDTM::getInput() {
     return m_Input;
 }
 
-void NDTM::addFinalState(int state) {
-    m_FinalStates.insert(state);
+void NDTM::setFinalState(int state) {
+    m_FinalState = state;
 }
 
+
 bool NDTM::accepts() {
+    std::vector<std::string> readSymbols;
+    readSymbols.push_back(this->readSymbols());
     auto trans =  m_Transitions[std::make_pair(m_CurState, this->readSymbols())];
+    for (int i = 0; i < this->readSymbols().size(); i++){
+        if (readSymbols[0][i] == 'B' || this->m_Input.find(readSymbols[0][i]) != this->m_Input.end()) {
+            int size = readSymbols.size();
+            for (int j = 0; j < size; j++) {
+                std::string readString = readSymbols[j];
+                readString[i] = 'E';
+                readSymbols.emplace_back(readString);
+                auto newTrans =  m_Transitions[std::make_pair(m_CurState, readString)];
+                for (auto it = newTrans.begin(); it != newTrans.end(); it++){
+                    trans.emplace_back(*it);
+                }
+            }
+        }
+        if (this->m_Input.find(readSymbols[0][i]) != this->m_Input.end()) {
+            int size = readSymbols.size();
+            for (int j = 0; j < size; j++) {
+                std::string readString = readSymbols[j];
+                readString[i] = 'A';
+                readSymbols.emplace_back(readString);
+                auto newTrans =  m_Transitions[std::make_pair(m_CurState, readString)];
+                for (auto it = newTrans.begin(); it != newTrans.end(); it++){
+                    trans.emplace_back(*it);
+                }
+            }
+        }
+    }
     for (int i = 0; i < trans.size(); i++){
         auto tm = this->clone();
         tm->execTransition(trans[i]);
         if (tm->accepts()) return true;
     }
-    return m_Tapes[0]->isEmpty() && m_FinalStates.find(m_CurState) != m_FinalStates.end();
+    return m_Tapes[0]->isEmpty() && m_CurState == m_FinalState;
 }
 
 std::shared_ptr<NDTM> NDTM::clone() {
@@ -110,11 +139,9 @@ void NDTM::print() {
     for (auto it = m_Input.begin(); it != m_Input.end(); it++) std::cout << "," << *it;
 
     std::cout << "},B,{" << *m_Input.begin();
-    for (auto it = ++m_Input.begin(); it != m_Input.end(); it++) std::cout << "," << *it;
+    for (auto it = m_Input.begin(); it != m_Input.end(); it++) std::cout << "," << *it;
 
-    std::cout << "},f,0,{" << *m_FinalStates.begin();
-    for (auto it = ++m_FinalStates.begin(); it != m_FinalStates.end(); it++) std::cout << "," << *it;
-    std::cout << "})" << std::endl;
+    std::cout << "},f,0,{" << m_FinalState << "})" << std::endl;
 
     std::cout << "Transition function f:" << std::endl;
     for (auto it = m_Transitions.begin(); it != m_Transitions.end(); it++){
@@ -134,6 +161,10 @@ void NDTM::print() {
         }
         std::cout << "\n}" << std::endl;
     }
+}
+
+int NDTM::getFinalState() {
+    return m_FinalState;
 }
 
 

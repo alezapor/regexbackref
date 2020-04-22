@@ -13,20 +13,25 @@ int Lexer::getTok() {
     while (isspace(lastChar))
         lastChar = is->get();
 
-    if (isalpha(lastChar) || isdigit(lastChar)) { // letter: [a-zA-Z0-9]
+    if (islower(lastChar) || lastChar == '0' || lastChar == '?') { // abeceda [a-z?0]
         val = lastChar;
         lastChar = is->get();
-        return tokenCharacter;
+        return tokenAtom;
     }
 
+    if (isupper(lastChar)) { // : []
+        val = lastChar;
+        lastChar = is->get();
+        return tokenVar;
+    }
     if (lastChar == '*') {
         lastChar = is->get();
-        return tokenIteration;
+        return tokenIter;
     }
 
     if (lastChar == '+'){
         lastChar = is->get();
-        return tokenAlternation;
+        return tokenUnion;
     }
 
     // Check for end of file.  Don't eat the EOF.
@@ -37,18 +42,6 @@ int Lexer::getTok() {
     // Otherwise, just return the character as its ascii value.
     int thisChar = lastChar;
     lastChar = is->get();
-
-    if (thisChar == '\\') {  // backReference
-        if (isdigit(lastChar)) {
-            do {
-                numVal = numVal * 10 + lastChar - '0';
-                lastChar = is->get();
-            } while (isdigit(lastChar));
-
-            return tokenBackreference;
-        }
-    }
-
 
     return thisChar;
 }

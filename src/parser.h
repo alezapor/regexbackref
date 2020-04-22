@@ -27,14 +27,14 @@ class Parser {
     std::unique_ptr<Lexer> m_Lexer;
 
     /**
-     * Count of parentheses read
-     */
-    int m_ParCnt;
-
-    /**
      * A set of input symbols from regular expression
      */
     std::set<char> m_Input;
+
+    /**
+    * A set of variables
+    */
+    std::set<char> m_Vars;
 
 public:
     /**
@@ -45,10 +45,7 @@ public:
 
     std::set<char> & getInput();
 
-    int getParCnt() const;
-
-
-    std::unique_ptr<NodeAST> ParseS();
+    std::set<char> & getVars();
 
     std::unique_ptr<NodeAST> ParseA();
 
@@ -62,7 +59,9 @@ public:
 
     std::unique_ptr<NodeAST> ParseCRest(std::unique_ptr<NodeAST>);
 
-    std::unique_ptr<NodeAST> ParseR();
+    std::unique_ptr<NodeAST> ParseD();
+
+    std::unique_ptr<NodeAST> ParseFRest(int val);
 
     int getNextToken();
 

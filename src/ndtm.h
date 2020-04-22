@@ -77,10 +77,13 @@ public:
 
 
     /**
-     * A member function that adds a final state to the NDTM
-     * @param state a final state to be added
+     * A member function that sets a final state of the NDTM
+     * @param state a final state
      */
-    void addFinalState(int state);
+    void setFinalState(int state);
+
+
+    int getFinalState();
 
     /**
      * A member function that simulates the NDTM computation
@@ -127,9 +130,9 @@ private:
     int m_InitialState;
 
     /**
-     * A set of final states (F ∈ Q).
+     * A final states (f ∈ F).
      */
-    std::set<int> m_FinalStates;
+     int m_FinalState;
 
     /**
      * A blank symbol of an NDTM (B).

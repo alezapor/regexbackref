@@ -33,7 +33,6 @@ void Tape::setMHead(int mHead) {
 }
 
 char Tape::readSymbol() const {
-    if (m_Head >= m_Cells.size()) return 'B';
     return m_Cells[m_Head];
 }
 
@@ -42,7 +41,7 @@ void Tape::writeSymbol(char c) {
 }
 
 std::shared_ptr<Tape> Tape::clone() {
-    return std::make_shared<Tape>(*this);
+    return std::make_shared<Tape>(this->m_Cells, this->m_Head);
 }
 
 void Tape::moveHead(ShiftType shiftType) {

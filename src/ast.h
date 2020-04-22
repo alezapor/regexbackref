@@ -20,53 +20,42 @@ public:
      * @param tm A pointer to the NDTM
      * @param tapes A set of singals that indicate whether to write on the ith tape
      */
-    virtual void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes){}
-    void addSimpleTransition(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, int q, int p);
+    virtual void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end){}
 
-};
-
-/**
- * A class for empty regex
- */
-class EmptyAST : public NodeAST {
-public:
-    EmptyAST() {}
-    void print();
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes);
 };
 
 /**
  * A class for primitives (letters and numbers)
  */
-class PrimitiveAST : public NodeAST {
+class AtomAST : public NodeAST {
     /**
      * A value of a primitive
      */
     int m_Val;
 public:
-    PrimitiveAST(int val) : m_Val(val) {}
+    AtomAST(int val) : m_Val(val) {}
     void print();
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes);
+    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
 
 /**
  * A class for backreferences
  */
-class BackreferenceAST : public NodeAST {
+class VarAST : public NodeAST {
     /**
-     * An index of the paranthesis
+     * A variable name
      */
-    int m_Num;
+    int m_Name;
 public:
-    BackreferenceAST(int val) : m_Num(val) {}
+    VarAST(int val) : m_Name(val) {}
     void print();
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes);
+    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
 
 /**
- * A class for alteration
+ * A class for union
  */
-class AlterationAST : public NodeAST {
+class UnionAST : public NodeAST {
     /**
      * The left node
      */
@@ -76,11 +65,11 @@ class AlterationAST : public NodeAST {
      */
     std::shared_ptr<NodeAST> m_RHS;
 public:
-    AlterationAST(std::shared_ptr<NodeAST> LHS,
+    UnionAST(std::shared_ptr<NodeAST> LHS,
                   std::shared_ptr<NodeAST> RHS)
             : m_LHS(std::move(LHS)), m_RHS(std::move(RHS)) {}
     void print();
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes);
+    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
 
 /**
@@ -100,7 +89,7 @@ public:
                   std::shared_ptr<NodeAST> RHS)
             : m_LHS(std::move(LHS)), m_RHS(std::move(RHS)) {}
     void print();
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes);
+    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
 
 /**
@@ -112,26 +101,26 @@ public:
     IterationAST(std::shared_ptr<NodeAST> expr)
             : m_Expr(std::move(expr)) {}
     void print();
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes);
+    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
 
+
 /**
- * A class for paretheses
+ * A class for definition
  */
-class ParenthesesAST : public NodeAST {
-    /**
-     * An index of the parenthesis
-     */
-    int m_Num;
-    /**
-     * An expression inside
-     */
+class DefinitionAST : public NodeAST {
     std::shared_ptr<NodeAST> m_Expr;
+    /**
+    * A variable name
+    */
+    int m_Var;
 public:
-    ParenthesesAST(int num, std::shared_ptr<NodeAST> expr)
-            : m_Num(num), m_Expr(std::move(expr)) {}
+    DefinitionAST(int var, std::shared_ptr<NodeAST> expr)
+            : m_Expr(std::move(expr)), m_Var(var) {}
     void print();
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes);
+    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
+
+
 
 #endif //REGEX_MATCHER_AST_H

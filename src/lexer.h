@@ -16,13 +16,12 @@ enum Token {
     tokenEOF = -1,
 
     // special signs
-    tokenIteration = -2,
-    tokenAlternation = -3,
-    tokenBackreference = -4,
-    //tokenEmpty = -5,
+    tokenIter = -2,
+    tokenUnion= -3,
+    tokenVar = -4,
 
     // groups
-    tokenCharacter = -20
+    tokenAtom = -20
 };
 
 /**

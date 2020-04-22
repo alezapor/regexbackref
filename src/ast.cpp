@@ -5,231 +5,152 @@
 #include <iostream>
 #include "ast.h"
 
-
-void EmptyAST::print() {
-    std::cout << "{ Empty }";
+void AtomAST::print() {
+    std::cout << "{ Atom: " << (char) m_Val << " }";
 }
 
-void EmptyAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes) {
-    tm->addFinalState(tm->getMCur());
+void AtomAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars, int start, int end) {
+    std::string s0 = "";
+    tapesOperations s1;
+    if (tm->getInput().find(this->m_Val) != tm->getInput().end()) {
+        s0.push_back((char) this->m_Val);
+        s1.emplace_back(std::make_pair(tm->getMBlank(), right)); // replace with a blank symbol and shift to the left
+    }
+    else {
+        s0.push_back((char) 'E');   // read any symbol
+        s1.emplace_back(std::make_pair('E', noShift)); // insert the read symbol, no shift
+    }
+
+    for (int i = 1; i <= tapes.size(); i++) {
+        if (tm->getInput().find(this->m_Val) == tm->getInput().end() || !tapes[i-1]) { // eps-transition
+            s0.push_back((char) 'E');
+            s1.emplace_back(std::make_pair('E', noShift));
+        }
+          /*
+           * write to the ith tape if it is open
+           */
+        else {
+            s0.push_back((char) tm->getMBlank());
+            s1.emplace_back(std::make_pair(this->m_Val, right));
+        }
+    }
+    if (this->m_Val == '0') {
+        int p = tm->getStateCnt();
+        tm->incStateCnt();
+        tm->addTransition(start,s0,p,s1);
+    }
+    else {
+        tm->addTransition(start,s0,end,s1);
+    }
 }
 
-void PrimitiveAST::print() {
-    std::cout << "{ Primitive: " << (char) m_Val << " }";
+void VarAST::print() {
+    std::cout << "{ Backref: " << (char) m_Name << " }";
 }
 
-void PrimitiveAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes) {
-    int q = tm->getMCur(), p = tm->getStateCnt();  // Transition q(cur) -> p
+void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes,std::set<char> & vars, int start, int end) {
+    int tapePos = std::distance(vars.begin(), vars.find(m_Name))+1;
+    int p = tm->getStateCnt();
+    tm->incStateCnt();
+    int q = tm->getStateCnt();
     tm->incStateCnt();
 
     std::string s0 = "";
-    s0.push_back((char)m_Val); // read symbol m_Val
     tapesOperations s1;
-    s1.emplace_back(std::make_pair(tm->getMBlank(), right)); // replace with a blank symbol and shift to the left
-    for (int i = 0; i < tapes.size(); i++) {
-        s0.push_back(tm->getMBlank());  // nothing to read from other tape
-        /*
-         * write to the ith tape if this node is inside of the ith parethesis
-         */
-        if (tapes[i]) s1.emplace_back(std::make_pair((char)m_Val, right));
-        else s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
+    for (int i = 0; i <= tapes.size(); i++) {
+        s0.push_back((char) 'E');
+        s1.emplace_back(std::make_pair('E', noShift));
     }
-    tm->addTransition(q,s0,p,s1);
-    tm->setMCur(p);
+
+    s0[tapePos] = 'B';
+    s1[tapePos].first = 'B';
+    s1[tapePos].second = noShift;
+    tm->addTransition(q,s0,end,s1);
+
+    s1[tapePos].second = left;
+    tm->addTransition(start,s0,p,s1);
+    s1[tapePos].second = right;
+    tm->addTransition(p,s0,q,s1);
+
+    s0[tapePos] = 'A';
+    s1[tapePos].first = 'A';
+    s1[tapePos].second = left;
+    tm->addTransition(p,s0,p,s1);
+
+    for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){
+        s0[tapePos] = *it;
+        s1[tapePos].first = *it;
+        s1[tapePos].second = right;
+        s0[0] = *it;
+        s1[0].first = 'B';
+        s1[0].second = right;
+        tm->addTransition(q,s0,q,s1);
+    }
 }
 
-void BackreferenceAST::print() {
-    std::cout << "{ Backref: " << m_Num << " }";
-}
-
-void BackreferenceAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes) {
-    int qCur = tm->getMCur();
-    int q1 = tm->getStateCnt();
-    tm->incStateCnt();
-    int q2 = tm->getStateCnt();
-    tm->incStateCnt();
-    int p = tm->getStateCnt();
-    tm->incStateCnt();
-
-    // 1 + 2: add transitions to find the beginning of the tape m_Num
-    for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){
-            std::string s0 = "";
-            s0.push_back(*it);
-            tapesOperations s1;
-            s1.emplace_back(std::make_pair(*it, noShift));
-            for (int i = 0; i < tapes.size(); i++) {
-                if (i == m_Num - 1) {
-                    s0.push_back(tm->getMBlank());
-                    s1.emplace_back(std::make_pair(tm->getMBlank(),  left));
-                }
-                else {
-                    s0.push_back(tm->getMBlank());
-                    s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-                }
-            }
-            tm->addTransition(qCur,s0,q1,s1);
-    }
-    {
-        std::string s0 = "";
-        s0.push_back(tm->getMBlank());
-        tapesOperations s1;
-        s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-        for (int i = 0; i < tapes.size(); i++) {
-            s0.push_back(tm->getMBlank());
-            if (i == m_Num - 1) {
-                s0.push_back(tm->getMBlank());
-                s1.emplace_back(std::make_pair(tm->getMBlank(), left));
-            } else {
-                s0.push_back(tm->getMBlank());
-                s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-            }
-        }
-        tm->addTransition(qCur, s0, q1, s1);
-    }
-
-    for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){
-        for (auto it1 = tm->getInput().begin(); it1 != tm->getInput().end(); it1++){
-            std::string s0 = "";
-            s0.push_back(*it);
-            tapesOperations s1;
-            s1.emplace_back(std::make_pair(*it, noShift));
-            for (int i = 0; i < tapes.size(); i++) {
-                if (i == m_Num - 1) {
-                    s0.push_back(*it1);
-                    s1.emplace_back(std::make_pair(*it1,  left));
-                }
-                else {
-                    s0.push_back(tm->getMBlank());
-                    s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-                }
-            }
-            tm->addTransition(q1,s0,q1,s1);
-        }
-    }
-    for (auto it1 = tm->getInput().begin(); it1 != tm->getInput().end(); it1++){
-        std::string s0 = "";
-        s0.push_back(tm->getMBlank());
-        tapesOperations s1;
-        s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-        for (int i = 0; i < tapes.size(); i++) {
-            if (i == m_Num - 1) {
-                s0.push_back(*it1);
-                s1.emplace_back(std::make_pair(*it1,  left));
-            }
-            else {
-                s0.push_back(tm->getMBlank());
-                s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-            }
-        }
-        tm->addTransition(q1,s0,q1,s1);
-    }
-    //3: add transitions to move head of the m_Num tape to the first index
-
-    for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){
-        std::string s0 = "";
-        s0.push_back(*it);
-        tapesOperations s1;
-        s1.emplace_back(std::make_pair(*it, noShift));
-        for (int i = 0; i < tapes.size(); i++) {
-            s0.push_back(tm->getMBlank());
-            if (i == m_Num - 1) {
-                s1.emplace_back(std::make_pair(tm->getMBlank(), right));
-            }
-            else s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-        }
-        tm->addTransition(q1,s0,q2,s1);
-    }
-
-
-        std::string s0 = "";
-        s0.push_back(tm->getMBlank());
-        tapesOperations s1;
-        s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-        for (int i = 0; i < tapes.size(); i++) {
-            s0.push_back(tm->getMBlank());
-            if (i == m_Num - 1) {
-                s1.emplace_back(std::make_pair(tm->getMBlank(), right));
-            } else s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-        }
-        tm->addTransition(q1, s0, q2, s1);
-
-    //4: Compare symbols on the 0th tape and the m_Num tape
-    for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){
-        std::string s0 = "";
-        s0.push_back(*it);
-        tapesOperations s1;
-        s1.emplace_back(std::make_pair(tm->getMBlank(), right));
-        for (int i = 0; i < tapes.size(); i++) {
-            if (i == m_Num - 1) {
-                s1.emplace_back(std::make_pair(*it, right));
-                s0.push_back(*it);
-            }
-            else {
-                s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-                s0.push_back(tm->getMBlank());
-            }
-        }
-        tm->addTransition(q2,s0,q2,s1);
-    }
-
-    //5: Check if all symbols were compared
-    for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){
-        std::string s0 = "";
-        s0.push_back(*it);
-        tapesOperations s1;
-        s1.emplace_back(std::make_pair(*it, noShift));
-        for (int i = 0; i < tapes.size(); i++) {
-            s0.push_back(tm->getMBlank());
-            s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-        }
-        tm->addTransition(q2,s0,p,s1);
-    }
-
-    s0 = "";
-    s0.push_back(tm->getMBlank());
-    tapesOperations s2;
-    s2.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-    for (int i = 0; i < tapes.size(); i++) {
-        s0.push_back(tm->getMBlank());
-        s2.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-    }
-    tm->addTransition(q2,s0,p,s2);
-
-    tm->setMCur(p);
-}
-
-void AlterationAST::print() {
-    std::cout << "{ Alteration(+), left:";
+void UnionAST::print() {
+    std::cout << "{ Union(+), left:";
     m_LHS->print();
     std::cout << ", right:";
     m_RHS->print();
     std::cout << " }";
 }
 
-void AlterationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes) {
-    int start = tm->getMCur();
-    m_LHS->constructTM(tm, tapes);
-    int q1 = tm->getMCur();
-    tm->setMCur(start);
-    m_RHS->constructTM(tm, tapes);
-    int q2 = tm->getMCur();
-    int p = tm->getStateCnt();
+void UnionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars, int start, int end) {
+    std::string s0 = "";
+    tapesOperations s1;
+    for (int i = 0; i <= tapes.size(); i++) {
+            s0.push_back((char) 'E');
+            s1.emplace_back(std::make_pair('E', noShift));
+    }
+    int startLeft = tm->getStateCnt();
     tm->incStateCnt();
-    addSimpleTransition(tm, tapes, q1, p);
-    addSimpleTransition(tm, tapes, q2, p);
+    int startRight= tm->getStateCnt();
+    tm->incStateCnt();
+    int endLeft = tm->getStateCnt();
+    tm->incStateCnt();
+    int endRight= tm->getStateCnt();
+    tm->incStateCnt();
+    tm->addTransition(start,s0,startLeft,s1);
+    tm->addTransition(start,s0,startRight,s1);
+    tm->addTransition(endLeft,s0,end,s1);
+    tm->addTransition(endRight,s0,end,s1);
+    m_LHS->constructTM(tm, tapes, vars, startLeft, endLeft);
+    m_RHS->constructTM(tm, tapes, vars, startRight, endRight);
+
 }
 
 void ConcatenationAST::print() {
     std::cout << "{ Concatenation(.), left:";
     m_LHS->print();
-    std::cout << ", right:";
+    std::cout << "\n, right:";
     m_RHS->print();
     std::cout << " }";
 }
 
-void ConcatenationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes) {
-    m_LHS->constructTM(tm, tapes);
-    m_RHS->constructTM(tm, tapes);
+void ConcatenationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars, int start, int end) {
+    std::string s0 = "";
+    tapesOperations s1;
+    for (int i = 0; i <= tapes.size(); i++) {
+        s0.push_back((char) 'E');
+        s1.emplace_back(std::make_pair('E', noShift));
+    }
+    int startLeft = tm->getStateCnt();
+    tm->incStateCnt();
+    int startRight= tm->getStateCnt();
+    tm->incStateCnt();
+    int mid= tm->getStateCnt();
+    tm->incStateCnt();
+    int endLeft = tm->getStateCnt();
+    tm->incStateCnt();
+    int endRight= tm->getStateCnt();
+    tm->incStateCnt();
+    tm->addTransition(start,s0,startLeft,s1);
+    tm->addTransition(endLeft,s0,mid,s1);
+    tm->addTransition(mid,s0,startRight,s1);
+    tm->addTransition(endRight,s0,end,s1);
+    m_LHS->constructTM(tm, tapes, vars, startLeft, endLeft);
+    m_RHS->constructTM(tm, tapes, vars, startRight, endRight);
 }
 
 void IterationAST::print() {
@@ -238,46 +159,60 @@ void IterationAST::print() {
     std::cout << " }";
 }
 
-void IterationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes) {
-    int q = tm->getMCur();
-    m_Expr->constructTM(tm, tapes);
-    addSimpleTransition(tm, tapes, tm->getMCur(), q);
+void IterationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars,  int start, int end) {
+    std::string s0 = "";
+    tapesOperations s1;
+    for (int i = 0; i <= tapes.size(); i++) {
+        s0.push_back((char) 'E');
+        s1.emplace_back(std::make_pair('E', noShift));
+    }
+    int startInner = tm->getStateCnt();
+    tm->incStateCnt();
+    int endInner= tm->getStateCnt();
+    tm->incStateCnt();
+
+    tm->addTransition(start,s0,startInner,s1);
+    tm->addTransition(start,s0,end,s1);
+    tm->addTransition(endInner,s0,end,s1);
+    tm->addTransition(endInner,s0,startInner,s1);
+    m_Expr->constructTM(tm, tapes, vars, startInner, endInner);
 }
 
-void ParenthesesAST::print() {
-    std::cout << "{ Parentheses: (" << m_Num << "), expr:";
+void DefinitionAST::print() {
+    std::cout << "{ Definition of " << (char) m_Var << ", expr:";
     m_Expr->print();
     std::cout << " }";
 }
 
-void ParenthesesAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes) {
-    //cleanTape(n_Num); TODO
-    tapes[m_Num - 1] = true;
-    m_Expr->constructTM(tm, tapes);
-    tapes[m_Num - 1] = false;
-}
+void DefinitionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars, int start, int end) {
 
-void NodeAST::addSimpleTransition(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, int q, int p) {
-    for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){
-        std::string s0 = "";
-        s0.push_back(*it);
-        tapesOperations s1;
-        s1.emplace_back(std::make_pair(*it, noShift));
-        for (int i = 0; i < tapes.size(); i++) {
-            s0.push_back(tm->getMBlank());
-            s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-        }
-        tm->addTransition(q,s0,p,s1);
-    }
+    int tapePos = std::distance(vars.begin(), vars.find(m_Var))+1;
+    int p = tm->getStateCnt();
+    tm->incStateCnt();
+    int startInner = tm->getStateCnt();
+    tm->incStateCnt();
+    int endInner= tm->getStateCnt();
+    tm->incStateCnt();
+
     std::string s0 = "";
-    s0.push_back(tm->getMBlank());
     tapesOperations s1;
-    s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
-    for (int i = 0; i < tapes.size(); i++) {
-        s0.push_back(tm->getMBlank());
-        s1.emplace_back(std::make_pair(tm->getMBlank(), noShift));
+    for (int i = 0; i <= tapes.size(); i++) {
+        s0.push_back((char) 'E');
+        s1.emplace_back(std::make_pair('E', noShift));
     }
-    tm->addTransition(q,s0,p,s1);
+    tm->addTransition(endInner,s0,end,s1);
 
-    tm->setMCur(p);
+    s0[tapePos] = 'B';
+    s1[tapePos].first = 'B';
+    s1[tapePos].second = left;
+    tm->addTransition(start,s0,p,s1);
+    s1[tapePos].second = right;
+    tm->addTransition(p,s0,startInner,s1);
+    s0[tapePos] = 'A';
+    s1[tapePos].second = left;
+    tm->addTransition(p,s0,p,s1);
+    tapes[tapePos-1] = true;
+    m_Expr->constructTM(tm, tapes, vars, startInner, endInner);
+    tapes[tapePos-1] = false;
 }
+

@@ -14,21 +14,20 @@ int main(int argc, char * argv[]) {
     std::unique_ptr<Parser> parser = std::make_unique<Parser>(&is);
     parser->getNextToken();
 
-    auto item = parser->ParseS();
+    auto item = parser->ParseA();
     item->print();
 
     std::vector<bool> tapes;
-    tapes.resize(parser->getParCnt(), false);
+    tapes.resize(parser->getVars().size(), false);
 
     std::shared_ptr<NDTM> tm = std::make_shared<NDTM>();
     tm->setInput(parser->getInput());
 
-    item->constructTM(tm, tapes);
-    tm->addFinalState(tm->getMCur());
+    item->constructTM(tm, tapes, parser->getVars(), 0, tm->getFinalState());
 
-    std::string word = "abbbb";
-    std::unique_ptr<Tape> tape= std::make_unique<Tape>(word, 0);
-    tm->loadTapes(std::move(tape), parser->getParCnt());
+    std::string word = "";
+    std::shared_ptr<Tape> tape = std::make_shared<Tape>("B"+word+"B", 1);
+    tm->loadTapes(std::move(tape), parser->getVars().size());
     tm->print();
     std::cout << word << " is " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
 
