@@ -10,37 +10,45 @@ void AtomAST::print() {
 }
 
 void AtomAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars, int start, int end) {
-    std::string s0 = "";
-    tapesOperations s1;
+    std::vector<std::string> readSymbols;
+    std::vector<tapesOperations> operations;
+    std::set<char> input = tm->getInput();
+    input.insert('B');
     if (tm->getInput().find(this->m_Val) != tm->getInput().end()) {
+        std::string s0;
+        tapesOperations s1;
         s0.push_back((char) this->m_Val);
         s1.emplace_back(std::make_pair(tm->getMBlank(), right)); // replace with a blank symbol and shift to the left
+        readSymbols.push_back(s0);
+        operations.push_back(s1);
     }
-    else {
-        s0.push_back((char) 'E');   // read any symbol
-        s1.emplace_back(std::make_pair('E', noShift)); // insert the read symbol, no shift
+    else {      //eps-transition for the input tape
+        epsilonTransitionHelper(readSymbols, operations, noShift, input);
     }
 
-    for (int i = 1; i <= tapes.size(); i++) {
+    for (int i = 1; i <= tapes.size(); i++) { // transition for each tape from 1...|tapes|
         if (tm->getInput().find(this->m_Val) == tm->getInput().end() || !tapes[i-1]) { // eps-transition
-            s0.push_back((char) 'E');
-            s1.emplace_back(std::make_pair('E', noShift));
+            epsilonTransitionHelper(readSymbols, operations, noShift, input);
         }
           /*
            * write to the ith tape if it is open
            */
         else {
-            s0.push_back((char) tm->getMBlank());
-            s1.emplace_back(std::make_pair(this->m_Val, right));
+            for (int j = 0; j < readSymbols.size(); j++){
+                readSymbols[j].push_back((char) tm->getMBlank());
+                operations[j].emplace_back(std::make_pair(this->m_Val, right));
+            }
         }
     }
     if (this->m_Val == '0') {
         int p = tm->getStateCnt();
         tm->incStateCnt();
-        tm->addTransition(start,s0,p,s1);
+        for (int j = 0; j < readSymbols.size(); j++)
+            if (readSymbols[j].size() == tapes.size()+1) tm->addTransition(start,readSymbols[j],p,operations[j]);
     }
     else {
-        tm->addTransition(start,s0,end,s1);
+        for (int j = 0; j < readSymbols.size(); j++)
+            if (readSymbols[j].size() == tapes.size()+1) tm->addTransition(start,readSymbols[j],end,operations[j]);
     }
 }
 
@@ -55,37 +63,65 @@ void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes,std:
     int q = tm->getStateCnt();
     tm->incStateCnt();
 
-    std::string s0 = "";
-    tapesOperations s1;
+    std::set<char> input = tm->getInput();
+    input.insert('B');
+
+    std::vector<std::string> readSymbols, readSymbols1, readSymbols2;
+    std::vector<tapesOperations> operations, operations1, operations2;
+
     for (int i = 0; i <= tapes.size(); i++) {
-        s0.push_back((char) 'E');
-        s1.emplace_back(std::make_pair('E', noShift));
+        if (i==tapePos) epsilonTransitionHelper(readSymbols, operations, left, tm->getInput());
+        else epsilonTransitionHelper(readSymbols, operations, noShift, input);
+    }
+    for (int j = 0; j < readSymbols.size(); j++) {
+        if (readSymbols[j].size() == tapes.size()+1) tm->addTransition(p, readSymbols[j], p, operations[j]);
     }
 
-    s0[tapePos] = 'B';
-    s1[tapePos].first = 'B';
-    s1[tapePos].second = noShift;
-    tm->addTransition(q,s0,end,s1);
-
-    s1[tapePos].second = left;
-    tm->addTransition(start,s0,p,s1);
-    s1[tapePos].second = right;
-    tm->addTransition(p,s0,q,s1);
-
-    s0[tapePos] = 'A';
-    s1[tapePos].first = 'A';
-    s1[tapePos].second = left;
-    tm->addTransition(p,s0,p,s1);
-
-    for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){
-        s0[tapePos] = *it;
-        s1[tapePos].first = *it;
-        s1[tapePos].second = right;
-        s0[0] = *it;
-        s1[0].first = 'B';
-        s1[0].second = right;
-        tm->addTransition(q,s0,q,s1);
+    for (int i = 0; i <= tapes.size(); i++) {
+        if (i==tapePos){
+            for (int j = 0; j < readSymbols1.size(); j++){
+                readSymbols1[j].push_back('B');
+                operations1[j].emplace_back(std::make_pair('B', left));
+            }
+        }
+        else epsilonTransitionHelper(readSymbols1, operations1, noShift, input);
     }
+    for (int j = 0; j < readSymbols1.size(); j++) {
+        if (readSymbols1[j].size() == tapes.size()+1) tm->addTransition(start, readSymbols1[j], p, operations1[j]);
+    }
+
+    for (int j = 0; j < readSymbols1.size(); j++) {
+        operations1[j][tapePos].second = right;
+        if (readSymbols1[j].size() == tapes.size()+1) tm->addTransition(p, readSymbols1[j], q, operations1[j]);
+    }
+
+    for (int j = 0; j < readSymbols1.size(); j++) {
+        operations1[j][tapePos].second = noShift;
+        if (readSymbols1[j].size() == tapes.size()+1) tm->addTransition(q, readSymbols1[j], end, operations1[j]);
+    }
+
+    for (auto it = tm->getInput().begin(); it != tm->getInput().end(); it++){ // <z, B, 1> - zero tape
+           std::string s0 = "";
+           tapesOperations s1;
+           s0.push_back(*it);
+           s1.emplace_back(std::make_pair('B', right));
+           readSymbols2.push_back(s0);
+           operations2.emplace_back(s1);
+    }
+
+    for (int i = 1; i <= tapes.size(); i++) {
+        if (i==tapePos){
+                for (int j = 0; j < readSymbols2.size(); j++){
+                    readSymbols2[j].push_back(readSymbols2[j][0]);
+                    operations2[j].emplace_back(std::make_pair(readSymbols2[j][0], right)); // <z, z, 1>
+                }
+        }
+        else epsilonTransitionHelper(readSymbols2, operations2, noShift, tm->getInput());
+    }
+    for (int j = 0; j < readSymbols2.size(); j++) {
+        if (readSymbols2[j].size() == tapes.size()+1) tm->addTransition(q, readSymbols2[j], q, operations2[j]);
+    }
+
 }
 
 void UnionAST::print() {
@@ -97,11 +133,13 @@ void UnionAST::print() {
 }
 
 void UnionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars, int start, int end) {
-    std::string s0 = "";
-    tapesOperations s1;
+    std::set<char> input = tm->getInput();
+    input.insert('B');
+
+    std::vector<std::string> readSymbols;
+    std::vector<tapesOperations> operations;
     for (int i = 0; i <= tapes.size(); i++) {
-            s0.push_back((char) 'E');
-            s1.emplace_back(std::make_pair('E', noShift));
+        epsilonTransitionHelper(readSymbols, operations, noShift, input);
     }
     int startLeft = tm->getStateCnt();
     tm->incStateCnt();
@@ -111,10 +149,15 @@ void UnionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, s
     tm->incStateCnt();
     int endRight= tm->getStateCnt();
     tm->incStateCnt();
-    tm->addTransition(start,s0,startLeft,s1);
-    tm->addTransition(start,s0,startRight,s1);
-    tm->addTransition(endLeft,s0,end,s1);
-    tm->addTransition(endRight,s0,end,s1);
+
+    for (int j = 0; j < readSymbols.size(); j++) {
+        if (readSymbols[j].size() == tapes.size()+1) {
+            tm->addTransition(start, readSymbols[j], startLeft, operations[j]);
+            tm->addTransition(start, readSymbols[j], startRight, operations[j]);
+            tm->addTransition(endLeft, readSymbols[j], end, operations[j]);
+            tm->addTransition(endRight, readSymbols[j], end, operations[j]);
+        }
+    }
     m_LHS->constructTM(tm, tapes, vars, startLeft, endLeft);
     m_RHS->constructTM(tm, tapes, vars, startRight, endRight);
 
@@ -129,11 +172,13 @@ void ConcatenationAST::print() {
 }
 
 void ConcatenationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars, int start, int end) {
-    std::string s0 = "";
-    tapesOperations s1;
+    std::set<char> input = tm->getInput();
+    input.insert('B');
+
+    std::vector<std::string> readSymbols;
+    std::vector<tapesOperations> operations;
     for (int i = 0; i <= tapes.size(); i++) {
-        s0.push_back((char) 'E');
-        s1.emplace_back(std::make_pair('E', noShift));
+        epsilonTransitionHelper(readSymbols, operations, noShift, input);
     }
     int startLeft = tm->getStateCnt();
     tm->incStateCnt();
@@ -145,10 +190,15 @@ void ConcatenationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &
     tm->incStateCnt();
     int endRight= tm->getStateCnt();
     tm->incStateCnt();
-    tm->addTransition(start,s0,startLeft,s1);
-    tm->addTransition(endLeft,s0,mid,s1);
-    tm->addTransition(mid,s0,startRight,s1);
-    tm->addTransition(endRight,s0,end,s1);
+    for (int j = 0; j < readSymbols.size(); j++) {
+        if (readSymbols[j].size() == tapes.size()+1) {
+            tm->addTransition(start, readSymbols[j], startLeft, operations[j]);
+            tm->addTransition(endLeft, readSymbols[j], mid, operations[j]);
+            tm->addTransition(mid, readSymbols[j], startRight, operations[j]);
+            tm->addTransition(endRight, readSymbols[j], end, operations[j]);
+        }
+    }
+
     m_LHS->constructTM(tm, tapes, vars, startLeft, endLeft);
     m_RHS->constructTM(tm, tapes, vars, startRight, endRight);
 }
@@ -160,21 +210,28 @@ void IterationAST::print() {
 }
 
 void IterationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars,  int start, int end) {
-    std::string s0 = "";
-    tapesOperations s1;
+    std::set<char> input = tm->getInput();
+    input.insert('B');
+
+    std::vector<std::string> readSymbols;
+    std::vector<tapesOperations> operations;
     for (int i = 0; i <= tapes.size(); i++) {
-        s0.push_back((char) 'E');
-        s1.emplace_back(std::make_pair('E', noShift));
+        epsilonTransitionHelper(readSymbols, operations, noShift, input);
     }
     int startInner = tm->getStateCnt();
     tm->incStateCnt();
     int endInner= tm->getStateCnt();
     tm->incStateCnt();
 
-    tm->addTransition(start,s0,startInner,s1);
-    tm->addTransition(start,s0,end,s1);
-    tm->addTransition(endInner,s0,end,s1);
-    tm->addTransition(endInner,s0,startInner,s1);
+    for (int j = 0; j < readSymbols.size(); j++) {
+        if (readSymbols[j].size() == tapes.size()+1) {
+            tm->addTransition(start, readSymbols[j], startInner, operations[j]);
+            tm->addTransition(start, readSymbols[j], end, operations[j]);
+            tm->addTransition(endInner, readSymbols[j], end, operations[j]);
+            tm->addTransition(endInner, readSymbols[j], startInner, operations[j]);
+        }
+    }
+
     m_Expr->constructTM(tm, tapes, vars, startInner, endInner);
 }
 
@@ -194,25 +251,75 @@ void DefinitionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tap
     int endInner= tm->getStateCnt();
     tm->incStateCnt();
 
-    std::string s0 = "";
-    tapesOperations s1;
-    for (int i = 0; i <= tapes.size(); i++) {
-        s0.push_back((char) 'E');
-        s1.emplace_back(std::make_pair('E', noShift));
-    }
-    tm->addTransition(endInner,s0,end,s1);
+    std::set<char> input = tm->getInput();
+    input.insert('B');
 
-    s0[tapePos] = 'B';
-    s1[tapePos].first = 'B';
-    s1[tapePos].second = left;
-    tm->addTransition(start,s0,p,s1);
-    s1[tapePos].second = right;
-    tm->addTransition(p,s0,startInner,s1);
-    s0[tapePos] = 'A';
-    s1[tapePos].second = left;
-    tm->addTransition(p,s0,p,s1);
+    std::vector<std::string> readSymbols, readSymbols1, readSymbols2;
+    std::vector<tapesOperations> operations, operations1, operations2;
+    for (int i = 0; i <= tapes.size(); i++) {
+        epsilonTransitionHelper(readSymbols, operations, noShift, input);
+    }
+    for (int j = 0; j < readSymbols.size(); j++) {
+        if (readSymbols[j].size() == tapes.size()+1) tm->addTransition(endInner, readSymbols[j], end, operations[j]);
+    }
+
+
+    for (int i = 0; i <= tapes.size(); i++) {
+        if (i==tapePos){
+            for (int j = 0; j < readSymbols1.size(); j++){
+                readSymbols1[j].push_back('B');
+                operations1[j].emplace_back(std::make_pair('B', left));
+            }
+        }
+        else epsilonTransitionHelper(readSymbols1, operations1, noShift, input);
+    }
+    for (int j = 0; j < readSymbols1.size(); j++) {
+        if (readSymbols1[j].size() == tapes.size()+1) tm->addTransition(start, readSymbols1[j], p, operations1[j]);
+    }
+
+    for (int j = 0; j < readSymbols1.size(); j++) {
+        operations1[j][tapePos].second = right;
+        if (readSymbols1[j].size() == tapes.size()+1) tm->addTransition(p, readSymbols1[j], startInner, operations1[j]);
+    }
+
+    for (int i = 0; i <= tapes.size(); i++) {
+        if (i==tapePos) epsilonTransitionHelper(readSymbols2, operations2, left, tm->getInput(), 'B');
+        else epsilonTransitionHelper(readSymbols2, operations2, noShift, input);
+    }
+    for (int j = 0; j < readSymbols2.size(); j++) {
+        if (readSymbols2[j].size() == tapes.size()+1) tm->addTransition(p, readSymbols2[j], p, operations2[j]);
+    }
+
     tapes[tapePos-1] = true;
     m_Expr->constructTM(tm, tapes, vars, startInner, endInner);
     tapes[tapePos-1] = false;
 }
 
+void NodeAST::epsilonTransitionHelper(std::vector<std::string> &readSymbols, std::vector<tapesOperations> &operations,
+                                      ShiftType shiftType, const std::set<char> &alphabet, char insertSymbol) {
+    if (!alphabet.empty()){
+        if (readSymbols.empty()){
+            std::string s = "";
+            tapesOperations s1;
+            readSymbols.push_back(s);
+            operations.push_back(s1);
+        }
+        auto it = alphabet.begin();
+        int size = readSymbols.size();
+        for (int i = 0; i < alphabet.size()*size; i++){
+            if (i >= size){
+                std::string s = readSymbols[i%size];
+                tapesOperations t = operations[i%size];
+                s[s.size()-1] = *it;
+                t[t.size()-1]  = std::make_pair((insertSymbol == 'E')?*it:insertSymbol, shiftType);
+                readSymbols.push_back(s);
+                operations.push_back(t);
+            }
+            else {
+                readSymbols[i].push_back(*it);
+                operations[i].push_back(std::make_pair((insertSymbol == 'E')?*it:insertSymbol, shiftType));
+            }
+            if (i % size == size - 1) it++;
+        }
+    }
+}

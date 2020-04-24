@@ -21,7 +21,16 @@ public:
      * @param tapes A set of singals that indicate whether to write on the ith tape
      */
     virtual void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end){}
-
+    /**
+     * A function that helps generate transitions from epsilon transitions for i-th tape
+     * @param readSymbols a vector of strings that contains read symbols for 0...i-1 tapes
+     * @param operations a vector of operations for 0...i-1 tapes
+     * @param shiftType a type of shift for ith tape
+     * @param alphabet a reference to the alphabet
+     * @param insertSymbol symbol to write on ith tape
+     */
+    void epsilonTransitionHelper(std::vector<std::string> & readSymbols, std::vector<tapesOperations> & operations,
+            ShiftType shiftType, const std::set<char> & alphabet, char insertSymbol = 'E');
 };
 
 /**

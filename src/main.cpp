@@ -24,11 +24,17 @@ int main(int argc, char * argv[]) {
     tm->setInput(parser->getInput());
 
     item->constructTM(tm, tapes, parser->getVars(), 0, tm->getFinalState());
-
-    std::string word = "";
-    std::shared_ptr<Tape> tape = std::make_shared<Tape>("B"+word+"B", 1);
-    tm->loadTapes(std::move(tape), parser->getVars().size());
     tm->print();
+    std::string word = "abaa";
+    std::shared_ptr<OneHeadTape> tape = std::make_shared<OneHeadTape>("B"+word+"B", 1);
+    tm->loadTapes(std::move(tape), parser->getVars().size());
+
+    std::cout << word << " is " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
+
+    word = "ababbb";
+    tape = std::make_shared<OneHeadTape>("B"+word+"B", 1);
+    tm->loadTapes(std::move(tape), parser->getVars().size());
+
     std::cout << word << " is " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
 
     is.close();

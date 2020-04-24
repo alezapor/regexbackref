@@ -53,7 +53,7 @@ public:
      * @param t A pointer to the tape that contains an input string
      * @param tapesCnt count of tapes to create besides the first one
      */
-    void loadTapes(std::shared_ptr<Tape> t, int tapesCnt);
+    void loadTapes(std::shared_ptr<OneHeadTape> t, int tapesCnt);
 
     /**
      * A member function that reads symbols which are located on tape head of each tape
@@ -110,7 +110,7 @@ public:
      * @param i the index of the tape
      * @return the ith tape
      */
-    std::shared_ptr<Tape> getTape(int i);
+    std::shared_ptr<OneHeadTape> getTape(int i);
 
     void setMCur(int state);
 
@@ -157,7 +157,7 @@ private:
     /**
      * A vector of tapes.
      */
-    std::vector<std::shared_ptr<Tape>> m_Tapes;
+    std::vector<std::shared_ptr<OneHeadTape>> m_Tapes;
 
     /**
      * A transition function Q \ F -> 2^(Q x (I U {B}) x {L, N, R}).
