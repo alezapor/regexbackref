@@ -5,28 +5,32 @@
 #include <iostream>
 #include "ndtm.h"
 
-NDTM::NDTM() : m_InitialState(0), m_FinalState(1), m_StateCnt(2), m_Blank('B'), m_CurState(0){}
+NDTM::NDTM() : Automaton(), m_Blank('B'){}
 
 
-NDTM::NDTM(const NDTM & tm) {
-    this->m_InitialState = tm.m_InitialState;
-    this->m_Blank = this->m_Blank;
-    this->m_CurState = tm.m_CurState;
-    this->m_StateCnt = tm.m_StateCnt;
-    this->m_Input = tm.m_Input;
-    this->m_FinalState = tm.m_FinalState;
+NDTM::NDTM(const NDTM & tm) : Automaton(tm){
+    this->m_Blank = tm.m_Blank;
     this->m_Transitions = tm.m_Transitions;
     for (auto tape = tm.m_Tapes.begin(); tape != tm.m_Tapes.end(); tape++){
         this->m_Tapes.emplace_back((*tape)->clone());
     }
+    this->m_Helper.resize(m_StateCnt);
+    for (int i = 0; i < m_StateCnt; i++){
+        this->m_Helper[i] = tm.m_Helper[i];
+    }
 }
 
-void NDTM::loadTapes(std::shared_ptr<OneHeadTape> t, int cnt) {
+void NDTM::loadTapes(std::shared_ptr<OneHeadTape> t) {
     m_CurState = m_InitialState;
+    std::vector<int> pos;
+    m_Helper.resize(m_StateCnt, std::make_pair("", pos));
+    for (auto it = m_Helper.begin(); it != m_Helper.end(); it++){
+        it->first = "";
+    }
     m_Tapes.erase(m_Tapes.begin(), m_Tapes.end());
     m_Tapes.emplace_back(t);
 
-    for (int i = 0 ; i < cnt; i++){
+    for (int i = 0 ; i < m_VarSize; i++){
         m_Tapes.push_back(std::make_shared<OneHeadTape>(t->getMCells().size(), 1));
     }
 }
@@ -45,29 +49,21 @@ void NDTM::addTransition(int state, std::string readSym, int newState, tapesOper
 
 void NDTM::execTransition(std::pair<int, tapesOperations> trans) {
     m_CurState = trans.first;
+
+
     for (int i = 0; i < trans.second.size(); i++){
         if (trans.second[i].first != 'E' && trans.second[i].first != 'A') m_Tapes[i]->writeSymbol(trans.second[i].first);
         m_Tapes[i]->moveHead(trans.second[i].second);
     }
 }
 
-void NDTM::setInput(std::set<char> input) {
-    m_Input = input;
-}
-
-std::set<char> &NDTM::getInput() {
-    return m_Input;
-}
-
-void NDTM::setFinalState(int state) {
-    m_FinalState = state;
-}
-
-
 bool NDTM::accepts() {
     std::vector<std::string> readSymbols;
     readSymbols.push_back(this->readSymbols());
     auto trans =  m_Transitions[std::make_pair(m_CurState, this->readSymbols())];
+    if (m_Helper[m_CurState].first != "" && this->checkCycle()){
+        return false;
+    }
     for (int i = 0; i < trans.size(); i++){
         auto tm = this->clone();
         tm->execTransition(trans[i]);
@@ -80,24 +76,8 @@ std::shared_ptr<NDTM> NDTM::clone() {
     return std::make_shared<NDTM>(*this);
 }
 
-int NDTM::getMCur() {
-    return m_CurState;
-}
-
 std::shared_ptr<OneHeadTape> NDTM::getTape(int i)  {
     return m_Tapes[i];
-}
-
-void NDTM::setMCur(int state) {
-    m_CurState = state;
-}
-
-int NDTM::getStateCnt() {
-    return m_StateCnt;
-}
-
-void NDTM::incStateCnt() {
-    m_StateCnt++;
 }
 
 char NDTM::getMBlank() {
@@ -113,7 +93,7 @@ void NDTM::print() {
     for (auto it = m_Input.begin(); it != m_Input.end(); it++) std::cout << "," << *it;
 
     std::cout << "},B,{" << *m_Input.begin();
-    for (auto it = m_Input.begin(); it != m_Input.end(); it++) std::cout << "," << *it;
+    for (auto it = ++m_Input.begin(); it != m_Input.end(); it++) std::cout << "," << *it;
 
     std::cout << "},f,0,{" << m_FinalState << "})" << std::endl;
 
@@ -137,8 +117,24 @@ void NDTM::print() {
     }
 }
 
-int NDTM::getFinalState() {
-    return m_FinalState;
+void NDTM::initialize(std::string input) {
+    std::shared_ptr<OneHeadTape> tape = std::make_shared<OneHeadTape>("B"+input+"B", 1);
+    this->loadTapes(std::move(tape));
+}
+
+bool NDTM::checkCycle() {
+    std::string s = "";
+    std::vector<int> pos;
+    bool hasCycle = true;
+    for (int i = 0; i < m_StateCnt; i++){
+        s += getTape(i)->getMCells();
+        pos.push_back(getTape(i)->getMHead());
+        if (m_Helper[m_CurState].second[i] != getTape(i)->getMHead()) hasCycle = false;
+    }
+    if (m_Helper[m_CurState].first == s) return true;
+    m_Helper[m_CurState].first = s;
+    m_Helper[m_CurState].second = pos;
+    return false;
 }
 
 

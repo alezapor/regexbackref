@@ -21,20 +21,22 @@ int main(int argc, char * argv[]) {
     tapes.resize(parser->getVars().size(), false);
 
     std::shared_ptr<NDTM> tm = std::make_shared<NDTM>();
+    tm->setMVarSize(parser->getVars().size());
     tm->setInput(parser->getInput());
 
-    item->constructTM(tm, tapes, parser->getVars(), 0, tm->getFinalState());
+    item->constructTM(tm, tapes, parser->getVars(), tm->getMInitialState(), tm->getMFinalState());
     tm->print();
-    std::string word = "abaa";
-    std::shared_ptr<OneHeadTape> tape = std::make_shared<OneHeadTape>("B"+word+"B", 1);
-    tm->loadTapes(std::move(tape), parser->getVars().size());
 
+    std::string word = "acac"; //yes
+    tm->initialize(word);
     std::cout << word << " is " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
 
-    word = "ababbb";
-    tape = std::make_shared<OneHeadTape>("B"+word+"B", 1);
-    tm->loadTapes(std::move(tape), parser->getVars().size());
+    word = "aacaaccbbbcbbbc"; //yes
+    tm->initialize(word);
+    std::cout << word << " is " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
 
+    word = "aacaaccbbcbbbc"; //no
+    tm->initialize(word);
     std::cout << word << " is " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
 
     is.close();

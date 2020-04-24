@@ -41,7 +41,7 @@ void AtomAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, st
         }
     }
     if (this->m_Val == '0') {
-        int p = tm->getStateCnt();
+        int p = tm->getMStateCnt();
         tm->incStateCnt();
         for (int j = 0; j < readSymbols.size(); j++)
             if (readSymbols[j].size() == tapes.size()+1) tm->addTransition(start,readSymbols[j],p,operations[j]);
@@ -58,9 +58,9 @@ void VarAST::print() {
 
 void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes,std::set<char> & vars, int start, int end) {
     int tapePos = std::distance(vars.begin(), vars.find(m_Name))+1;
-    int p = tm->getStateCnt();
+    int p = tm->getMStateCnt();
     tm->incStateCnt();
-    int q = tm->getStateCnt();
+    int q = tm->getMStateCnt();
     tm->incStateCnt();
 
     std::set<char> input = tm->getInput();
@@ -141,13 +141,13 @@ void UnionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, s
     for (int i = 0; i <= tapes.size(); i++) {
         epsilonTransitionHelper(readSymbols, operations, noShift, input);
     }
-    int startLeft = tm->getStateCnt();
+    int startLeft = tm->getMStateCnt();
     tm->incStateCnt();
-    int startRight= tm->getStateCnt();
+    int startRight= tm->getMStateCnt();
     tm->incStateCnt();
-    int endLeft = tm->getStateCnt();
+    int endLeft = tm->getMStateCnt();
     tm->incStateCnt();
-    int endRight= tm->getStateCnt();
+    int endRight= tm->getMStateCnt();
     tm->incStateCnt();
 
     for (int j = 0; j < readSymbols.size(); j++) {
@@ -180,15 +180,15 @@ void ConcatenationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &
     for (int i = 0; i <= tapes.size(); i++) {
         epsilonTransitionHelper(readSymbols, operations, noShift, input);
     }
-    int startLeft = tm->getStateCnt();
+    int startLeft = tm->getMStateCnt();
     tm->incStateCnt();
-    int startRight= tm->getStateCnt();
+    int startRight= tm->getMStateCnt();
     tm->incStateCnt();
-    int mid= tm->getStateCnt();
+    int mid= tm->getMStateCnt();
     tm->incStateCnt();
-    int endLeft = tm->getStateCnt();
+    int endLeft = tm->getMStateCnt();
     tm->incStateCnt();
-    int endRight= tm->getStateCnt();
+    int endRight= tm->getMStateCnt();
     tm->incStateCnt();
     for (int j = 0; j < readSymbols.size(); j++) {
         if (readSymbols[j].size() == tapes.size()+1) {
@@ -218,9 +218,9 @@ void IterationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tape
     for (int i = 0; i <= tapes.size(); i++) {
         epsilonTransitionHelper(readSymbols, operations, noShift, input);
     }
-    int startInner = tm->getStateCnt();
+    int startInner = tm->getMStateCnt();
     tm->incStateCnt();
-    int endInner= tm->getStateCnt();
+    int endInner= tm->getMStateCnt();
     tm->incStateCnt();
 
     for (int j = 0; j < readSymbols.size(); j++) {
@@ -244,11 +244,11 @@ void DefinitionAST::print() {
 void DefinitionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars, int start, int end) {
 
     int tapePos = std::distance(vars.begin(), vars.find(m_Var))+1;
-    int p = tm->getStateCnt();
+    int p = tm->getMStateCnt();
     tm->incStateCnt();
-    int startInner = tm->getStateCnt();
+    int startInner = tm->getMStateCnt();
     tm->incStateCnt();
-    int endInner= tm->getStateCnt();
+    int endInner= tm->getMStateCnt();
     tm->incStateCnt();
 
     std::set<char> input = tm->getInput();

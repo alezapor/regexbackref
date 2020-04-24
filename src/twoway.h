@@ -9,6 +9,7 @@
 #include <map>
 #include <memory>
 #include "tape.h"
+#include "automaton.h"
 
 /**
  * A comparator for a transition function represented with a map
@@ -25,7 +26,7 @@ struct comp1 {
 /**
  * A class that simulates a two-way finite automaton
  */
-class TWFA {
+class TWFA : public Automaton {
 
 public:
 
@@ -71,15 +72,6 @@ public:
 
 
     /**
-     * A member function that sets a final state of the TWFA
-     * @param state a final state
-     */
-    void setFinalState(int state);
-
-
-    int getFinalState();
-
-    /**
      * A member function that simulates the TWFA computation
      * @return returns yes if the TWFA accepted the input string
      */
@@ -91,40 +83,23 @@ public:
      */
     std::shared_ptr<TWFA> clone();
 
-    void setInput(std::set<char> input);
-
-    std::set<char> & getInput();
-
-    int getMCur();
-
-
     /**
      * A member function that returns the tape
      * @return the input tape
      */
     std::shared_ptr<MultiHeadTape> getTape() const;
 
-    void setMCur(int state);
-
-    int getStateCnt();
-
-    void incStateCnt();
-
     /**
      * A member function that prints the NDTM definition
      */
     void print();
 
-private:
     /**
-     * An initial state of an TWFA. The initial state equals 0 by default (q0).
-     */
-    int m_InitialState;
+    * A member function that creates an initial configuration of the two-way automaton for input word
+    */
+    void initialize(std::string input);
 
-    /**
-     * A final state (f ∈ F).
-     */
-    int m_FinalState;
+private:
 
     /**
      * A start symbol of an TWFA (>).
@@ -135,21 +110,6 @@ private:
     * An end symbol of an TWFA (<).
     */
     char m_EndSymbol;
-
-    /**
-     * A current state of an TWFA.
-     */
-    int m_CurState;
-
-    /**
-     * A state counter.
-     */
-    int m_StateCnt;
-
-    /**
-     * A set of input symbols (I).
-     */
-    std::set<char> m_Input;
 
     /**
      * A read-only tape.

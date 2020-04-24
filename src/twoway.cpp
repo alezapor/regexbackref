@@ -5,24 +5,18 @@
 #include <iostream>
 #include "ndtm.h"
 
-TWFA::TWFA() : m_InitialState(0), m_FinalState(1), m_StateCnt(2), m_StartSymbol('>'), m_EndSymbol('<'), m_CurState(0){}
+TWFA::TWFA() : Automaton(), m_StartSymbol('>'), m_EndSymbol('<'){}
 
 
-TWFA::TWFA(const TWFA & automaton) {
-    this->m_InitialState = automaton.m_InitialState;
+TWFA::TWFA(const TWFA & automaton) : Automaton(automaton){
     this->m_StartSymbol = automaton.m_StartSymbol;
     this->m_EndSymbol = automaton.m_EndSymbol;
-    this->m_CurState = automaton.m_CurState;
-    this->m_StateCnt = automaton.m_StateCnt;
-    this->m_Input = automaton.m_Input;
-    this->m_FinalState = automaton.m_FinalState;
     this->m_Transitions = automaton.m_Transitions;
     this->m_Tape = std::move((automaton.getTape())->clone());
 }
 
 void TWFA::loadTape(std::shared_ptr<MultiHeadTape> t) {
     m_CurState = m_InitialState;
-
     m_Tape = std::move(t);
 }
 
@@ -38,19 +32,6 @@ void TWFA::execTransition(int state, std::vector<ShiftType>  moves) {
     m_CurState = state;
     m_Tape->moveHeads(moves);
 }
-
-void TWFA::setInput(std::set<char> input) {
-    m_Input = input;
-}
-
-std::set<char> &TWFA::getInput() {
-    return m_Input;
-}
-
-void TWFA::setFinalState(int state) {
-    m_FinalState = state;
-}
-
 
 bool TWFA::accepts() {
     std::vector<std::string> readSymbols;
@@ -94,26 +75,9 @@ std::shared_ptr<TWFA> TWFA::clone() {
     return std::make_shared<TWFA>(*this);
 }
 
-int TWFA::getMCur() {
-    return m_CurState;
-}
-
 std::shared_ptr<MultiHeadTape> TWFA::getTape()  const{
     return m_Tape;
 }
-
-void TWFA::setMCur(int state) {
-    m_CurState = state;
-}
-
-int TWFA::getStateCnt() {
-    return m_StateCnt;
-}
-
-void TWFA::incStateCnt() {
-    m_StateCnt++;
-}
-
 
 void TWFA::print() {
     std::cout << "\n\n2NKA = ({" << m_InitialState;
@@ -143,8 +107,9 @@ void TWFA::print() {
     }
 }
 
-int TWFA::getFinalState() {
-    return m_FinalState;
+void TWFA::initialize(std::string input) {
+    std::shared_ptr<MultiHeadTape> tape = std::make_shared<MultiHeadTape>(">"+input+"<", m_VarSize*3+2);
+    this->loadTape(std::move(tape));
 }
 
 

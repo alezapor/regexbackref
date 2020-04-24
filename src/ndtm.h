@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 #include "tape.h"
+#include "automaton.h"
 
 /**
  * A comparator for a transition function represented with a map
@@ -31,7 +32,7 @@ typedef std::vector<std::pair<char, ShiftType>> tapesOperations;
 /**
  * A class that simulates a nondeterministic Turing machine
  */
-class NDTM {
+class NDTM : public Automaton{
 
 public:
 
@@ -51,9 +52,8 @@ public:
      * A member function that initializes the first tape with an input string
      * and other tapes with blank symbols
      * @param t A pointer to the tape that contains an input string
-     * @param tapesCnt count of tapes to create besides the first one
      */
-    void loadTapes(std::shared_ptr<OneHeadTape> t, int tapesCnt);
+    void loadTapes(std::shared_ptr<OneHeadTape> t);
 
     /**
      * A member function that reads symbols which are located on tape head of each tape
@@ -77,15 +77,6 @@ public:
 
 
     /**
-     * A member function that sets a final state of the NDTM
-     * @param state a final state
-     */
-    void setFinalState(int state);
-
-
-    int getFinalState();
-
-    /**
      * A member function that simulates the NDTM computation
      * @return returns yes if the NDTM accepted the input string
      */
@@ -97,12 +88,6 @@ public:
      */
     std::shared_ptr<NDTM> clone();
 
-    void setInput(std::set<char> input);
-
-    std::set<char> & getInput();
-
-    int getMCur();
-
     char getMBlank();
 
     /**
@@ -112,47 +97,27 @@ public:
      */
     std::shared_ptr<OneHeadTape> getTape(int i);
 
-    void setMCur(int state);
-
-    int getStateCnt();
-
-    void incStateCnt();
+    bool checkCycle();
 
     /**
      * A member function that prints the NDTM definition
      */
     void print();
 
-private:
     /**
-     * An initial state of an NDTM. The initial state equals 0 by default (q0).
+     * A member function that creates an initial configuration of the NDTM for input word
      */
-    int m_InitialState;
+    void initialize(std::string input);
 
-    /**
-     * A final states (f ∈ F).
-     */
-     int m_FinalState;
+private:
 
     /**
      * A blank symbol of an NDTM (B).
      */
     char m_Blank;
 
-    /**
-     * A current state of an NDTM.
-     */
-    int m_CurState;
 
-    /**
-     * A state counter.
-     */
-    int m_StateCnt;
-
-    /**
-     * A set of input symbols (I).
-     */
-    std::set<char> m_Input;
+    std::vector<std::pair<std::string, std::vector<int>>> m_Helper;
 
     /**
      * A vector of tapes.
