@@ -14,17 +14,17 @@ NDTM::NDTM(const NDTM & tm) : Automaton(tm){
     for (auto tape = tm.m_Tapes.begin(); tape != tm.m_Tapes.end(); tape++){
         this->m_Tapes.emplace_back((*tape)->clone());
     }
-    this->m_Helper.resize(m_StateCnt);
+    this->m_ConfigurationsMemory.resize(m_StateCnt);
     for (int i = 0; i < m_StateCnt; i++){
-        this->m_Helper[i] = tm.m_Helper[i];
+        this->m_ConfigurationsMemory[i] = tm.m_ConfigurationsMemory[i];
     }
 }
 
 void NDTM::loadTapes(std::shared_ptr<OneHeadTape> t) {
     m_CurState = m_InitialState;
     std::vector<int> pos;
-    m_Helper.resize(m_StateCnt, std::make_pair("", pos));
-    for (auto it = m_Helper.begin(); it != m_Helper.end(); it++){
+    m_ConfigurationsMemory.resize(m_StateCnt, std::make_pair("", pos));
+    for (auto it = m_ConfigurationsMemory.begin(); it != m_ConfigurationsMemory.end(); it++){
         it->first = "";
     }
     m_Tapes.erase(m_Tapes.begin(), m_Tapes.end());
@@ -61,7 +61,7 @@ bool NDTM::accepts() {
     std::vector<std::string> readSymbols;
     readSymbols.push_back(this->readSymbols());
     auto trans =  m_Transitions[std::make_pair(m_CurState, this->readSymbols())];
-    if (m_Helper[m_CurState].first != "" && this->checkCycle()){
+    if (m_ConfigurationsMemory[m_CurState].first != "" && this->checkCycle()){
         return false;
     }
     for (int i = 0; i < trans.size(); i++){
@@ -129,12 +129,41 @@ bool NDTM::checkCycle() {
     for (int i = 0; i < m_StateCnt; i++){
         s += getTape(i)->getMCells();
         pos.push_back(getTape(i)->getMHead());
-        if (m_Helper[m_CurState].second[i] != getTape(i)->getMHead()) hasCycle = false;
+        if (m_ConfigurationsMemory[m_CurState].second[i] != getTape(i)->getMHead()) hasCycle = false;
     }
-    if (m_Helper[m_CurState].first == s) return true;
-    m_Helper[m_CurState].first = s;
-    m_Helper[m_CurState].second = pos;
+    if (m_ConfigurationsMemory[m_CurState].first == s && hasCycle) return true;
+    m_ConfigurationsMemory[m_CurState].first = s;
+    m_ConfigurationsMemory[m_CurState].second = pos;
     return false;
+}
+
+void NDTM::epsilonTransitionHelper(std::vector<std::string> &readSymbols, std::vector<tapesOperations> &operations,
+                                      ShiftType shiftType, const std::set<char> &alphabet, char insertSymbol) {
+    if (!alphabet.empty()){
+        if (readSymbols.empty()){
+            std::string s = "";
+            tapesOperations s1;
+            readSymbols.push_back(s);
+            operations.push_back(s1);
+        }
+        auto it = alphabet.begin();
+        int size = readSymbols.size();
+        for (int i = 0; i < alphabet.size()*size; i++){
+            if (i >= size){
+                std::string s = readSymbols[i%size];
+                tapesOperations t = operations[i%size];
+                s[s.size()-1] = *it;
+                t[t.size()-1]  = std::make_pair((insertSymbol == 'E')?*it:insertSymbol, shiftType);
+                readSymbols.push_back(s);
+                operations.push_back(t);
+            }
+            else {
+                readSymbols[i].push_back(*it);
+                operations[i].push_back(std::make_pair((insertSymbol == 'E')?*it:insertSymbol, shiftType));
+            }
+            if (i % size == size - 1) it++;
+        }
+    }
 }
 
 

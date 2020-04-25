@@ -36,6 +36,7 @@ public:
      */
     TWFA();
 
+
     /**
      * A copy constructor.
      * @param automaton a TWFA copy
@@ -53,6 +54,7 @@ public:
      * @return A string that contains read symbols
      */
     std::string readSymbols();
+
 
     /**
      * A member function that adds a transition to the transition function of the TWFA
@@ -99,6 +101,30 @@ public:
     */
     void initialize(std::string input);
 
+    /**
+    * A function that helps generate transitions from epsilon transitions for ith head
+    * @param readSymbols a vector of strings that contains read symbols for 0...i-1 heads
+    * @param operations a vector of shifts for 0...i-1 heads
+    * @param shiftType a type of shift for ith tape
+    * @param alphabet a reference to the alphabet
+    */
+    static void epsilonTransitionHelper(std::vector<std::string> &readSymbols, std::vector<std::vector<ShiftType>> &operations,
+                                          ShiftType shiftType, const std::set<char> &alphabet);
+
+    bool checkCycle();
+
+    char getMStartSymbol() const;
+
+    void setMStartSymbol(char mStartSymbol);
+
+    char getMEndSymbol() const;
+
+    void setMEndSymbol(char mEndSymbol);
+
+
+    void addAcceptingTransitions();
+
+
 private:
 
     /**
@@ -111,10 +137,17 @@ private:
     */
     char m_EndSymbol;
 
+
     /**
      * A read-only tape.
      */
     std::shared_ptr<MultiHeadTape> m_Tape;
+
+    /**
+    * A memory of tape heads states for each state -> used to avoid infinite cycle
+    */
+    std::vector<std::vector<int>> m_ConfigurationsMemory;
+
 
     /**
      * A transition function Q x (I U {>, <})^k  -> 2^(Q x {L, N, R}^k).

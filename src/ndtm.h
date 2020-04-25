@@ -109,6 +109,17 @@ public:
      */
     void initialize(std::string input);
 
+    /**
+    * A function that helps generate transitions from epsilon transitions for i-th tape
+    * @param readSymbols a vector of strings that contains read symbols for 0...i-1 tapes
+    * @param operations a vector of operations for 0...i-1 tapes
+    * @param shiftType a type of shift for ith tape
+    * @param alphabet a reference to the alphabet
+    * @param insertSymbol symbol to write on ith tape
+    */
+    static void epsilonTransitionHelper(std::vector<std::string> & readSymbols, std::vector<tapesOperations> & operations,
+                                        ShiftType shiftType, const std::set<char> & alphabet, char insertSymbol = 'E');
+
 private:
 
     /**
@@ -116,8 +127,10 @@ private:
      */
     char m_Blank;
 
-
-    std::vector<std::pair<std::string, std::vector<int>>> m_Helper;
+    /**
+     * A memory of tapes states for each state -> used to avoid infinite cycle
+     */
+    std::vector<std::pair<std::string, std::vector<int>>> m_ConfigurationsMemory;
 
     /**
      * A vector of tapes.
@@ -125,7 +138,7 @@ private:
     std::vector<std::shared_ptr<OneHeadTape>> m_Tapes;
 
     /**
-     * A transition function Q \ F -> 2^(Q x (I U {B}) x {L, N, R}).
+     * A transition function Q \ F  x (I U {B})^k -> 2^(Q x ((I U {B}) x {L, N, R})^k).
      */
     std::map  <std::pair<int, std::string>,
                           std::vector <std::pair <int, tapesOperations>>, comp> m_Transitions;

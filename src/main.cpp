@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include "parser.h"
+#include "twoway.h"
+#include "matcher.h"
 
 int main(int argc, char * argv[]) {
 
@@ -11,34 +13,18 @@ int main(int argc, char * argv[]) {
         exit(1);
     }
 
-    std::unique_ptr<Parser> parser = std::make_unique<Parser>(&is);
-    parser->getNextToken();
-
-    auto item = parser->ParseA();
-    item->print();
-
-    std::vector<bool> tapes;
-    tapes.resize(parser->getVars().size(), false);
-
+    std::shared_ptr<Parser> parser = std::make_shared<Parser>(&is);
     std::shared_ptr<NDTM> tm = std::make_shared<NDTM>();
-    tm->setMVarSize(parser->getVars().size());
-    tm->setInput(parser->getInput());
+    std::shared_ptr<Matcher> matcher = std::make_shared<Matcher>(std::move(parser), tm);
+    matcher->match("acac");
+    matcher->match("aacaaccbbbcbbbc");
+    matcher->match("aacaaccbbcbbbc");
 
-    item->constructTM(tm, tapes, parser->getVars(), tm->getMInitialState(), tm->getMFinalState());
-    tm->print();
-
-    std::string word = "acac"; //yes
-    tm->initialize(word);
-    std::cout << word << " is " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
-
-    word = "aacaaccbbbcbbbc"; //yes
-    tm->initialize(word);
-    std::cout << word << " is " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
-
-    word = "aacaaccbbcbbbc"; //no
-    tm->initialize(word);
-    std::cout << word << " is " << (tm->accepts() ? "ACCEPTED" : "NOT ACCEPTED") << std::endl;
-
+    /*std::shared_ptr<TWFA> automaton = std::make_shared<TWFA>();
+    std::shared_ptr<Matcher> matcherTW = std::make_shared<Matcher>(std::move(parser), automaton);
+    matcherTW->match("a");
+    matcherTW->match("aacaaccbbbcbbbc");
+    matcherTW->match("aacaaccbbcbbbc");*/
     is.close();
     return 0;
 
