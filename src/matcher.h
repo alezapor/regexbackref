@@ -12,7 +12,9 @@
 class Matcher {
 public:
     Matcher();
-    Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton);
+
+    Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton, bool withAvd = false);
+
     bool match(std::string w);
 
 private:

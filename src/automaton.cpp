@@ -4,12 +4,12 @@
 
 #include "automaton.h"
 
-Automaton::Automaton() : m_InitialState(0), m_StateCnt(2), m_CurState(0){
+Automaton::Automaton() : m_InitialState(0), m_StateCnt(2), m_CurState(0) {
     m_FinalStates.insert(1);
 }
 
 
-Automaton::Automaton(const Automaton & automaton) {
+Automaton::Automaton(const Automaton &automaton) {
     this->m_InitialState = automaton.m_InitialState;
     this->m_CurState = automaton.m_CurState;
     this->m_StateCnt = automaton.m_StateCnt;
@@ -59,4 +59,9 @@ void Automaton::incStateCnt() {
 
 const std::set<int> &Automaton::getMFinalStates() const {
     return m_FinalStates;
+}
+
+void Automaton::removeFinalStates() {
+    this->m_FinalStates.erase(m_FinalStates.begin(), m_FinalStates.end());
+
 }

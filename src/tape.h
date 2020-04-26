@@ -42,7 +42,7 @@ public:
      * A copy constructor
      * @param tape a tape to copy
      */
-    Tape(const Tape & tape);
+    Tape(const Tape &tape);
 
     const std::string &getMCells() const;
 
@@ -71,6 +71,7 @@ public:
     void moveHead(ShiftType shiftType);
 
     bool isEmpty(char blank = 'B');
+
     /**
      * A member function that creates a replica of the tape
      * @return a copy of the tape

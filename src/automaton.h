@@ -27,7 +27,7 @@ public:
      * A member function that initializes the the automaton to simulate for input string
      * @param input an input string
      */
-    virtual void initialize(std::string input) = 0;
+    void initialize(std::string input){}
 
     int getMInitialState() const;
 
@@ -44,6 +44,8 @@ public:
     int getMStateCnt() const;
 
     void setMStateCnt(int mStateCnt);
+
+    void removeFinalStates();
 
 
     /**

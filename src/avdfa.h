@@ -56,14 +56,28 @@ public:
      */
     bool accepts();
 
+    /**
+     * Memeber function that constructs an automaton
+     * that accepts only refwords w with definitions of a variable x
+     *   |w|([x) >= 1
+     * @param state a new final state
+     * @param var a variable x
+     */
     std::shared_ptr<AvdFA> constructR0(int state, char var);
+
+    /**
+    * Memeber function that constructs an automaton
+    * that accepts only refwords wxu with no definitions of x before a reference
+    *   |w|([x) = 0 and
+    * @param state a new initial state
+    * @param var a variable x
+    */
     std::shared_ptr<AvdFA> constructR1(int state, char var);
 
     /**
      * A member function that prints the avdFA definition
      */
     void print();
-
 
 
 private:

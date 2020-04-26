@@ -41,11 +41,11 @@ public:
      * A constructor
      * @param is a file stream that contains a regular expression to be parsed
      */
-    Parser(std::fstream * is);
+    Parser(std::fstream *is);
 
-    std::set<char> & getInput();
+    std::set<char> &getInput();
 
-    std::set<char> & getVars();
+    std::set<char> &getVars();
 
     std::unique_ptr<NodeAST> ParseA();
 
@@ -71,7 +71,6 @@ public:
 
 
 };
-
 
 
 #endif //REGEX_MATCHER_PARSER_H

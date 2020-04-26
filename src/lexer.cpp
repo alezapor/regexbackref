@@ -29,7 +29,7 @@ int Lexer::getTok() {
         return tokenIter;
     }
 
-    if (lastChar == '+'){
+    if (lastChar == '+') {
         lastChar = is->get();
         return tokenUnion;
     }

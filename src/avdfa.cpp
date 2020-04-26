@@ -49,6 +49,7 @@ std::shared_ptr<AvdFA> AvdFA::constructR0(int state, char var) {
     R0->setMInitialState(m_InitialState);
     std::string s0 = "["; s0.push_back(var); // "[x"
     R0->setMStateCnt(m_StateCnt*2);
+    R0->removeFinalStates();
     R0->addMFinalState(m_StateCnt+state);
     for (auto it = m_Transitions.begin(); it!=m_Transitions.end(); it++){
         std::vector<int> states = it->second;
@@ -68,6 +69,7 @@ std::shared_ptr<AvdFA> AvdFA::constructR1(int state, char var) {
     std::string s0 = "["; s0.push_back(var); // "[x"
     std::string s1 = ""; s1.push_back(var); // "x"
     R1->setMStateCnt(m_StateCnt*3);
+    R1->removeFinalStates();
     for (auto it = m_FinalStates.begin(); it!=m_FinalStates.end(); it++) R1->addMFinalState(m_StateCnt+*it);
     for (auto it = m_Transitions.begin(); it!=m_Transitions.end(); it++){
         std::vector<int> states = it->second, states2 = it->second;
@@ -78,6 +80,7 @@ std::shared_ptr<AvdFA> AvdFA::constructR1(int state, char var) {
         }
         else if (it->first.second == s1) {
             R1->m_Transitions[std::make_pair(it->first.first, it->first.second)] = states;
+            R1->m_Transitions[std::make_pair(it->first.first+m_StateCnt, it->first.second)] = states;
         }
         else {
             R1->m_Transitions[std::make_pair(it->first.first, "E")] = it->second;
@@ -92,10 +95,7 @@ void AvdFA::print() {
 
     for (int i = 1; i < m_StateCnt; i++) std::cout << "," << i;
 
-    std::cout << "},E,B,{" << *m_Input.begin();
-    for (auto it = ++m_Input.begin(); it != m_Input.end(); it++) std::cout << "," << *it;
-
-    std::cout << "},f,0,{" << *m_FinalStates.begin();
+    std::cout << "},E,f,0,{" << *m_FinalStates.begin();
     for (auto it = ++m_FinalStates.begin(); it != m_FinalStates.end(); it++) std::cout << "," << *it;
     std::cout << "})" << std::endl;
 

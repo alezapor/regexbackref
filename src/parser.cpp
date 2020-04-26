@@ -19,12 +19,11 @@ void Parser::ExpandError(std::string nonTerminal, Token token) {
 }
 
 // A -> B A'
-std::unique_ptr<NodeAST> Parser::ParseA(){
-    if(m_CurTok == tokenAtom||
-       m_CurTok == '(' || m_CurTok == tokenVar){
+std::unique_ptr<NodeAST> Parser::ParseA() {
+    if (m_CurTok == tokenAtom ||
+        m_CurTok == '(' || m_CurTok == tokenVar) {
         return std::move(ParseARest(std::move(ParseB())));
-    }
-    else {
+    } else {
         ExpandError("A", (Token) m_CurTok);
         return nullptr;
     }
@@ -32,27 +31,24 @@ std::unique_ptr<NodeAST> Parser::ParseA(){
 
 // A' -> + A | eps
 std::unique_ptr<NodeAST> Parser::ParseARest(std::unique_ptr<NodeAST> left) {
-    if(m_CurTok == tokenUnion){
+    if (m_CurTok == tokenUnion) {
         getNextToken();
         auto right = std::move(ParseA());
         return std::make_unique<UnionAST>(std::move(left), std::move(right));
-    }
-    else if (m_CurTok == tokenEOF || m_CurTok == ')' || m_CurTok == '}') {
+    } else if (m_CurTok == tokenEOF || m_CurTok == ')' || m_CurTok == '}') {
         return std::move(left);
-    }
-    else {
+    } else {
         ExpandError("A'", (Token) m_CurTok);
         return nullptr;
     }
 }
 
 // B -> C B'
-std::unique_ptr<NodeAST> Parser::ParseB(){
-    if(m_CurTok == tokenAtom||
-       m_CurTok == '(' || m_CurTok == tokenVar){
+std::unique_ptr<NodeAST> Parser::ParseB() {
+    if (m_CurTok == tokenAtom ||
+        m_CurTok == '(' || m_CurTok == tokenVar) {
         return std::move(ParseBRest(std::move(ParseC())));
-    }
-    else {
+    } else {
         ExpandError("B", (Token) m_CurTok);
         return nullptr;
     }
@@ -60,28 +56,25 @@ std::unique_ptr<NodeAST> Parser::ParseB(){
 
 // B' -> B | eps
 std::unique_ptr<NodeAST> Parser::ParseBRest(std::unique_ptr<NodeAST> left) {
-    if(m_CurTok == tokenAtom ||
-       m_CurTok == '(' || m_CurTok == tokenVar){
+    if (m_CurTok == tokenAtom ||
+        m_CurTok == '(' || m_CurTok == tokenVar) {
         auto right = std::move(ParseB());
         return std::make_unique<ConcatenationAST>(std::move(left), std::move(right));
-    }
-    else if (m_CurTok == tokenUnion || m_CurTok == ')' || m_CurTok == '}' ||
-        m_CurTok == tokenEOF) {
+    } else if (m_CurTok == tokenUnion || m_CurTok == ')' || m_CurTok == '}' ||
+               m_CurTok == tokenEOF) {
         return std::move(left);
-    }
-    else {
+    } else {
         ExpandError("B'", (Token) m_CurTok);
         return nullptr;
     }
 }
 
 // C -> D C'
-std::unique_ptr<NodeAST> Parser::ParseC(){
-    if(m_CurTok == tokenAtom ||
-       m_CurTok == '(' || m_CurTok == tokenVar){
+std::unique_ptr<NodeAST> Parser::ParseC() {
+    if (m_CurTok == tokenAtom ||
+        m_CurTok == '(' || m_CurTok == tokenVar) {
         return std::move(ParseCRest(std::move(ParseD())));
-    }
-    else {
+    } else {
         ExpandError("C", (Token) m_CurTok);
         return nullptr;
     }
@@ -89,15 +82,13 @@ std::unique_ptr<NodeAST> Parser::ParseC(){
 
 // C' -> * | eps
 std::unique_ptr<NodeAST> Parser::ParseCRest(std::unique_ptr<NodeAST> left) {
-    if(m_CurTok == tokenIter){
+    if (m_CurTok == tokenIter) {
         getNextToken();
         return std::make_unique<IterationAST>(std::move(left));
-    }
-    else if (m_CurTok == tokenUnion || m_CurTok == ')' || m_CurTok == '}' || m_CurTok == tokenVar ||
-             m_CurTok == tokenEOF || m_CurTok == '(' || m_CurTok == tokenAtom) {
+    } else if (m_CurTok == tokenUnion || m_CurTok == ')' || m_CurTok == '}' || m_CurTok == tokenVar ||
+               m_CurTok == tokenEOF || m_CurTok == '(' || m_CurTok == tokenAtom) {
         return std::move(left);
-    }
-    else {
+    } else {
         ExpandError("C'", (Token) m_CurTok);
         return nullptr;
     }
@@ -105,33 +96,29 @@ std::unique_ptr<NodeAST> Parser::ParseCRest(std::unique_ptr<NodeAST> left) {
 
 // D -> atom | var F' | ( A )
 std::unique_ptr<NodeAST> Parser::ParseD() {
-    if(m_CurTok == '('){
+    if (m_CurTok == '(') {
         getNextToken();
         auto expr = std::move(ParseA());
-        if (m_CurTok != ')'){
+        if (m_CurTok != ')') {
             MatchError((Token) m_CurTok);
             return nullptr;
         }
         getNextToken();
         return std::move(expr);
-    }
-    else if (m_CurTok == tokenAtom) {
+    } else if (m_CurTok == tokenAtom) {
 
-        if (m_Lexer->val != '0' && m_Lexer->val != '?'){
+        if (m_Lexer->val != '0' && m_Lexer->val != '?') {
             m_Input.insert(m_Lexer->val);
         }
         auto prim = std::make_unique<AtomAST>(m_Lexer->val);
         getNextToken();
         return std::move(prim);
-    }
-    else if (m_CurTok == tokenVar) {
+    } else if (m_CurTok == tokenVar) {
         int val = m_Lexer->val;
         m_Vars.insert(m_Lexer->val);
         getNextToken();
         return std::move(ParseFRest(val));
-    }
-
-    else {
+    } else {
         ExpandError("D", (Token) m_CurTok);
         return nullptr;
     }
@@ -139,21 +126,19 @@ std::unique_ptr<NodeAST> Parser::ParseD() {
 
 // F' -> { A } | eps
 std::unique_ptr<NodeAST> Parser::ParseFRest(int var) {
-    if(m_CurTok == '{'){
+    if (m_CurTok == '{') {
         getNextToken();
         auto expr = std::move(ParseA());
-        if (m_CurTok != '}'){
+        if (m_CurTok != '}') {
             MatchError((Token) m_CurTok);
             return nullptr;
         }
         getNextToken();
         return std::make_unique<DefinitionAST>(var, std::move(expr));
-    }
-    else if (m_CurTok == tokenUnion || m_CurTok == ')' || m_CurTok == '}' || m_CurTok == tokenVar ||
-             m_CurTok == tokenEOF || m_CurTok == '(' || m_CurTok == tokenAtom || m_CurTok == tokenIter) {
+    } else if (m_CurTok == tokenUnion || m_CurTok == ')' || m_CurTok == '}' || m_CurTok == tokenVar ||
+               m_CurTok == tokenEOF || m_CurTok == '(' || m_CurTok == tokenAtom || m_CurTok == tokenIter) {
         return std::make_unique<VarAST>(var);
-    }
-    else {
+    } else {
         ExpandError("C'", (Token) m_CurTok);
         return nullptr;
     }
