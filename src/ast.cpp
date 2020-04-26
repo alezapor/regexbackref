@@ -9,6 +9,7 @@ void AtomAST::print() {
     std::cout << "{ Atom: " << (char) m_Val << " }";
 }
 
+
 void AtomAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::set<char> & vars, int start, int end) {
     std::vector<std::string> readSymbols;
     std::vector<tapesOperations> operations;
@@ -49,47 +50,6 @@ void AtomAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, st
     else {
         for (int j = 0; j < readSymbols.size(); j++)
             if (readSymbols[j].size() == tapes.size()+1) tm->addTransition(start,readSymbols[j],end,operations[j]);
-    }
-}
-
-void AtomAST::constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> &tapes, std::set<char> & vars, int start, int end) {
-    std::vector<std::string> readSymbols;
-    std::vector<std::vector<ShiftType>> operations;
-    std::set<char> input = automaton->getInput();
-    input.insert(automaton->getMStartSymbol());
-    input.insert(automaton->getMEndSymbol());
-    if (automaton->getInput().find(this->m_Val) != automaton->getInput().end()) {
-        std::string s0;
-        std::vector<ShiftType> s1;
-        s0.push_back((char) this->m_Val);
-        s1.push_back(right); // replace with a blank symbol and shift to the left
-        readSymbols.push_back(s0);
-        operations.push_back(s1);
-    }
-    else {      //eps-transition for the input tape
-        TWFA::epsilonTransitionHelper(readSymbols, operations, noShift, input);
-    }
-
-    for (int i = 1; i < automaton->getMVarSize()*3+2; i++) { // transition for each tape from 1...|tapes|
-        if (i == 1 && automaton->getInput().find(this->m_Val) != automaton->getInput().end()) { // main counter
-            TWFA::epsilonTransitionHelper(readSymbols, operations, right, input);
-        }
-
-        else if (automaton->getInput().find(this->m_Val) != automaton->getInput().end()
-                            && i % 3 == 0 && tapes[i/3-1]){ //counter for ith head
-            TWFA::epsilonTransitionHelper(readSymbols, operations, right, input);
-        }
-        else TWFA::epsilonTransitionHelper(readSymbols, operations, noShift, input);
-    }
-    if (this->m_Val == '0') {
-        int p = automaton->getMStateCnt();
-        automaton->incStateCnt();
-        for (int j = 0; j < readSymbols.size(); j++)
-            if (readSymbols[j].size() == 3*automaton->getMVarSize()+2) automaton->addTransition(start,readSymbols[j],p,operations[j]);
-    }
-    else {
-        for (int j = 0; j < readSymbols.size(); j++)
-            if (readSymbols[j].size() == 3*automaton->getMVarSize()+2) automaton->addTransition(start,readSymbols[j],end,operations[j]);
     }
 }
 
@@ -166,11 +126,6 @@ void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes,std:
 
 }
 
-void VarAST::constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> &tapes, std::set<char> &vars, int start,
-                         int end) {
-
-}
-
 void UnionAST::print() {
     std::cout << "{ Union(+), left:";
     m_LHS->print();
@@ -210,38 +165,6 @@ void UnionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, s
 
 }
 
-void UnionAST::constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> &tapes, std::set<char> &vars, int start,
-                           int end) {
-    std::set<char> input = automaton->getInput();
-    input.insert(automaton->getMEndSymbol());
-    input.insert(automaton->getMStartSymbol());
-
-    std::vector<std::string> readSymbols;
-    std::vector<std::vector<ShiftType>> operations;
-    for (int i = 0; i < automaton->getMVarSize()*3+2; i++) {
-        TWFA::epsilonTransitionHelper(readSymbols, operations, noShift, input);
-    }
-    int startLeft = automaton->getMStateCnt();
-    automaton->incStateCnt();
-    int startRight= automaton->getMStateCnt();
-    automaton->incStateCnt();
-    int endLeft = automaton->getMStateCnt();
-    automaton->incStateCnt();
-    int endRight= automaton->getMStateCnt();
-    automaton->incStateCnt();
-
-    for (int j = 0; j < readSymbols.size(); j++) {
-        if (readSymbols[j].size() == 3*automaton->getMVarSize()+2) {
-            automaton->addTransition(start, readSymbols[j], startLeft, operations[j]);
-            automaton->addTransition(start, readSymbols[j], startRight, operations[j]);
-            automaton->addTransition(endLeft, readSymbols[j], end, operations[j]);
-            automaton->addTransition(endRight, readSymbols[j], end, operations[j]);
-        }
-    }
-    m_LHS->constructTW(automaton, tapes, vars, startLeft, endLeft);
-    m_RHS->constructTW(automaton, tapes, vars, startRight, endRight);
-
-}
 
 void ConcatenationAST::print() {
     std::cout << "{ Concatenation(.), left:";
@@ -283,40 +206,6 @@ void ConcatenationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &
     m_RHS->constructTM(tm, tapes, vars, startRight, endRight);
 }
 
-void ConcatenationAST::constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> &tapes, std::set<char> &vars,
-                                   int start, int end) {
-    std::set<char> input = automaton->getInput();
-    input.insert(automaton->getMEndSymbol());
-    input.insert(automaton->getMStartSymbol());
-
-    std::vector<std::string> readSymbols;
-    std::vector<std::vector<ShiftType>> operations;
-    for (int i = 0; i < automaton->getMVarSize()*3+2; i++) {
-        TWFA::epsilonTransitionHelper(readSymbols, operations, noShift, input);
-    }
-    int startLeft = automaton->getMStateCnt();
-    automaton->incStateCnt();
-    int startRight= automaton->getMStateCnt();
-    automaton->incStateCnt();
-    int mid= automaton->getMStateCnt();
-    automaton->incStateCnt();
-    int endLeft = automaton->getMStateCnt();
-    automaton->incStateCnt();
-    int endRight= automaton->getMStateCnt();
-    automaton->incStateCnt();
-
-    for (int j = 0; j < readSymbols.size(); j++) {
-        if (readSymbols[j].size() == 3*automaton->getMVarSize()+2) {
-            automaton->addTransition(start, readSymbols[j], startLeft, operations[j]);
-            automaton->addTransition(endLeft, readSymbols[j], mid, operations[j]);
-            automaton->addTransition(mid, readSymbols[j], startRight, operations[j]);
-            automaton->addTransition(endRight, readSymbols[j], end, operations[j]);
-        }
-    }
-    m_LHS->constructTW(automaton, tapes, vars, startLeft, endLeft);
-    m_RHS->constructTW(automaton, tapes, vars, startRight, endRight);
-}
-
 void IterationAST::print() {
     std::cout << "{ Iteration(*), expr:";
     m_Expr->print();
@@ -347,35 +236,6 @@ void IterationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tape
     }
 
     m_Expr->constructTM(tm, tapes, vars, startInner, endInner);
-}
-
-void
-IterationAST::constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> &tapes, std::set<char> &vars, int start,
-                          int end) {
-    std::set<char> input = automaton->getInput();
-    input.insert(automaton->getMEndSymbol());
-    input.insert(automaton->getMStartSymbol());
-
-    std::vector<std::string> readSymbols;
-    std::vector<std::vector<ShiftType>> operations;
-    for (int i = 0; i < automaton->getMVarSize()*3+2; i++) {
-        TWFA::epsilonTransitionHelper(readSymbols, operations, noShift, input);
-    }
-    int startInner = automaton->getMStateCnt();
-    automaton->incStateCnt();
-    int endInner= automaton->getMStateCnt();
-    automaton->incStateCnt();
-
-
-    for (int j = 0; j < readSymbols.size(); j++) {
-        if (readSymbols[j].size() == 3*automaton->getMVarSize()+2) {
-            automaton->addTransition(start, readSymbols[j], startInner, operations[j]);
-            automaton->addTransition(endInner, readSymbols[j], end, operations[j]);
-            automaton->addTransition(start, readSymbols[j], end, operations[j]);
-            automaton->addTransition(endInner, readSymbols[j], startInner, operations[j]);
-        }
-    }
-    m_Expr->constructTW(automaton, tapes, vars, startInner, endInner);
 }
 
 void DefinitionAST::print() {
@@ -438,11 +298,6 @@ void DefinitionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tap
     tapes[tapePos-1] = false;
 }
 
-void
-DefinitionAST::constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> &tapes, std::set<char> &vars, int start,
-                           int end) {
-
-}
 
 
 

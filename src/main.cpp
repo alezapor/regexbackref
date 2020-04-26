@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include "parser.h"
-#include "twoway.h"
 #include "matcher.h"
 
 int main(int argc, char * argv[]) {
@@ -20,11 +19,6 @@ int main(int argc, char * argv[]) {
     matcher->match("aacaaccbbbcbbbc");
     matcher->match("aacaaccbbcbbbc");
 
-    /*std::shared_ptr<TWFA> automaton = std::make_shared<TWFA>();
-    std::shared_ptr<Matcher> matcherTW = std::make_shared<Matcher>(std::move(parser), automaton);
-    matcherTW->match("a");
-    matcherTW->match("aacaaccbbbcbbbc");
-    matcherTW->match("aacaaccbbcbbbc");*/
     is.close();
     return 0;
 

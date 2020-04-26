@@ -4,7 +4,9 @@
 
 #include "automaton.h"
 
-Automaton::Automaton() : m_InitialState(0), m_FinalState(1), m_StateCnt(2), m_CurState(0){}
+Automaton::Automaton() : m_InitialState(0), m_StateCnt(2), m_CurState(0){
+    m_FinalStates.insert(1);
+}
 
 
 Automaton::Automaton(const Automaton & automaton) {
@@ -12,7 +14,7 @@ Automaton::Automaton(const Automaton & automaton) {
     this->m_CurState = automaton.m_CurState;
     this->m_StateCnt = automaton.m_StateCnt;
     this->m_Input = automaton.m_Input;
-    this->m_FinalState = automaton.m_FinalState;
+    this->m_FinalStates = automaton.m_FinalStates;
 }
 
 int Automaton::getMInitialState() const {
@@ -23,12 +25,8 @@ void Automaton::setMInitialState(int mInitialState) {
     m_InitialState = mInitialState;
 }
 
-int Automaton::getMFinalState() const {
-    return m_FinalState;
-}
-
-void Automaton::setMFinalState(int mFinalState) {
-    m_FinalState = mFinalState;
+void Automaton::addMFinalState(int mFinalState) {
+    m_FinalStates.insert(mFinalState);
 }
 
 int Automaton::getMCurState() const {
@@ -59,10 +57,6 @@ void Automaton::incStateCnt() {
     m_StateCnt++;
 }
 
-int Automaton::getMVarSize() const {
-    return m_VarSize;
-}
-
-void Automaton::setMVarSize(int mVarSize) {
-    m_VarSize = mVarSize;
+const std::set<int> &Automaton::getMFinalStates() const {
+    return m_FinalStates;
 }

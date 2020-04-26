@@ -7,7 +7,6 @@
 
 #include <string>
 #include <memory>
-#include <vector>
 
 /**
  * An enumeration that describes shift direction
@@ -20,7 +19,7 @@ enum ShiftType {
 
 
 /**
- * A class that simulates a tape of automaton
+ * A class that simulates a tape of an NDTM
  */
 class Tape {
 public:
@@ -30,14 +29,14 @@ public:
      * @param mHead an initial position of the tape head
      * @param mBlank a blank symbol
      */
-    Tape(int mLength, char mBlank = 'B');
+    explicit Tape(int mLength, int mHead = 0, char mBlank = 'B');
 
     /**
      * A constructor that creates a tape which contains a string
      * @param s the string to initialize the tape with
      * @param mHead an initial position of the tape
      */
-    Tape(std::string s="");
+    Tape(std::string s, int mHead = 0);
 
     /**
      * A copy constructor
@@ -48,40 +47,6 @@ public:
     const std::string &getMCells() const;
 
     void setMCells(std::string mCells);
-
-protected:
-/**
- * A sequence of cells
- */
-std::string m_Cells;
-};
-
-
-/**
- * A class that simulates a tape of a multitape NDTM
- */
-class OneHeadTape : public Tape{
-public:
-    /**
-  * A constructor that creates an empty tape with one head
-  * @param mLength a length of the tape
-  * @param mHead an initial position of the tape head
-  * @param mBlank a blank symbol
-  */
-    OneHeadTape(int mLength, int mHead = 0, char mBlank = 'B');
-
-    /**
-     * A constructor that creates a tape which contains a string
-     * @param s the string to initialize the tape with
-     * @param mHead an initial position of the tape
-     */
-    OneHeadTape(std::string s, int mHead = 0);
-
-    /**
-    * A copy constructor
-    * @param tape a tape to copy
-    */
-    OneHeadTape(const OneHeadTape & tape);
 
     int getMHead() const;
 
@@ -106,76 +71,22 @@ public:
     void moveHead(ShiftType shiftType);
 
     bool isEmpty(char blank = 'B');
-
     /**
      * A member function that creates a replica of the tape
      * @return a copy of the tape
      */
-    std::shared_ptr<OneHeadTape> clone();
+    std::shared_ptr<Tape> clone();
 
 private:
     /**
-    * A tape head location
-    */
+     * A sequence of cells
+     */
+    std::string m_Cells;
+
+    /**
+     * A tape head location
+     */
     int m_Head;
-
-};
-
-/**
- * A class that simulates a tape of a multitape NDTM
- */
-class MultiHeadTape : public Tape{
-public:
-    /**
-  * A constructor that creates an empty tape with N heads
-  * @param mLength a length of the tape
-  * @param mHeadNum a number of heads
-  * @param mBlank a blank symbol
-  */
-    MultiHeadTape(int mLength, int mHeadNum = 1, char mBlank = 'B');
-
-    /**
-     * A constructor that creates a read-only tape which contains a string
-     * @param s the string to initialize the tape with
-     * @param mHeadNum a number of heads
-     */
-    MultiHeadTape(std::string s, int mHeadNum = 1);
-
-    /**
-    * A copy constructor
-    * @param tape a tape to copy
-    */
-    MultiHeadTape(const MultiHeadTape & tape);
-
-    std::vector<int> getMHeads() const;
-
-    void setMHeads(std::vector<int> mHeads);
-
-    /**
-     * A member function that returns the symbols scanned by the heads
-     * @return a string scanned by the heads
-     */
-    std::string readSymbols() const;
-
-
-    /**
-     * A member function that moves the tape heads
-     * @param shiftTypes a vector of types of shift operation
-     */
-    void moveHeads(std::vector<ShiftType> shiftTypes);
-
-    /**
-     * A member function that creates a replica of the tape
-     * @return a copy of the tape
-     */
-    std::shared_ptr<MultiHeadTape> clone();
-
-private:
-    /**
-    * A tape head location
-    */
-    std::vector<int> m_Heads;
-
 };
 
 

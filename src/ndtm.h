@@ -53,7 +53,7 @@ public:
      * and other tapes with blank symbols
      * @param t A pointer to the tape that contains an input string
      */
-    void loadTapes(std::shared_ptr<OneHeadTape> t);
+    void loadTapes(std::shared_ptr<Tape> t);
 
     /**
      * A member function that reads symbols which are located on tape head of each tape
@@ -95,7 +95,7 @@ public:
      * @param i the index of the tape
      * @return the ith tape
      */
-    std::shared_ptr<OneHeadTape> getTape(int i);
+    std::shared_ptr<Tape> getTape(int i);
 
     bool checkCycle();
 
@@ -119,6 +119,9 @@ public:
     */
     static void epsilonTransitionHelper(std::vector<std::string> & readSymbols, std::vector<tapesOperations> & operations,
                                         ShiftType shiftType, const std::set<char> & alphabet, char insertSymbol = 'E');
+    int getMTapeCnt() const;
+
+    void setMTapeCnt(int mTapeCnt);
 
 private:
 
@@ -135,7 +138,7 @@ private:
     /**
      * A vector of tapes.
      */
-    std::vector<std::shared_ptr<OneHeadTape>> m_Tapes;
+    std::vector<std::shared_ptr<Tape>> m_Tapes;
 
     /**
      * A transition function Q \ F  x (I U {B})^k -> 2^(Q x ((I U {B}) x {L, N, R})^k).

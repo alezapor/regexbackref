@@ -8,6 +8,7 @@
 
 #include <string>
 #include <set>
+#include <vector>
 
 class Automaton {
 public:
@@ -32,9 +33,9 @@ public:
 
     void setMInitialState(int mInitialState);
 
-    int getMFinalState() const;
+    void addMFinalState(int mFinalState);
 
-    void setMFinalState(int mFinalState);
+    const std::set<int> &getMFinalStates() const;
 
     int getMCurState() const;
 
@@ -57,10 +58,6 @@ public:
 
     void incStateCnt();
 
-    int getMVarSize() const;
-
-    void setMVarSize(int mVarSize);
-
     /**
      * A member function that prints the automaton definition
      */
@@ -76,9 +73,9 @@ protected:
     int m_InitialState;
 
     /**
-     * A final state (f ∈ F). We use only automata with one final state.
+     * A set of final states (F)
      */
-    int m_FinalState;
+    std::set<int> m_FinalStates;
 
     /**
      * A current state of an automaton.
@@ -94,12 +91,6 @@ protected:
      * A set of input symbols (I).
      */
     std::set<char> m_Input;
-
-    /**
-    * Size of a viable set
-    */
-    int m_VarSize;
-
 
 };
 

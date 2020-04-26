@@ -20,18 +20,19 @@ NDTM::NDTM(const NDTM & tm) : Automaton(tm){
     }
 }
 
-void NDTM::loadTapes(std::shared_ptr<OneHeadTape> t) {
+void NDTM::loadTapes(std::shared_ptr<Tape> t) {
     m_CurState = m_InitialState;
     std::vector<int> pos;
     m_ConfigurationsMemory.resize(m_StateCnt, std::make_pair("", pos));
     for (auto it = m_ConfigurationsMemory.begin(); it != m_ConfigurationsMemory.end(); it++){
         it->first = "";
     }
+    int size = m_Tapes.size();
     m_Tapes.erase(m_Tapes.begin(), m_Tapes.end());
     m_Tapes.emplace_back(t);
 
-    for (int i = 0 ; i < m_VarSize; i++){
-        m_Tapes.push_back(std::make_shared<OneHeadTape>(t->getMCells().size(), 1));
+    for (int i = 1 ; i < size; i++){
+        m_Tapes.push_back(std::make_shared<Tape>(t->getMCells().size(), 1));
     }
 }
 
@@ -61,22 +62,20 @@ bool NDTM::accepts() {
     std::vector<std::string> readSymbols;
     readSymbols.push_back(this->readSymbols());
     auto trans =  m_Transitions[std::make_pair(m_CurState, this->readSymbols())];
-    if (m_ConfigurationsMemory[m_CurState].first != "" && this->checkCycle()){
-        return false;
-    }
+    if (this->checkCycle()) return false;
     for (int i = 0; i < trans.size(); i++){
         auto tm = this->clone();
         tm->execTransition(trans[i]);
         if (tm->accepts()) return true;
     }
-    return m_Tapes[0]->isEmpty() && m_CurState == m_FinalState;
+    return m_Tapes[0]->isEmpty() && m_FinalStates.find(m_CurState)!=m_FinalStates.end();
 }
 
 std::shared_ptr<NDTM> NDTM::clone() {
     return std::make_shared<NDTM>(*this);
 }
 
-std::shared_ptr<OneHeadTape> NDTM::getTape(int i)  {
+std::shared_ptr<Tape> NDTM::getTape(int i)  {
     return m_Tapes[i];
 }
 
@@ -95,7 +94,9 @@ void NDTM::print() {
     std::cout << "},B,{" << *m_Input.begin();
     for (auto it = ++m_Input.begin(); it != m_Input.end(); it++) std::cout << "," << *it;
 
-    std::cout << "},f,0,{" << m_FinalState << "})" << std::endl;
+    std::cout << "},f,0,{" << *m_FinalStates.begin();
+    for (auto it = ++m_FinalStates.begin(); it != m_FinalStates.end(); it++) std::cout << "," << *it;
+    std::cout << "})" << std::endl;
 
     std::cout << "Transition function f:" << std::endl;
     for (auto it = m_Transitions.begin(); it != m_Transitions.end(); it++){
@@ -118,20 +119,25 @@ void NDTM::print() {
 }
 
 void NDTM::initialize(std::string input) {
-    std::shared_ptr<OneHeadTape> tape = std::make_shared<OneHeadTape>("B"+input+"B", 1);
+    std::shared_ptr<Tape> tape = std::make_shared<Tape>("B"+input+"B", 1);
     this->loadTapes(std::move(tape));
 }
 
 bool NDTM::checkCycle() {
     std::string s = "";
     std::vector<int> pos;
-    bool hasCycle = true;
-    for (int i = 0; i < m_StateCnt; i++){
+    for (int i = 0; i < m_Tapes.size(); i++){
         s += getTape(i)->getMCells();
         pos.push_back(getTape(i)->getMHead());
-        if (m_ConfigurationsMemory[m_CurState].second[i] != getTape(i)->getMHead()) hasCycle = false;
     }
-    if (m_ConfigurationsMemory[m_CurState].first == s && hasCycle) return true;
+
+    if (!m_ConfigurationsMemory[m_CurState].first.empty()){
+        bool hasCycle = true;
+        for (int i = 0; i < m_Tapes.size(); i++){
+            if (m_ConfigurationsMemory[m_CurState].second[i] != getTape(i)->getMHead()) hasCycle = false;
+        }
+        if(m_ConfigurationsMemory[m_CurState].first == s && hasCycle) return true;
+    }
     m_ConfigurationsMemory[m_CurState].first = s;
     m_ConfigurationsMemory[m_CurState].second = pos;
     return false;
@@ -164,6 +170,11 @@ void NDTM::epsilonTransitionHelper(std::vector<std::string> &readSymbols, std::v
             if (i % size == size - 1) it++;
         }
     }
+}
+
+
+void NDTM::setMTapeCnt(int mTapeCnt) {
+    m_Tapes.resize(mTapeCnt, std::make_shared<Tape>("BB"));
 }
 
 

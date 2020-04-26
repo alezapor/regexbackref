@@ -7,7 +7,6 @@
 
 #include <memory>
 #include "ndtm.h"
-#include "twoway.h"
 
 /**
  * A base class for all nodes
@@ -19,10 +18,13 @@ public:
     /**
      * A virtual function that adds a transition to the NDTM corresponding the type of the node
      * @param tm A pointer to the NDTM
-     * @param tapes A set of singals that indicate whether to write on the ith tape
+     * @param tapes A set of signals that indicate whether to write on the ith tape
+     * @param start An initial state for a node (q_{start})
+     * @param end An accepting state for a node (q_{end})
+     * @param vars A set of variables of the regex
+     *
      */
     virtual void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end) = 0;
-    virtual void constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> & tapes, std::set<char> & vars, int start, int end) = 0;
 
 };
 
@@ -38,7 +40,6 @@ public:
     AtomAST(int val) : m_Val(val) {}
     void print();
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
-    void constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
 
 /**
@@ -53,7 +54,6 @@ public:
     VarAST(int val) : m_Name(val) {}
     void print();
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
-    void constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
 
 /**
@@ -74,7 +74,7 @@ public:
             : m_LHS(std::move(LHS)), m_RHS(std::move(RHS)) {}
     void print();
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
-    void constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
+
 };
 
 /**
@@ -95,20 +95,21 @@ public:
             : m_LHS(std::move(LHS)), m_RHS(std::move(RHS)) {}
     void print();
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
-    void constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
 
 /**
  * A class for iteration
  */
 class IterationAST : public NodeAST {
+    /**
+     * The inner expression
+     */
     std::shared_ptr<NodeAST> m_Expr;
 public:
     IterationAST(std::shared_ptr<NodeAST> expr)
             : m_Expr(std::move(expr)) {}
     void print();
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
-    void constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
 
 
@@ -126,7 +127,6 @@ public:
             : m_Expr(std::move(expr)), m_Var(var) {}
     void print();
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
-    void constructTW(std::shared_ptr<TWFA> automaton, std::vector<bool> & tapes, std::set<char> & vars, int start, int end);
 };
 
 
