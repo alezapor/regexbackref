@@ -64,10 +64,23 @@ void VarAST::print() {
 
 void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                          int end, bool withAvd) {
-    if (withAvd && memory[m_Name] == 0) {
+    if (withAvd && noDefBefore) {
         std::shared_ptr<AtomAST> undefined = std::make_shared<AtomAST>('?');
         undefined->constructTM(tm, tapes, memory, start, end, withAvd);
     } else {
+        if (withAvd && memory[m_Name] == 0){
+            std::vector<bool> free;
+            free.resize(tapes.size(), true);
+            for (auto it = memory.begin(); it != memory.end(); it++) {
+                if (it->second != 0) free[it->second - 1] = false;
+            }
+            for (int i = 0; i < tapes.size(); i++) {
+                if (free[i]) {
+                    memory[m_Name] = i + 1;
+                    break;
+                }
+            }
+        }
         int p = tm->getMStateCnt();
         tm->incStateCnt();
         int q = tm->getMStateCnt();
@@ -493,4 +506,8 @@ void NodeAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::
 
 void NodeAST::setLastRefDef(bool lastRefDef) {
     NodeAST::lastRefDef = lastRefDef;
+}
+
+void NodeAST::setNoDefBefore(bool noDefBefore) {
+    NodeAST::noDefBefore = noDefBefore;
 }

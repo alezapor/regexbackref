@@ -60,6 +60,7 @@ std::shared_ptr<AvdFA> AvdFA::constructR0(int state, char var) {
         }
         else R0->m_Transitions[std::make_pair(it->first.first, it->first.second)] = states;
     }
+    R0->print();
     return std::move(R0);
 }
 
@@ -80,13 +81,14 @@ std::shared_ptr<AvdFA> AvdFA::constructR1(int state, char var) {
         }
         else if (it->first.second == s1) {
             R1->m_Transitions[std::make_pair(it->first.first, it->first.second)] = states;
-            R1->m_Transitions[std::make_pair(it->first.first+m_StateCnt, it->first.second)] = states;
         }
         else {
             R1->m_Transitions[std::make_pair(it->first.first, "E")] = it->second;
             R1->m_Transitions[std::make_pair(it->first.first+m_StateCnt, "E")] = states;
         }
-    }
+        R1->m_Transitions[std::make_pair(it->first.first+m_StateCnt, it->first.second)] = states;
+    };
+    R1->print();
     return std::move(R1);
 }
 
@@ -95,7 +97,7 @@ void AvdFA::print() {
 
     for (int i = 1; i < m_StateCnt; i++) std::cout << "," << i;
 
-    std::cout << "},E,f,0,{" << *m_FinalStates.begin();
+    std::cout << "},E,f," << m_InitialState <<",{" << *m_FinalStates.begin();
     for (auto it = ++m_FinalStates.begin(); it != m_FinalStates.end(); it++) std::cout << "," << *it;
     std::cout << "})" << std::endl;
 

@@ -32,6 +32,8 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
         for (auto it = avd.begin(); it != avd.end(); it++) {
             int avdState = 0;
             for (auto it1 = m_Parser->getVars().begin(); it1 != m_Parser->getVars().end(); it1++) {
+                std::cout << avdFA->constructR0(*it, *it1)->accepts() << std::endl;
+                std::cout << avdFA->constructR1(*it, *it1)->accepts() << std::endl;
                 if (avdFA->constructR0(*it, *it1)->accepts() && avdFA->constructR1(*it, *it1)->accepts()) {
                     avdState++;
                 }
@@ -40,12 +42,17 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
         }
 
         /*
-         * last references
+         * last references + no def before ref
          */
         for (auto it = last.begin(); it != last.end(); it++) {
             if (!avdFA->constructR1(it->first, it->second->getVar())->accepts()) {
                 it->second->setLastRefDef(true);
                 std::cout << "\n LAST:";
+                it->second->print();
+            }
+            if (!avdFA->constructR0(it->first, it->second->getVar())->accepts()) {
+                it->second->setNoDefBefore(true);
+                std::cout << "\nNODEF:";
                 it->second->print();
             }
         }

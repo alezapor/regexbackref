@@ -37,8 +37,12 @@ public:
 
     void setLastRefDef(bool lastRefDef);
 
+    void setNoDefBefore(bool noDefBefore);
+
 protected:
     bool lastRefDef;
+
+    bool noDefBefore;
 
 };
 

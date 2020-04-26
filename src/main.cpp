@@ -15,10 +15,8 @@ int main(int argc, char *argv[]) {
     std::shared_ptr<Parser> parser = std::make_shared<Parser>(&is);
     std::shared_ptr<NDTM> tm = std::make_shared<NDTM>();
     std::shared_ptr<Matcher> matcher = std::make_shared<Matcher>(std::move(parser), tm, true);
-    matcher->match("acac");
-    matcher->match("acaca");
-    matcher->match("aacaaccbbbcbbbc");
-    matcher->match("aacaaccbbcbbbc");
+    matcher->match("cabaabacbb"); //yes
+    matcher->match("cabcaa"); //no
 
     is.close();
     return 0;
