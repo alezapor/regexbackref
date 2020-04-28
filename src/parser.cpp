@@ -4,7 +4,7 @@
 
 #include "parser.h"
 
-Parser::Parser(std::fstream *is) : m_Lexer(std::make_unique<Lexer>(is)) {
+Parser::Parser(std::istringstream *is) : m_Lexer(std::make_unique<Lexer>(is)) {
 
 }
 

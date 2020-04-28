@@ -8,6 +8,7 @@
 
 #include <memory>
 #include <algorithm>
+#include <sstream>
 #include <iostream>
 #include "lexer.h"
 #include "ast.h"
@@ -41,7 +42,7 @@ public:
      * A constructor
      * @param is a file stream that contains a regular expression to be parsed
      */
-    Parser(std::fstream *is);
+    Parser(std::istringstream *is);
 
     std::set<char> &getInput();
 

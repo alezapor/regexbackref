@@ -7,7 +7,7 @@
 
 #include <cstdio>
 #include <string>
-#include <fstream>
+#include <sstream>
 
 /**
  * An enumeration that represents token types of a lexer
@@ -29,12 +29,11 @@ enum Token {
  */
 class Lexer {
 public:
-    Lexer(std::fstream * is) {this->is = is;}
+    Lexer(std::istringstream * is) {this->is = is;}
 
-    int val;                     // Filled in if tokenLetter/tokenNumber
-    int numVal;                   // Filled in if tokenBackreference
+    int val;
     int getTok();
-    std::fstream * is;
+    std::istringstream * is;
 };
 
 

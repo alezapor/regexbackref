@@ -60,7 +60,6 @@ std::shared_ptr<AvdFA> AvdFA::constructR0(int state, char var) {
         }
         else R0->m_Transitions[std::make_pair(it->first.first, it->first.second)] = states;
     }
-    R0->print();
     return std::move(R0);
 }
 
@@ -88,7 +87,6 @@ std::shared_ptr<AvdFA> AvdFA::constructR1(int state, char var) {
         }
         R1->m_Transitions[std::make_pair(it->first.first+m_StateCnt, it->first.second)] = states;
     };
-    R1->print();
     return std::move(R1);
 }
 

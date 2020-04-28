@@ -16,7 +16,7 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
 
 
     m_Root = std::move(m_Parser->ParseA());
-    m_Root->print();
+    //m_Root->print();
     if (withAvd) {
         int avdmax = 0;
         /*
@@ -27,13 +27,11 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
         std::shared_ptr<AvdFA> avdFA = std::make_shared<AvdFA>();
         m_Root->constructAvdFA(avdFA, last, avd, avdFA->getMInitialState(), *avdFA->getMFinalStates().begin(), false);
 
-        avdFA->print();
+        //avdFA->print();
 
         for (auto it = avd.begin(); it != avd.end(); it++) {
             int avdState = 0;
             for (auto it1 = m_Parser->getVars().begin(); it1 != m_Parser->getVars().end(); it1++) {
-                std::cout << avdFA->constructR0(*it, *it1)->accepts() << std::endl;
-                std::cout << avdFA->constructR1(*it, *it1)->accepts() << std::endl;
                 if (avdFA->constructR0(*it, *it1)->accepts() && avdFA->constructR1(*it, *it1)->accepts()) {
                     avdState++;
                 }
@@ -47,17 +45,17 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
         for (auto it = last.begin(); it != last.end(); it++) {
             if (!avdFA->constructR1(it->first, it->second->getVar())->accepts()) {
                 it->second->setLastRefDef(true);
-                std::cout << "\n LAST:";
-                it->second->print();
+                //std::cout << "\n LAST:";
+                //it->second->print();
             }
             if (!avdFA->constructR0(it->first, it->second->getVar())->accepts()) {
                 it->second->setNoDefBefore(true);
-                std::cout << "\nNODEF:";
-                it->second->print();
+                //std::cout << "\nNODEF:";
+                //it->second->print();
             }
         }
 
-        std::cout << "\nAvd for the regex is " << avdmax << std::endl;
+        //std::cout << "\nAvd for the regex is " << avdmax << std::endl;
 
         tapes.resize(avdmax, false);
 
@@ -69,7 +67,7 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
 
         m_Root->constructTM(m_Simulator, tapes, memory, m_Simulator->getMInitialState(),
                             *m_Simulator->getMFinalStates().begin(), true);
-        m_Simulator->print();
+        //m_Simulator->print();
     } else {
         tapes.resize(m_Parser->getVars().size(), false);
 
@@ -82,7 +80,7 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
 
         m_Root->constructTM(m_Simulator, tapes, memory, m_Simulator->getMInitialState(),
                             *m_Simulator->getMFinalStates().begin());
-        m_Simulator->print();
+        //m_Simulator->print();
     }
 
 }
@@ -90,10 +88,5 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
 
 bool Matcher::match(std::string w) {
     m_Simulator->initialize(w);
-    if (m_Simulator->accepts()) {
-        std::cout << "'" << w << "' is ACCEPTED" << std::endl;
-        return true;
-    }
-    std::cout << "'" << w << "' is NOT ACCEPTED" << std::endl;
-    return false;
+    return m_Simulator->accepts();
 }
