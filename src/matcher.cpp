@@ -23,7 +23,7 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
          * avd
          */
         std::vector<int> avd;
-        std::vector<std::pair<int, NodeAST *>> last;
+        std::vector<std::pair<int, VarAST *>> last;
         std::shared_ptr<AvdFA> avdFA = std::make_shared<AvdFA>();
         m_Root->constructAvdFA(avdFA, last, avd, avdFA->getMInitialState(), *avdFA->getMFinalStates().begin(), false);
 

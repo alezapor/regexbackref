@@ -9,6 +9,8 @@
 #include "ndtm.h"
 #include "avdfa.h"
 
+class VarAST;
+
 /**
  * A base class for all nodes
  */
@@ -30,19 +32,10 @@ public:
     virtual void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                              int end, bool withAvd = false) = 0;
 
-    virtual void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+    virtual void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST*>> &last,
                                 std::vector<int> &avd, int in, int out, bool underDefinition = false);
 
     virtual int getVar() const { return 0; }
-
-    void setLastRefDef(bool lastRefDef);
-
-    void setNoDefBefore(bool noDefBefore);
-
-protected:
-    bool lastRefDef;
-
-    bool noDefBefore;
 
 };
 
@@ -55,38 +48,59 @@ class AtomAST : public NodeAST {
      */
     int m_Val;
 public:
-    AtomAST(int val) : m_Val(val) { setLastRefDef(false); }
+    AtomAST(int val) : m_Val(val) {  }
 
     void print();
 
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                         std::vector<int> &avd, int in, int out, bool underDefinition = false);
 
 };
 
 /**
- * A class for backreferences
+ * A class for variable
  */
 class VarAST : public NodeAST {
+protected:
     /**
      * A variable name
      */
-    int m_Name;
+    int m_Var;
+
+    bool lastRefDef;
+
+    bool noDefBefore;
+
 public:
-    VarAST(int val) : m_Name(val) { setLastRefDef(false); }
+    VarAST(int val) : m_Var(val) { lastRefDef = false; noDefBefore = false;}
+
+    int getVar() const;
+
+    void setLastRefDef(bool lastRefDef);
+
+    void setNoDefBefore(bool noDefBefore);
+};
+
+
+/**
+ * A class for backreferences
+ */
+class BackRefAST : public VarAST {
+
+public:
+    BackRefAST(int val) : VarAST(val) { }
 
     void print();
 
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                         std::vector<int> &avd, int in, int out, bool underDefinition = false);
 
-    int getVar() const;
 };
 
 /**
@@ -104,14 +118,14 @@ class UnionAST : public NodeAST {
 public:
     UnionAST(std::shared_ptr<NodeAST> LHS,
              std::shared_ptr<NodeAST> RHS)
-            : m_LHS(std::move(LHS)), m_RHS(std::move(RHS)) { setLastRefDef(false); }
+            : m_LHS(std::move(LHS)), m_RHS(std::move(RHS)) {}
 
     void print();
 
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                         std::vector<int> &avd, int in, int out, bool underDefinition = false);
 };
 
@@ -130,14 +144,14 @@ class ConcatenationAST : public NodeAST {
 public:
     ConcatenationAST(std::shared_ptr<NodeAST> LHS,
                      std::shared_ptr<NodeAST> RHS)
-            : m_LHS(std::move(LHS)), m_RHS(std::move(RHS)) { setLastRefDef(false); }
+            : m_LHS(std::move(LHS)), m_RHS(std::move(RHS)) {}
 
     void print();
 
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                         std::vector<int> &avd, int in, int out, bool underDefinition = false);
 };
 
@@ -151,14 +165,14 @@ class IterationAST : public NodeAST {
     std::shared_ptr<NodeAST> m_Expr;
 public:
     IterationAST(std::shared_ptr<NodeAST> expr)
-            : m_Expr(std::move(expr)) { setLastRefDef(false); }
+            : m_Expr(std::move(expr)) {}
 
     void print();
 
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                         std::vector<int> &avd, int in, int out, bool underDefinition = false);
 };
 
@@ -166,25 +180,22 @@ public:
 /**
  * A class for definition
  */
-class DefinitionAST : public NodeAST {
+class DefinitionAST : public VarAST {
     std::shared_ptr<NodeAST> m_Expr;
-    /**
-    * A variable name
-    */
-    int m_Var;
+
+
 public:
     DefinitionAST(int var, std::shared_ptr<NodeAST> expr)
-            : m_Expr(std::move(expr)), m_Var(var) { setLastRefDef(false); }
+            : VarAST(var), m_Expr(std::move(expr)) { }
 
     void print();
 
     void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                         std::vector<int> &avd, int in, int out, bool underDefinition = false);
 
-    int getVar() const;
 };
 
 

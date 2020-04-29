@@ -137,7 +137,7 @@ std::unique_ptr<NodeAST> Parser::ParseFRest(int var) {
         return std::make_unique<DefinitionAST>(var, std::move(expr));
     } else if (m_CurTok == tokenUnion || m_CurTok == ')' || m_CurTok == '}' || m_CurTok == tokenVar ||
                m_CurTok == tokenEOF || m_CurTok == '(' || m_CurTok == tokenAtom || m_CurTok == tokenIter) {
-        return std::make_unique<VarAST>(var);
+        return std::make_unique<BackRefAST>(var);
     } else {
         ExpandError("C'", (Token) m_CurTok);
         return nullptr;

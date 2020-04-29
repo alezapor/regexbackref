@@ -49,7 +49,7 @@ void AtomAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, st
     }
 }
 
-void AtomAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+void AtomAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                              std::vector<int> &avd, int in, int out, bool underDefinition) {
     NodeAST::constructAvdFA(automaton, last, avd, in, out, underDefinition);
     std::string s0;
@@ -58,17 +58,17 @@ void AtomAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::
 }
 
 
-void VarAST::print() {
-    std::cout << "{ Backref: " << (char) m_Name << " }";
+void BackRefAST::print() {
+    std::cout << "{ Backref: " << (char) m_Var << " }";
 }
 
-void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+void BackRefAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                          int end, bool withAvd) {
     if (withAvd && noDefBefore) {
         std::shared_ptr<AtomAST> undefined = std::make_shared<AtomAST>('?');
         undefined->constructTM(tm, tapes, memory, start, end, withAvd);
     } else {
-        if (withAvd && memory[m_Name] == 0){
+        if (withAvd && memory[m_Var] == 0){
             std::vector<bool> free;
             free.resize(tapes.size(), true);
             for (auto it = memory.begin(); it != memory.end(); it++) {
@@ -76,7 +76,7 @@ void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std
             }
             for (int i = 0; i < tapes.size(); i++) {
                 if (free[i]) {
-                    memory[m_Name] = i + 1;
+                    memory[m_Var] = i + 1;
                     break;
                 }
             }
@@ -93,7 +93,7 @@ void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std
         std::vector<tapesOperations> operations, operations1, operations2;
 
         for (int i = 0; i <= tapes.size(); i++) {
-            if (i == memory[m_Name]) NDTM::epsilonTransitionHelper(readSymbols, operations, left, tm->getInput());
+            if (i == memory[m_Var]) NDTM::epsilonTransitionHelper(readSymbols, operations, left, tm->getInput());
             else NDTM::epsilonTransitionHelper(readSymbols, operations, noShift, input);
         }
         for (int j = 0; j < readSymbols.size(); j++) {
@@ -101,7 +101,7 @@ void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std
         }
 
         for (int i = 0; i <= tapes.size(); i++) {
-            if (i == memory[m_Name]) {
+            if (i == memory[m_Var]) {
                 for (int j = 0; j < readSymbols1.size(); j++) {
                     readSymbols1[j].push_back('B');
                     operations1[j].emplace_back(std::make_pair('B', left));
@@ -115,12 +115,12 @@ void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std
 
 
         for (int j = 0; j < readSymbols1.size(); j++) {
-            operations1[j][memory[m_Name]].second = right;
+            operations1[j][memory[m_Var]].second = right;
             if (readSymbols1[j].size() == tapes.size() + 1) tm->addTransition(p, readSymbols1[j], q, operations1[j]);
         }
 
         for (int j = 0; j < readSymbols1.size(); j++) {
-            operations1[j][memory[m_Name]].second = noShift;
+            operations1[j][memory[m_Var]].second = noShift;
             if (readSymbols1[j].size() == tapes.size() + 1) {
                 if (withAvd && lastRefDef) {
                     tm->addTransition(q, readSymbols1[j], tm->getMStateCnt(), operations1[j]);
@@ -138,7 +138,7 @@ void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std
         }
 
         for (int i = 1; i <= tapes.size(); i++) {
-            if (i == memory[m_Name]) {
+            if (i == memory[m_Var]) {
                 for (int j = 0; j < readSymbols2.size(); j++) {
                     readSymbols2[j].push_back(readSymbols2[j][0]);
                     operations2[j].emplace_back(std::make_pair(readSymbols2[j][0], right)); // <z, z, 1>
@@ -164,7 +164,7 @@ void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std
         std::vector<tapesOperations> operations1, operations2;
 
         for (int i = 0; i <= tapes.size(); i++) {
-            if (i == memory[m_Name]) {
+            if (i == memory[m_Var]) {
                 for (int j = 0; j < readSymbols1.size(); j++) {
                     readSymbols1[j].push_back('B');
                     operations1[j].emplace_back(std::make_pair('B', left));
@@ -177,13 +177,13 @@ void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std
         }
 
         for (int j = 0; j < readSymbols1.size(); j++) {
-            operations1[j][memory[m_Name]].second = right;
+            operations1[j][memory[m_Var]].second = right;
             if (readSymbols1[j].size() == tapes.size() + 1)
                 tm->addTransition(s, readSymbols1[j], end, operations1[j]);
         }
 
         for (int i = 0; i <= tapes.size(); i++) {
-            if (i == memory[m_Name])
+            if (i == memory[m_Var])
                 NDTM::epsilonTransitionHelper(readSymbols2, operations2, left, tm->getInput(), 'B');
             else NDTM::epsilonTransitionHelper(readSymbols2, operations2, noShift, input);
         }
@@ -194,17 +194,17 @@ void VarAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std
     }
 }
 
-void VarAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+void BackRefAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                             std::vector<int> &avd, int in, int out, bool underDefinition) {
     NodeAST::constructAvdFA(automaton, last, avd, in, out, underDefinition);
     std::string s0;
-    s0.push_back(m_Name);
+    s0.push_back(m_Var);
     automaton->addTransition(in, s0, out);
     last.emplace_back(std::make_pair(out, this));
 }
 
 int VarAST::getVar() const {
-    return m_Name;
+    return m_Var;
 }
 
 void UnionAST::print() {
@@ -247,7 +247,7 @@ void UnionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, s
 
 }
 
-void UnionAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+void UnionAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                               std::vector<int> &avd, int in, int out, bool underDefinition) {
     NodeAST::constructAvdFA(automaton, last, avd, in, out, underDefinition);
     int inLeft = automaton->getMStateCnt();
@@ -311,7 +311,7 @@ void ConcatenationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &
 }
 
 void
-ConcatenationAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+ConcatenationAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                                  std::vector<int> &avd, int in, int out, bool underDefinition) {
     NodeAST::constructAvdFA(automaton, last, avd, in, out, underDefinition);
     int inLeft = automaton->getMStateCnt();
@@ -367,7 +367,7 @@ IterationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, st
     m_Expr->constructTM(tm, tapes, memory, startInner, endInner, withAvd);
 }
 
-void IterationAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+void IterationAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                                   std::vector<int> &avd, int in, int out, bool underDefinition) {
     NodeAST::constructAvdFA(automaton, last, avd, in, out, underDefinition);
     int inInner = automaton->getMStateCnt();
@@ -471,7 +471,7 @@ DefinitionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, s
 
 }
 
-void DefinitionAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+void DefinitionAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                                    std::vector<int> &avd, int in, int out, bool underDefinition) {
     NodeAST::constructAvdFA(automaton, last, avd, in, out, underDefinition);
 
@@ -494,20 +494,18 @@ void DefinitionAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector
     m_Expr->constructAvdFA(automaton, last, avd, inInner, outInner, true);
 }
 
-int DefinitionAST::getVar() const {
-    return m_Var;
-}
 
 
-void NodeAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, NodeAST *>> &last,
+void NodeAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
                              std::vector<int> &avd, int in, int out, bool underDefinition) {
     if (underDefinition) avd.push_back(in);
 }
 
-void NodeAST::setLastRefDef(bool lastRefDef) {
-    NodeAST::lastRefDef = lastRefDef;
+void VarAST::setLastRefDef(bool lastRefDef) {
+    this->lastRefDef = lastRefDef;
 }
 
-void NodeAST::setNoDefBefore(bool noDefBefore) {
-    NodeAST::noDefBefore = noDefBefore;
+
+void VarAST::setNoDefBefore(bool noDefBefore) {
+    this->noDefBefore = noDefBefore;
 }
