@@ -18,13 +18,16 @@ int main(int argc, char *argv[]) {
         parser = std::make_shared<Parser>(&is);
         std::shared_ptr<NDTM> tm = std::make_shared<NDTM>();
         std::shared_ptr<Matcher> matcher = std::make_shared<Matcher>(std::move(parser), tm, true);
-        std::cout << argv[3] << (matcher->match(argv[3])? " matches ": " does not match ") << argv[2] << std::endl;
+        //std::cout << argv[3] << (matcher->match(argv[3])? " matches ": " does not match ") << argv[2] << std::endl;
+        std::cout << (matcher->match(argv[3])? "yes": "no") << std::endl;
     } else if (argc == 3) {
         is.str(argv[1]);
         parser = std::make_shared<Parser>(&is);
         std::shared_ptr<NDTM> tm = std::make_shared<NDTM>();
         std::shared_ptr<Matcher> matcher = std::make_shared<Matcher>(std::move(parser), tm, false);
-        std::cout << argv[2] << (matcher->match(argv[2])? " matches ": " does not match ") << argv[1] << std::endl;
+        //std::cout << argv[2] << (matcher->match(argv[2])? " matches ": " does not match ") << argv[1] << std::endl;
+        std::cout << (matcher->match(argv[2])? "yes": "no") << std::endl;
+
     } else {
         printf("Usage %s [-] <regex> <word>\n Use - for avdTM algorithm\n", argv[0]);
         exit(1);

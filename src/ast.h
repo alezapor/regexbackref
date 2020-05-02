@@ -35,8 +35,6 @@ public:
     virtual void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST*>> &last,
                                 std::vector<int> &avd, int in, int out, bool underDefinition = false);
 
-    virtual int getVar() const { return 0; }
-
 };
 
 /**
