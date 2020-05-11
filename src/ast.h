@@ -72,10 +72,14 @@ protected:
 
     bool noDefBefore;
 
+    std::set<int> activeVars;
+
 public:
     VarAST(int val) : m_Var(val) { lastRefDef = false; noDefBefore = false;}
 
     int getVar() const;
+
+    void setAcviteVars(std::set<int> vars){activeVars=vars;}
 
     void setLastRefDef(bool lastRefDef);
 

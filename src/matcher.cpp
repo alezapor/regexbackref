@@ -28,12 +28,13 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
         m_Root->constructAvdFA(avdFA, last, avd, avdFA->getMInitialState(), *avdFA->getMFinalStates().begin(), false);
 
         //avdFA->print();
-
         for (auto it = avd.begin(); it != avd.end(); it++) {
             int avdState = 0;
+            std::vector<char> avs;
             for (auto it1 = m_Parser->getVars().begin(); it1 != m_Parser->getVars().end(); it1++) {
                 if (avdFA->constructR0(*it, *it1)->accepts() && avdFA->constructR1(*it, *it1)->accepts()) {
                     avdState++;
+                    avs.push_back(*it1);
                 }
             }
             if (avdState > avdmax) avdmax = avdState;
@@ -43,6 +44,14 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
          * last references + no def before ref
          */
         for (auto it = last.begin(); it != last.end(); it++) {
+            std::set<int> avs;
+            for (auto it1 = m_Parser->getVars().begin(); it1 != m_Parser->getVars().end(); it1++) {
+                if (avdFA->constructR0(it->first, *it1)->accepts() && avdFA->constructR1(it->first, *it1)->accepts()) {
+                    avs.insert(*it1);
+                }
+            }
+            it->second->setAcviteVars(avs);
+
             if (!avdFA->constructR1(it->first, it->second->getVar())->accepts()) {
                 it->second->setLastRefDef(true);
                 //std::cout << "\n LAST:";
@@ -58,10 +67,8 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton
         //std::cout << "\nAvd for the regex is " << avdmax << std::endl;
 
         tapes.resize(avdmax, false);
-
-        for (auto it = m_Parser->getVars().begin(); it != m_Parser->getVars().end(); it++) {
-            memory[*it] = 0;
-        }
+        for (auto it1 = m_Parser->getVars().begin(); it1 != m_Parser->getVars().end(); it1++)
+                memory[*it1]=0;
         m_Simulator->setMTapeCnt(avdmax + 1);
         m_Simulator->setInput(m_Parser->getInput());
 

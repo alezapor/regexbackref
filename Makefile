@@ -47,7 +47,7 @@ objs:
 	mkdir objs
 	
 clean:
-	rm -rf $(PROGRAM) objs/ doc/ 2>/dev/null
+	rm -rf $(PROGRAM) objs/ tests/out/* doc/ 2>/dev/null 
 
 
 

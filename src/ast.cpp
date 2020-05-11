@@ -71,8 +71,10 @@ void BackRefAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes,
         if (withAvd && memory[m_Var] == 0){
             std::vector<bool> free;
             free.resize(tapes.size(), true);
-            for (auto it = memory.begin(); it != memory.end(); it++) {
-                if (it->second != 0) free[it->second - 1] = false;
+            for (auto it1 = memory.begin(); it1 != memory.end(); it1++) {
+                if (it1->second != 0 &&
+                    activeVars.find(it1->first)!=activeVars.end())
+                    free[it1->second - 1] = false;
             }
             for (int i = 0; i < tapes.size(); i++) {
                 if (free[i]) {
@@ -150,6 +152,7 @@ void BackRefAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes,
         }
     }
 
+
     if (withAvd && lastRefDef) {
         int r = tm->getMStateCnt();
         tm->incStateCnt();
@@ -191,6 +194,7 @@ void BackRefAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes,
             if (readSymbols2[j].size() == tapes.size() + 1)
                 tm->addTransition(s, readSymbols2[j], s, operations2[j]);
         }
+        memory[m_Var]=0;
     }
 }
 
@@ -396,11 +400,13 @@ DefinitionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, s
     if (withAvd && this->lastRefDef) {
         m_Expr->constructTM(tm, tapes, memory, start, end, withAvd);
     } else {
-        if (withAvd && memory[m_Var] == 0) {
+        if (withAvd && memory[m_Var] == 0){
             std::vector<bool> free;
             free.resize(tapes.size(), true);
-            for (auto it = memory.begin(); it != memory.end(); it++) {
-                if (it->second != 0) free[it->second - 1] = false;
+            for (auto it1 = memory.begin(); it1 != memory.end(); it1++) {
+                if (it1->second != 0 &&
+                    activeVars.find(it1->first)!=activeVars.end())
+                    free[it1->second - 1] = false;
             }
             for (int i = 0; i < tapes.size(); i++) {
                 if (free[i]) {
@@ -409,64 +415,59 @@ DefinitionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, s
                 }
             }
         }
-        if (!withAvd) {
-            int startInner = tm->getMStateCnt();
-            tm->incStateCnt();
-            int endInner = tm->getMStateCnt();
-            tm->incStateCnt();
-            int p = tm->getMStateCnt();
-            tm->incStateCnt();
+                int startInner = tm->getMStateCnt();
+                tm->incStateCnt();
+                int endInner = tm->getMStateCnt();
+                tm->incStateCnt();
+                int p = tm->getMStateCnt();
+                tm->incStateCnt();
 
-            std::set<char> input = tm->getInput();
-            input.insert('B');
+                std::set<char> input = tm->getInput();
+                input.insert('B');
 
-            std::vector<std::string> readSymbols, readSymbols1, readSymbols2;
-            std::vector<tapesOperations> operations, operations1, operations2;
-            for (int i = 0; i <= tapes.size(); i++) {
-                NDTM::epsilonTransitionHelper(readSymbols, operations, noShift, input);
-            }
-            for (int j = 0; j < readSymbols.size(); j++) {
-                if (readSymbols[j].size() == tapes.size() + 1)
-                    tm->addTransition(endInner, readSymbols[j], end, operations[j]);
-            }
+                std::vector<std::string> readSymbols, readSymbols1, readSymbols2;
+                std::vector<tapesOperations> operations, operations1, operations2;
+                for (int i = 0; i <= tapes.size(); i++) {
+                    NDTM::epsilonTransitionHelper(readSymbols, operations, noShift, input);
+                }
+                for (int j = 0; j < readSymbols.size(); j++) {
+                    if (readSymbols[j].size() == tapes.size() + 1)
+                        tm->addTransition(endInner, readSymbols[j], end, operations[j]);
+                }
 
 
-            for (int i = 0; i <= tapes.size(); i++) {
-                if (i == memory[m_Var]) {
-                    for (int j = 0; j < readSymbols1.size(); j++) {
-                        readSymbols1[j].push_back('B');
-                        operations1[j].emplace_back(std::make_pair('B', left));
-                    }
-                } else NDTM::epsilonTransitionHelper(readSymbols1, operations1, noShift, input);
-            }
-            for (int j = 0; j < readSymbols1.size(); j++) {
-                if (readSymbols1[j].size() == tapes.size() + 1)
-                    tm->addTransition(start, readSymbols1[j], p, operations1[j]);
-            }
+                for (int i = 0; i <= tapes.size(); i++) {
+                    if (i == memory[m_Var]) {
+                        for (int j = 0; j < readSymbols1.size(); j++) {
+                            readSymbols1[j].push_back('B');
+                            operations1[j].emplace_back(std::make_pair('B', left));
+                        }
+                    } else NDTM::epsilonTransitionHelper(readSymbols1, operations1, noShift, input);
+                }
+                for (int j = 0; j < readSymbols1.size(); j++) {
+                    if (readSymbols1[j].size() == tapes.size() + 1)
+                        tm->addTransition(start, readSymbols1[j], p, operations1[j]);
+                }
 
-            for (int j = 0; j < readSymbols1.size(); j++) {
-                operations1[j][memory[m_Var]].second = right;
-                if (readSymbols1[j].size() == tapes.size() + 1)
-                    tm->addTransition(p, readSymbols1[j], startInner, operations1[j]);
-            }
+                for (int j = 0; j < readSymbols1.size(); j++) {
+                    operations1[j][memory[m_Var]].second = right;
+                    if (readSymbols1[j].size() == tapes.size() + 1)
+                        tm->addTransition(p, readSymbols1[j], startInner, operations1[j]);
+                }
 
-            for (int i = 0; i <= tapes.size(); i++) {
-                if (i == memory[m_Var])
-                    NDTM::epsilonTransitionHelper(readSymbols2, operations2, left, tm->getInput(), 'B');
-                else NDTM::epsilonTransitionHelper(readSymbols2, operations2, noShift, input);
-            }
-            for (int j = 0; j < readSymbols2.size(); j++) {
-                if (readSymbols2[j].size() == tapes.size() + 1)
-                    tm->addTransition(p, readSymbols2[j], p, operations2[j]);
-            }
-            tapes[memory[m_Var] - 1] = true;
-            m_Expr->constructTM(tm, tapes, memory, startInner, endInner, withAvd);
-            tapes[memory[m_Var] - 1] = false;
-        } else {
-            tapes[memory[m_Var] - 1] = true;
-            m_Expr->constructTM(tm, tapes, memory, start, end, withAvd);
-            tapes[memory[m_Var] - 1] = false;
-        }
+                for (int i = 0; i <= tapes.size(); i++) {
+                    if (i == memory[m_Var])
+                        NDTM::epsilonTransitionHelper(readSymbols2, operations2, left, tm->getInput(), 'B');
+                    else NDTM::epsilonTransitionHelper(readSymbols2, operations2, noShift, input);
+                }
+                for (int j = 0; j < readSymbols2.size(); j++) {
+                    if (readSymbols2[j].size() == tapes.size() + 1)
+                        tm->addTransition(p, readSymbols2[j], p, operations2[j]);
+                }
+                tapes[memory[m_Var] - 1] = true;
+                m_Expr->constructTM(tm, tapes, memory, startInner, endInner, withAvd);
+                tapes[memory[m_Var] - 1] = false;
+
     }
 
 }

@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
         std::cout << (matcher->match(argv[2])? "yes": "no") << std::endl;
 
     } else {
-        printf("Usage %s [-] <regex> <word>\n Use - for avdTM algorithm\n", argv[0]);
+        printf("Usage %s [-] <regex> <word>\n Use - for the avdTM algorithm\n", argv[0]);
         exit(1);
     }
 
