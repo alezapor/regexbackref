@@ -29,7 +29,7 @@ public:
      * @param vars A set of variables of the regex
      *
      */
-    virtual void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    virtual void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                              int end, bool withAvd = false) = 0;
 
     virtual void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST*>> &last,
@@ -50,7 +50,7 @@ public:
 
     void print();
 
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
     void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
@@ -97,7 +97,7 @@ public:
 
     void print();
 
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
     void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
@@ -124,7 +124,7 @@ public:
 
     void print();
 
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
     void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
@@ -150,7 +150,7 @@ public:
 
     void print();
 
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
     void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
@@ -171,7 +171,7 @@ public:
 
     void print();
 
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
     void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
@@ -192,7 +192,7 @@ public:
 
     void print();
 
-    void constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end, bool withAvd = false);
 
     void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,

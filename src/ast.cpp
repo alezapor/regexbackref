@@ -7,7 +7,7 @@ void AtomAST::print() {
 }
 
 
-void AtomAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+void AtomAST::constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                           int end, bool withAvd) {
     std::vector<std::string> readSymbols;
     std::vector<tapesOperations> operations;
@@ -62,7 +62,7 @@ void BackRefAST::print() {
     std::cout << "{ Backref: " << (char) m_Var << " }";
 }
 
-void BackRefAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+void BackRefAST::constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                          int end, bool withAvd) {
     if (withAvd && noDefBefore) {
         std::shared_ptr<AtomAST> undefined = std::make_shared<AtomAST>('?');
@@ -219,7 +219,7 @@ void UnionAST::print() {
     std::cout << " }";
 }
 
-void UnionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+void UnionAST::constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                            int end, bool withAvd) {
     std::set<char> input = tm->getInput();
     input.insert('B');
@@ -262,10 +262,10 @@ void UnionAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std:
     automaton->incStateCnt();
     int outRight = automaton->getMStateCnt();
     automaton->incStateCnt();
-    automaton->addTransition(in, "E", inLeft);
-    automaton->addTransition(in, "E", inRight);
-    automaton->addTransition(outLeft, "E", out);
-    automaton->addTransition(outRight, "E", out);
+    automaton->addTransition(in, "?", inLeft);
+    automaton->addTransition(in, "?", inRight);
+    automaton->addTransition(outLeft, "?", out);
+    automaton->addTransition(outRight, "?", out);
 
     m_LHS->constructAvdFA(automaton, last, avd, inLeft, outLeft);
     m_RHS->constructAvdFA(automaton, last, avd, inRight, outRight);
@@ -280,7 +280,7 @@ void ConcatenationAST::print() {
     std::cout << " }";
 }
 
-void ConcatenationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory,
+void ConcatenationAST::constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory,
                                    int start,
                                    int end, bool withAvd) {
     std::set<char> input = tm->getInput();
@@ -328,10 +328,10 @@ ConcatenationAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<s
     automaton->incStateCnt();
     int mid = automaton->getMStateCnt();
     automaton->incStateCnt();
-    automaton->addTransition(in, "E", inLeft);
-    automaton->addTransition(mid, "E", inRight);
-    automaton->addTransition(outLeft, "E", mid);
-    automaton->addTransition(outRight, "E", out);
+    automaton->addTransition(in, "?", inLeft);
+    automaton->addTransition(mid, "?", inRight);
+    automaton->addTransition(outLeft, "?", mid);
+    automaton->addTransition(outRight, "?", out);
 
     m_LHS->constructAvdFA(automaton, last, avd, inLeft, outLeft);
     m_RHS->constructAvdFA(automaton, last, avd, inRight, outRight);
@@ -344,7 +344,7 @@ void IterationAST::print() {
 }
 
 void
-IterationAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+IterationAST::constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                           int end, bool withAvd) {
     std::set<char> input = tm->getInput();
     input.insert('B');
@@ -379,10 +379,10 @@ void IterationAST::constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<
     int outInner = automaton->getMStateCnt();
     automaton->incStateCnt();
 
-    automaton->addTransition(in, "E", inInner);
-    automaton->addTransition(in, "E", out);
-    automaton->addTransition(out, "E", in);
-    automaton->addTransition(outInner, "E", out);
+    automaton->addTransition(in, "?", inInner);
+    automaton->addTransition(in, "?", out);
+    automaton->addTransition(out, "?", in);
+    automaton->addTransition(outInner, "?", out);
 
     m_Expr->constructAvdFA(automaton, last, avd, inInner, outInner);
 }
@@ -394,7 +394,7 @@ void DefinitionAST::print() {
 }
 
 void
-DefinitionAST::constructTM(std::shared_ptr<NDTM> tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+DefinitionAST::constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                            int end, bool withAvd) {
 
     if (withAvd && this->lastRefDef) {

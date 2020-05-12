@@ -23,7 +23,7 @@ public:
      */
     Automaton(const Automaton & automaton);
 
-    /**
+    virtual /**
      * A member function that initializes the the automaton to simulate for input string
      * @param input an input string
      */

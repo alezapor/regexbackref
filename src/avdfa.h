@@ -19,6 +19,7 @@ struct comp1 {
     }
 };
 
+
 /**
  * An object of this class simulates a helping finite automaton used for commputing avd of a regex
  */
@@ -79,8 +80,10 @@ public:
      */
     void print();
 
+    const std::map<std::pair<int, std::string>, std::vector<int>, comp1> &getMTransitions() const;
 
-private:
+
+protected:
     /**
      * A transition function
      */
@@ -89,5 +92,27 @@ private:
 
 };
 
+class MemoryAutomaton : public Automaton {
+public:
+    MemoryAutomaton(const std::map<std::pair<int, std::string>,
+            std::vector<int>, comp1> & trans, const Automaton & a);
+    MemoryAutomaton(const MemoryAutomaton & automaton);
+    bool accepts();
+    void initialize(std::string input);
+    void execTransition(std::string s, int state);
+    std::shared_ptr<MemoryAutomaton> getClone();
+    void print();
+    bool checkCycle();
+private:
+    std::string m_Tape;
+    int m_Pos;
+    std::map<int, std::pair<bool, std::string>> m_Memory;
+    std::vector<std::vector<std::pair<std::string, int>>> m_Transitions;
+
+    /**
+     * A memory of tapes states for each state -> used to avoid infinite cycle
+     */
+    std::vector<std::pair<int, std::vector<std::string>>> m_ConfigurationsMemory;
+};
 
 #endif //REGEX_MATCHER_AVDFA_H

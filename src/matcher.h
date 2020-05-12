@@ -13,13 +13,13 @@ class Matcher {
 public:
     Matcher();
 
-    Matcher(std::shared_ptr<Parser> parser, std::shared_ptr<NDTM> automaton, bool withAvd = false);
+    Matcher(std::shared_ptr<Parser> parser, bool withAvd = false);
 
     bool match(std::string w);
 
 private:
     std::shared_ptr<Parser> m_Parser;
-    std::shared_ptr<NDTM> m_Simulator;
+    Automaton *  m_Simulator;
     std::unique_ptr<NodeAST> m_Root;
 };
 
