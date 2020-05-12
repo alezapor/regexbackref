@@ -32,7 +32,7 @@ typedef std::vector<std::pair<char, ShiftType>> tapesOperations;
 /**
  * A class that simulates a nondeterministic Turing machine
  */
-class NDTM : public Automaton{
+class NDTM : public Automaton<int>{
 
 public:
 

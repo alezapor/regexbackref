@@ -19,12 +19,39 @@ struct comp1 {
     }
 };
 
+template <class T=int>
+class MemoryAutomaton : public Automaton<T> {
+public:
+    MemoryAutomaton(T start, T end, int memSize, std::set<char> vars);
+    MemoryAutomaton(const MemoryAutomaton<T> & automaton);
+    bool accepts();
+    void initialize(std::string input);
+    void execTransition(std::string s, T state);
+    void addTransition(T state, std::string readSym, T newState);
+    std::shared_ptr<MemoryAutomaton> getClone();
+    void print();
+    bool checkCycle();
+    int getMemory(T state, int x);
+private:
+    std::string m_Tape;
+    std::set<T> m_States;
+    std::set<char> m_Vars;
+
+    int m_Pos;
+    std::vector<std::pair<bool, std::string>> m_Memory;
+    std::map<T, std::vector<std::pair<std::string, T>>> m_Transitions;
+
+    /**
+     * A memory of tapes states for each state -> used to avoid infinite cycle
+     */
+    std::map<T, std::pair<int, std::vector<std::string>>> m_ConfigurationsMemory;
+};
 
 /**
  * An object of this class simulates a helping finite automaton used for commputing avd of a regex
  */
 
-class AvdFA : public Automaton {
+class AvdFA : public Automaton<int> {
 
 public:
 
@@ -82,6 +109,7 @@ public:
 
     const std::map<std::pair<int, std::string>, std::vector<int>, comp1> &getMTransitions() const;
 
+    MemoryAutomaton<int>* simpleMemory (std::set<char> s);
 
 protected:
     /**
@@ -92,27 +120,5 @@ protected:
 
 };
 
-class MemoryAutomaton : public Automaton {
-public:
-    MemoryAutomaton(const std::map<std::pair<int, std::string>,
-            std::vector<int>, comp1> & trans, const Automaton & a);
-    MemoryAutomaton(const MemoryAutomaton & automaton);
-    bool accepts();
-    void initialize(std::string input);
-    void execTransition(std::string s, int state);
-    std::shared_ptr<MemoryAutomaton> getClone();
-    void print();
-    bool checkCycle();
-private:
-    std::string m_Tape;
-    int m_Pos;
-    std::map<int, std::pair<bool, std::string>> m_Memory;
-    std::vector<std::vector<std::pair<std::string, int>>> m_Transitions;
-
-    /**
-     * A memory of tapes states for each state -> used to avoid infinite cycle
-     */
-    std::vector<std::pair<int, std::vector<std::string>>> m_ConfigurationsMemory;
-};
 
 #endif //REGEX_MATCHER_AVDFA_H

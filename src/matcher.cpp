@@ -58,7 +58,7 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, bool withAvd) :
             }
         }*/
 
-        m_Simulator = new MemoryAutomaton(avdFA->getMTransitions(), *avdFA.get());
+        m_Simulator = avdFA->simpleMemory(m_Parser->getVars());
 
         /*memoryAut->print();
         memoryAut->initialize("abab");

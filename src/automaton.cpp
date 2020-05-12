@@ -4,12 +4,14 @@
 
 #include "automaton.h"
 
-Automaton::Automaton() : m_InitialState(0), m_StateCnt(2), m_CurState(0) {
-    m_FinalStates.insert(1);
+template <class T>
+Automaton<T>::Automaton(T start, T end) : m_InitialState(start), m_StateCnt(2), m_CurState(start) {
+    m_FinalStates.insert(end);
 }
 
 
-Automaton::Automaton(const Automaton &automaton) {
+template <class T>
+Automaton<T>::Automaton(const Automaton<T> &automaton) {
     this->m_InitialState = automaton.m_InitialState;
     this->m_CurState = automaton.m_CurState;
     this->m_StateCnt = automaton.m_StateCnt;
@@ -17,51 +19,65 @@ Automaton::Automaton(const Automaton &automaton) {
     this->m_FinalStates = automaton.m_FinalStates;
 }
 
-int Automaton::getMInitialState() const {
+template <class T>
+T Automaton<T>::getMInitialState() const {
     return m_InitialState;
 }
 
-void Automaton::setMInitialState(int mInitialState) {
+template <class T>
+void Automaton<T>::setMInitialState(T mInitialState) {
     m_InitialState = mInitialState;
 }
 
-void Automaton::addMFinalState(int mFinalState) {
+template <class T>
+void Automaton<T>::addMFinalState(T mFinalState) {
     m_FinalStates.insert(mFinalState);
 }
 
-int Automaton::getMCurState() const {
+template <class T>
+T Automaton<T>::Automaton::getMCurState() const {
     return m_CurState;
 }
 
-void Automaton::setMCurState(int mCurState) {
+
+template <class T>
+void Automaton<T>::setMCurState(T mCurState) {
     m_CurState = mCurState;
 }
 
-int Automaton::getMStateCnt() const {
+template <class T>
+int Automaton<T>::getMStateCnt() const {
     return m_StateCnt;
 }
 
-void Automaton::setMStateCnt(int mStateCnt) {
+template <class T>
+void Automaton<T>::setMStateCnt(int mStateCnt) {
     m_StateCnt = mStateCnt;
 }
 
-void Automaton::setInput(std::set<char> input) {
+template <class T>
+void Automaton<T>::setInput(std::set<char> input) {
     m_Input = input;
 }
 
-std::set<char> &Automaton::getInput() {
+template <class T>
+std::set<char> &Automaton<T>::getInput() {
     return m_Input;
 }
 
-void Automaton::incStateCnt() {
+template <class T>
+void Automaton<T>::incStateCnt() {
     m_StateCnt++;
 }
 
-const std::set<int> &Automaton::getMFinalStates() const {
+template <class T>
+const std::set<T> &Automaton<T>::getMFinalStates() const {
     return m_FinalStates;
 }
 
-void Automaton::removeFinalStates() {
+template <class T>
+void Automaton<T>::removeFinalStates() {
     this->m_FinalStates.erase(m_FinalStates.begin(), m_FinalStates.end());
 
 }
+template class Automaton<int>;

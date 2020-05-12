@@ -19,7 +19,7 @@ public:
 
 private:
     std::shared_ptr<Parser> m_Parser;
-    Automaton *  m_Simulator;
+    Automaton<> *  m_Simulator;
     std::unique_ptr<NodeAST> m_Root;
 };
 

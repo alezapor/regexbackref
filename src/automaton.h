@@ -10,12 +10,13 @@
 #include <set>
 #include <vector>
 
+template <class T=int>
 class Automaton {
 public:
     /**
     * A default constructor that creates a simulator of any automaton
     */
-    Automaton();
+    Automaton(T start, T end);
 
     /**
      * A copy constructor.
@@ -29,17 +30,17 @@ public:
      */
     void initialize(std::string input){}
 
-    int getMInitialState() const;
+    T getMInitialState() const;
 
-    void setMInitialState(int mInitialState);
+    void setMInitialState(T mInitialState);
 
-    void addMFinalState(int mFinalState);
+    void addMFinalState(T mFinalState);
 
-    const std::set<int> &getMFinalStates() const;
+    const std::set<T> &getMFinalStates() const;
 
-    int getMCurState() const;
+    T getMCurState() const;
 
-    void setMCurState(int mCurState);
+    void setMCurState(T mCurState);
 
     int getMStateCnt() const;
 
@@ -72,17 +73,17 @@ protected:
     /**
     * An initial state of an automaton. The initial state equals 0 by default (q0).
     */
-    int m_InitialState;
+    T m_InitialState;
 
     /**
      * A set of final states (F)
      */
-    std::set<int> m_FinalStates;
+    std::set<T> m_FinalStates;
 
     /**
      * A current state of an automaton.
      */
-    int m_CurState;
+    T m_CurState;
 
     /**
      * A state counter.

@@ -5,7 +5,7 @@
 #include <iostream>
 #include "ndtm.h"
 
-NDTM::NDTM() : Automaton(), m_Blank('B') {}
+NDTM::NDTM() : Automaton(0, 1), m_Blank('B') {}
 
 
 NDTM::NDTM(const NDTM &tm) : Automaton(tm) {
@@ -179,4 +179,4 @@ void NDTM::setMTapeCnt(int mTapeCnt) {
 }
 
 
-
+template class Automaton<int>;
