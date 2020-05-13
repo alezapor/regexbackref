@@ -30,10 +30,9 @@ public:
      *
      */
     virtual void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
-                             int end, bool withAvd = false) = 0;
+                             int end) = 0;
 
-    virtual void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST*>> &last,
-                                std::vector<int> &avd, int in, int out, bool underDefinition = false);
+    virtual void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 
 };
 
@@ -51,10 +50,9 @@ public:
     void print();
 
     void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
-                     int end, bool withAvd = false);
+                     int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
-                        std::vector<int> &avd, int in, int out, bool underDefinition = false);
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 
 };
 
@@ -68,22 +66,12 @@ protected:
      */
     int m_Var;
 
-    bool lastRefDef;
-
-    bool noDefBefore;
-
-    std::set<int> activeVars;
 
 public:
-    VarAST(int val) : m_Var(val) { lastRefDef = false; noDefBefore = false;}
+    VarAST(int val) : m_Var(val) {}
 
     int getVar() const;
 
-    void setAcviteVars(std::set<int> vars){activeVars=vars;}
-
-    void setLastRefDef(bool lastRefDef);
-
-    void setNoDefBefore(bool noDefBefore);
 };
 
 
@@ -98,10 +86,9 @@ public:
     void print();
 
     void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
-                     int end, bool withAvd = false);
+                     int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
-                        std::vector<int> &avd, int in, int out, bool underDefinition = false);
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 
 };
 
@@ -125,10 +112,9 @@ public:
     void print();
 
     void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
-                     int end, bool withAvd = false);
+                     int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
-                        std::vector<int> &avd, int in, int out, bool underDefinition = false);
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 };
 
 /**
@@ -151,10 +137,9 @@ public:
     void print();
 
     void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
-                     int end, bool withAvd = false);
+                     int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
-                        std::vector<int> &avd, int in, int out, bool underDefinition = false);
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 };
 
 /**
@@ -172,10 +157,9 @@ public:
     void print();
 
     void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
-                     int end, bool withAvd = false);
+                     int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
-                        std::vector<int> &avd, int in, int out, bool underDefinition = false);
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 };
 
 
@@ -193,10 +177,9 @@ public:
     void print();
 
     void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
-                     int end, bool withAvd = false);
+                     int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::vector<std::pair<int, VarAST *>> &last,
-                        std::vector<int> &avd, int in, int out, bool underDefinition = false);
+    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 
 };
 

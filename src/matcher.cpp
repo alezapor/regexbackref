@@ -2,79 +2,31 @@
 // Created by osboxes on 4/24/20.
 //
 
+#include <cstring>
 #include "matcher.h"
 
 Matcher::Matcher() {
 
 }
 
-Matcher::Matcher(std::shared_ptr<Parser> parser, bool withAvd) :
+Matcher::Matcher(std::shared_ptr<Parser> parser, char * option) :
         m_Parser(std::move(parser)) {
     std::vector<bool> tapes;
     std::map<char, int> memory;
+    std::set<int> avd;
     m_Parser->getNextToken();
 
 
     m_Root = std::move(m_Parser->ParseA());
-    //m_Root->print();
-    if (withAvd) {
-        int avdmax = 0;
 
-        std::vector<int> avd;
-        std::vector<std::pair<int, VarAST *>> last;
+    if (strcmp(option, "1")==0) {
         std::shared_ptr<AvdFA> avdFA = std::make_shared<AvdFA>();
-        m_Root->constructAvdFA(avdFA, last, avd, avdFA->getMInitialState(), *avdFA->getMFinalStates().begin(), false);
+        m_Root->constructAvdFA(avdFA, avd, avdFA->getMInitialState(), *avdFA->getMFinalStates().begin());
 
-        //avdFA->print();
-       /* for (auto it = avd.begin(); it != avd.end(); it++) {
-            int avdState = 0;
-            std::vector<char> avs;
-            for (auto it1 = m_Parser->getVars().begin(); it1 != m_Parser->getVars().end(); it1++) {
-                if (avdFA->constructR0(*it, *it1)->accepts() && avdFA->constructR1(*it, *it1)->accepts()) {
-                    avdState++;
-                    avs.push_back(*it1);
-                }
-            }
-            if (avdState > avdmax) avdmax = avdState;
-        }
-
-
-        for (auto it = last.begin(); it != last.end(); it++) {
-            std::set<int> avs;
-            for (auto it1 = m_Parser->getVars().begin(); it1 != m_Parser->getVars().end(); it1++) {
-                if (avdFA->constructR0(it->first, *it1)->accepts() && avdFA->constructR1(it->first, *it1)->accepts()) {
-                    avs.insert(*it1);
-                }
-            }
-            it->second->setAcviteVars(avs);
-
-            if (!avdFA->constructR1(it->first, it->second->getVar())->accepts()) {
-                it->second->setLastRefDef(true);
-
-            }
-            if (!avdFA->constructR0(it->first, it->second->getVar())->accepts()) {
-                it->second->setNoDefBefore(true);
-
-            }
-        }*/
 
         m_Simulator = avdFA->simpleMemory(m_Parser->getVars());
 
-        /*memoryAut->print();
-        memoryAut->initialize("abab");
-        if (memoryAut->accepts()) std::cout << "+" <<std::endl;
-
-
-        tapes.resize(avdmax, false);
-        for (auto it1 = m_Parser->getVars().begin(); it1 != m_Parser->getVars().end(); it1++)
-                memory[*it1]=0;
-        m_Simulator->setMTapeCnt(avdmax + 1);
-        m_Simulator->setInput(m_Parser->getInput());
-
-        m_Root->constructTM(m_Simulator, tapes, memory, m_Simulator->getMInitialState(),
-                            *m_Simulator->getMFinalStates().begin(), true);*/
-        //m_Simulator->print();
-    } else {
+    } else if (strcmp(option, "0") == 0) {
         tapes.resize(m_Parser->getVars().size(), false);
 
         for (auto it = m_Parser->getVars().begin(); it != m_Parser->getVars().end(); it++) {
@@ -86,13 +38,37 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, bool withAvd) :
         m_Root->constructTM(tm, tapes, memory, tm->getMInitialState(),
                             *tm->getMFinalStates().begin());
         m_Simulator = tm;
-        //m_Simulator->print();
     }
+    else if (strcmp(option, "2") == 0){
+        int avdmax = 0;
+        std::shared_ptr<AvdFA> avdFA = std::make_shared<AvdFA>();
+        m_Root->constructAvdFA(avdFA, avd, avdFA->getMInitialState(), *avdFA->getMFinalStates().begin());
 
-}
+        for (auto it = avd.begin(); it != avd.end(); it++) {
+             int avdState = 0;
+             std::vector<char> avs;
+             for (auto it1 = m_Parser->getVars().begin(); it1 != m_Parser->getVars().end(); it1++) {
+                 if (avdFA->constructR0(*it, *it1)->accepts() && avdFA->constructR1(*it, *it1)->accepts()) {
+                     avdState++;
+                     avs.push_back(*it1);
+                 }
+             }
+             if (avdState > avdmax) avdmax = avdState;
+         }
+
+        m_Simulator = avdFA->avdMemory(m_Parser->getVars(), avdmax);
+        //m_Simulator->print();
 
 
-bool Matcher::match(std::string w) {
-    m_Simulator->initialize(w);
-    return m_Simulator->accepts();
-}
+     }  else {
+         printf("Usage ./regex_matcher <option> <regex> <word>\n <option>: use 0 for the simpleTM, 1 for simpleMemory and 2 for avdMemory algorithm\n");
+         exit(1);
+     }
+
+ }
+
+
+ bool Matcher::match(std::string w) {
+     m_Simulator->initialize(w);
+     return m_Simulator->accepts();
+ }

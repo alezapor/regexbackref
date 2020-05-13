@@ -29,6 +29,7 @@ public:
     void execTransition(std::string s, T state);
     void addTransition(T state, std::string readSym, T newState);
     std::shared_ptr<MemoryAutomaton> getClone();
+    bool addState(T state);
     void print();
     bool checkCycle();
     int getMemory(T state, int x);
@@ -110,6 +111,8 @@ public:
     const std::map<std::pair<int, std::string>, std::vector<int>, comp1> &getMTransitions() const;
 
     MemoryAutomaton<int>* simpleMemory (std::set<char> s);
+
+    MemoryAutomaton<MemoryState>* avdMemory (std::set<char> s, int avd);
 
 protected:
     /**

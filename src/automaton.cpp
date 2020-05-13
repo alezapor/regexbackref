@@ -81,3 +81,4 @@ void Automaton<T>::removeFinalStates() {
 
 }
 template class Automaton<int>;
+template class Automaton<MemoryState>;

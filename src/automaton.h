@@ -9,9 +9,17 @@
 #include <string>
 #include <set>
 #include <vector>
+#include "memorystate.h"
+
+class BaseAutomaton {
+public:
+   virtual void initialize(std::string input) = 0;
+   virtual bool accepts() = 0;
+   virtual void print() = 0;
+};
 
 template <class T=int>
-class Automaton {
+class Automaton : public BaseAutomaton {
 public:
     /**
     * A default constructor that creates a simulator of any automaton

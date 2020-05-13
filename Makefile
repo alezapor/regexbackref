@@ -13,13 +13,16 @@ compile: $(PROGRAM)
 doc: src/ast.cpp src/ast.h src/automaton.cpp src/automaton.h src/avdfa.cpp src/avdfa.h src/lexer.cpp src/lexer.h src/main.cpp src/matcher.cpp src/matcher.h src/ndtm.cpp src/ndtm.h src/parser.cpp src/parser.h src/tape.cpp src/tape.h	
 	doxygen Doxyfile
 
-$(PROGRAM): objs/main.o objs/matcher.o objs/parser.o objs/ast.o objs/ndtm.o objs/avdfa.o objs/tape.o objs/automaton.o objs/lexer.o
+$(PROGRAM): objs/main.o objs/matcher.o objs/parser.o objs/ast.o objs/ndtm.o objs/avdfa.o objs/tape.o objs/automaton.o objs/lexer.o objs/memorystate.o
 	$(CC) $(CFLAGS) $^ -o $@
+
+objs/memorystate.o: src/memorystate.cpp src/memorystate.h |objs
+	$(CC) $(CFLAGS) -c $< -o $@
 
 objs/lexer.o: src/lexer.cpp src/lexer.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-objs/automaton.o: src/automaton.cpp src/automaton.h | objs
+objs/automaton.o: src/automaton.cpp src/automaton.h src/memorystate.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
 objs/tape.o: src/tape.cpp src/tape.h | objs
@@ -42,6 +45,7 @@ objs/matcher.o: src/matcher.cpp src/matcher.h src/parser.h | objs
 
 objs/main.o: src/main.cpp src/matcher.h src/parser.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
+
 
 objs: 
 	mkdir objs

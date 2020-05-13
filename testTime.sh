@@ -2,6 +2,7 @@
 TIMEFORMAT=%R
 timeSimple=0
 timeAvd=0
+timeAvd2=0
 timeGrep=0
 timePerl=0
 testFile="tests/$1.in"
@@ -20,13 +21,17 @@ then
 		line1P=$(cat "$testPerl"  | tail -n +$((2*i+1)) | head -n 1)
 		line2P=$(cat "$testPerl"  | tail -n +$((2*i+2)) | head -n 1) 
 
-		testTime=$( { time { ./regexmatcher "$line1" "$line2"; } } 2>&1 1>\dev\null ) 
-		echo "Test $i passed simple, real time $testTime"
+		testTime=$( { time { ./regexmatcher 0 "$line1" "$line2"; } } 2>&1 1>\dev\null ) 
+		echo "Test $i passed simpleTM, real time $testTime"
 		timeSimple=$(echo "$timeSimple+$testTime" | bc)
 
-		testTime=$( { time { ./regexmatcher - "$line1" "$line2"; } } 2>&1 1>\dev\null ) 
-		echo "Test $i passed avd, real time $testTime"
+		testTime=$( { time { ./regexmatcher 1 "$line1" "$line2"; } } 2>&1 1>\dev\null ) 
+		echo "Test $i passed simpleMemory, real time $testTime"
 		timeAvd=$(echo "$timeAvd+$testTime" | bc)
+
+		testTime=$( { time { ./regexmatcher 2 "$line1" "$line2"; } } 2>&1 1>\dev\null ) 
+		echo "Test $i passed avdMemory, real time $testTime"
+		timeAvd2=$(echo "$timeAvd2+$testTime" | bc)
 
 		testTime=$( { time { echo "$line2G" | grep -E -w "$line1G" > /dev/null; } } 2>&1 1>\dev\null ) 
 		echo "Test $i passed grep, real time $testTime"
@@ -36,8 +41,9 @@ then
 		echo "Test $i passed perl, real time $testTime"
 		timePerl=$(echo "$timePerl+$testTime" | bc)
 	done
-	echo "All tests from $1 passed simple, real time: $timeSimple"
-	echo "All tests from $1 passed avd, real time: $timeAvd"
+	echo "All tests from $1 passed simpleTM, real time: $timeSimple"
+	echo "All tests from $1 passed simpleMemory, real time: $timeAvd"
+	echo "All tests from $1 passed avdMemory, real time: $timeAvd2"
 	echo "All tests from $1 passed grep, real time: $timeGrep"
 	echo "All tests from $1 passed perl, real time: $timePerl"
 else
