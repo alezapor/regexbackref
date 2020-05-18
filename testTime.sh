@@ -20,10 +20,10 @@ then
 		line2G=$(cat "$testGrep" | tail -n +$((2*i+2)) | head -n 1) 
 		line1P=$(cat "$testPerl"  | tail -n +$((2*i+1)) | head -n 1)
 		line2P=$(cat "$testPerl"  | tail -n +$((2*i+2)) | head -n 1) 
-
-		testTime=$( { time { ./regexmatcher 0 "$line1" "$line2"; } } 2>&1 1>\dev\null ) 
-		echo "Test $i passed simpleTM, real time $testTime"
-		timeSimple=$(echo "$timeSimple+$testTime" | bc)
+		#uncomment for testing simpleTM
+		#testTime=$( { time { ./regexmatcher 0 "$line1" "$line2"; } } 2>&1 1>\dev\null ) 
+		#echo "Test $i passed simpleTM, real time $testTime"
+		#timeSimple=$(echo "$timeSimple+$testTime" | bc)
 
 		testTime=$( { time { ./regexmatcher 1 "$line1" "$line2"; } } 2>&1 1>\dev\null ) 
 		echo "Test $i passed simpleMemory, real time $testTime"

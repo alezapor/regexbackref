@@ -60,7 +60,10 @@ std::shared_ptr<AvdFA> AvdFA::constructR0(int state, char var) {
         if (it->first.second != s0) {
             R0->m_Transitions[std::make_pair(it->first.first, "?")] = it->second;
             R0->m_Transitions[std::make_pair(it->first.first + m_StateCnt, "?")] = states;
-        } else R0->m_Transitions[std::make_pair(it->first.first, it->first.second)] = states;
+        } else {
+            R0->m_Transitions[std::make_pair(it->first.first, it->first.second)] = states;
+            R0->m_Transitions[std::make_pair(it->first.first + m_StateCnt, it->first.second)] = states;
+        }
     }
     return std::move(R0);
 }

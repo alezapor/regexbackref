@@ -57,7 +57,7 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, char * option) :
          }
 
         m_Simulator = avdFA->avdMemory(m_Parser->getVars(), avdmax);
-        //m_Simulator->print();
+       // m_Simulator->print();
 
 
      }  else {
