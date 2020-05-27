@@ -7,7 +7,6 @@
 | src/test.sh | skript určený pro testování správnosti implementací | 
 | src/testGrep.sh | skript určený pro spuštění testů v programu grep | 
 | src/testPerl.sh | skript určený pro spuštění testů v jazyce Perl | 
-| src/testPerl.sh | skript určený pro spuštění testů v jazyce Perl | 
 | src/testTime.sh | skript určený pro měření času běhu | 
 | src/tests | adresář obsahující datové sady použité pro testování |
 | src/tests/out | adresář, do kterého se ukládají výstupy z testů |
