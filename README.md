@@ -16,7 +16,7 @@ Volba algoritmu:
 1 = simpleMemory  
 2 = avdMemory  
 
-###Priklad
+### Priklad
 ```bash
 ./regex_matcher 1 "X{a*+b*}X*" "aabbbb" 
 ```
@@ -27,7 +27,7 @@ Pro spusteni testu zadejte: ./test.sh <nazev_sady>
 Skripty urcene pro spusteni testy v grepu (testGrep.sh) a perlu (testPerl.sh)  
 Skript pro mereni casu vypoctu (testTime.sh)  
 Pozor! Pokud chcete zmerit cas implementace algoritmu simpleTM, odkomentujte odpovidajici radky ve skriptu testTime.sh (pro sady avd, hard a nVar muze trvat radove desitky minut).  
-###Priklady
+### Priklady
 ```bash
 ./test.sh simpleReg
 ./testPerl.sh nSigma
