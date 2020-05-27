@@ -64,7 +64,7 @@ initial text=$start$, % sets the text that appears on the start arrow}
 \acknowledgements{Rád bych zde poděkoval Ing. Ondřeji Guthovi, Ph.D. za vedení mé bakalářské práce, cenné rady a čas, který mi věnoval při zpracování daného tématu. Dále děkuji svým rodičům a bratrovi, kteří mě podporovali a pomáhali při studiu.
 }
 \abstractCS{Rozšířením tradiční syntaxe regulárních výrazů o zpětné reference vznikne mocný prostředek, kterým lze popsat jazyky silnější než regulární. Tato bakalářská práce se zabývá problémem zpracování regulárních výrazů se zpětnými referencemi. V práci je implementován v jazyce C++ algoritmus založený na konstrukci vícepáskového Turingova stroje a algoritmus od Schmida, který řeší verzi tohoto problému parametrizovanou stupněm aktivních proměnných (\emph{active variable degree}). V závěru je program testován a porovnán s již existujícími nástroji pro práci s regulárními výrazy na vytvořených sadách testů. Mimo jiné je v práci předložen alternativní důkaz věty o NP-úplnosti zkoumaného problému.}
-\abstractEN{This bachelor's thesis deals with the matching problem of regular expressions with backreferences (regex, for short), which is a feature available in most modern matching engines. It allows the user to specify even non-regular languages. The chosen algorithm based on construction of a multi-tape Turing machine and Schmid's algorithm for this problem parametrized by the active variable degree were implemented in C++. All the implementations are tested on created test sets and compared with already existing applications. This paper gives, among other things, an alternative proof of the NP-completeness of the matching problem of regex.}
+\abstractEN{This bachelor's thesis deals with the matching problem of regular expressions with backreferences (regex, for short), which is a feature available in most modern matching engines. It allows the user to specify even non-regular languages. The chosen algorithm based on the construction of a multi-tape Turing machine and Schmid's algorithm for this problem parametrized by the active variable degree were implemented in C++. All the implementations are tested on created test sets and compared with already existing applications. This paper gives, among other things, an alternative proof of the NP-completeness of the matching problem of regex.}
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
 \keywordsCS{regulární výraz, zpětná reference, Turingův stroj, referenční slovo, problém zpracování, důkaz NP-úplnosti, parametrizovaná složitost, aktivní proměnná, implementace, C++, vytvoření testovacích sad, grep, Perl}
@@ -87,7 +87,7 @@ Práce má následující strukturu. V první kapitole jsou uvedeny různé způ
 
 \chapter{Regulární výrazy se zpětnými referencemi}
 
-V práci jsou používany základní pojmy teorie formálních jazyků a automatů, jejichž znalost se u čtenáře předpokládá. Standardní definice z teorie deterministické syntaktické analýzy jsou také vzhledem k povaze textu vynechány. V~případě nejasností autor práce odkazuje čtenáře na publikace \cite{hopcroft} a \cite{aho_lam_sethi_ullman_2007}.
+V práci jsou používány základní pojmy teorie formálních jazyků a automatů, jejichž znalost se u čtenáře předpokládá. Standardní definice z teorie deterministické syntaktické analýzy jsou také vzhledem k povaze textu vynechány. V~případě nejasností autor práce odkazuje čtenáře na publikace \cite{hopcroft} a \cite{aho_lam_sethi_ullman_2007}.
 \section{Standardy regulárních výrazů}
 Regulární výrazy jsou v současné době používány ve většině programovacích jazyků a textových editorů. Mezi nejpoužívanější standardy definující regulární výrazy patří IEEE POSIX a PCRE (Perl Compatible Regular Expressions). V těchto standardech jsou definovány mimo jiné zpětné odkazy a další konstrukce, kterými lze popsat jazyky silnější než regulární. V základních regulárních výrazech POSIX (BRE) se objevuje výraz tvaru $\backslash i$. Tato konstrukce označuje zpětnou referenci na podvýraz, který se nachází v $i$-té závorce zleva (závorky se číslují podle pozice otevírací závorky). Zatímco počet číslovaných skupin zachycení v regulárním výrazu podle standardu POSIX BRE je omezen devíti \cite[s. 233]{posix}, ve výrazech podle PCRE může existovat až 100 číslovaných skupin zachycení (i~když se třeba způsob zápisu liší). Standard PCRE zavádí také pojmenované zpětné odkazy \cite{pcre}, které mají stejný sémantický význam jako číslované odkazy.
 \section{Syntaxe regulárních výrazů se zpětnými referencemi}
@@ -2041,12 +2041,12 @@ Pro účely testování bylo vytvořeno šest testovacích sad (vstup a referen�
 	\item{První sada \texttt{simple} obsahuje 20 testů. Regexy z této sady jsou omezeny dvouprvkovou abecedou $\{a, b\}$ a jednoprvkovou množinou proměnných $\{x\}$.}
 	\item{\texttt{simpleReg} obsahuje 20 testů. Regexy z této sady jsou omezeny stejným způsobem jako v sadě \texttt{simple}. Vstupní slovo v testech je většinou delší. Tyto testy mohou zpomalit hlavně simulátor TS nebo memory automatu kvůli většímu počtu volání funkce \texttt{accepts}. }
 	\item{Sada s názvem \texttt{nVar} se skládá z 10 testů. Regexy z této sady jsou omezeny dvouprvkovou abecedou $\{a, b\}$, přičemž parametr $avd$ daných regexů je maximálně 2. Pomocí těchto testů lze porovnat matcher založený na algoritmech \texttt{simpleMemory} (resp. \texttt{avdMemory}) s implementací \texttt{simpleTM}.}
-	\item{Testovací soubor \texttt{nSigma.in} obsahuje 10 testů. Regexy z tohoto souboru jsou omezeny jednoprvkovou množinou proměnných $\{x\}$. Počet různých symbolů abecedy $p$ v libovolném regexu je větší než 5. Takové regexy by mohly zpomalit konstrukci TS hlavně kvůli tzv. \emph{$\varepsilon$-přechodům}, kde se do přechodové funkce přidá $\mathcal{O}(|\alpha|\cdot|p|^{k})$ přechodů, kde $k$ je počet pásek. }
+	\item{Testovací soubor \texttt{nSigma.in} obsahuje 10 testů. Regexy z tohoto souboru jsou omezeny jednoprvkovou množinou proměnných $\{x\}$. Počet různých symbolů abecedy $p$ v libovolném regexu je větší než 5. Takové regexy by mohly zpomalit konstrukci TS hlavně kvůli tzv. \emph{$\varepsilon$-přechodům}, kde se do přechodové funkce přidá $\mathcal{O}(|\alpha|\cdot|p|^{k})$ přechodů ($k$ je počet pásek). }
 	\item{Testovací sada s názvem \texttt{hard} se skládá z $12$ testů. Regexy z tohoto souboru mají větší délku a obsahují velký počet proměnných a symbolů abecedy. Vstupní slova jsou také v těchto testech delší. Účelem dané sady je co nejvíc zatížit každou část prostředku na zpracování regexů.}
 	\item{Poslední sada \texttt{avd} je určena pro porovnání algoritmů \texttt{simpleMemory} a \texttt{avdMemory}. Regexy z této sady mají parametr $avd$ menší nebo rovno 2 a vstupní slova jsou mnohem delší než v ostatních sadách.}
 \end{itemize}
 
-Pro spuštění testů, které ověří správnost regex matcherů, zadejte \texttt{make test <název\_sady>}.  
+Pro spuštění testů, které ověří správnost implementací, zadejte \texttt{./test.sh <název\_sady>}.  
 
 \section{Porovnání s nástroji pro práci s regulárními výrazy}
  Pro porovnání byly zvoleny tyto nástroje:
@@ -2574,7 +2574,7 @@ Zobrazení $num$ lze definovat například takto: $num(x) := 1; \ num(y) := 2$, 
 % 	\caption[Příklad tabulky]{Zadávání matematiky}\label{tab:matematika}
 % 	\begin{tabular}{|l|l|c|c|}\hline
 % 		Typ		& Prostředí		& \LaTeX{}ovská zkratka	& \TeX{}ovská zkratka	\tabularnewline \hline \hline
-% 		Text		& \verb|math|		& \verb|\(...\)|	& \verb|$...$|		\tabularnewline \hline
+% 		Text		& \verb|math|		& \verb|\(...\)|	& \verb|$...$F|		\tabularnewline \hline
 % 		Displayed	& \verb|displaymath|	& \verb|\[...\]|	& \verb|$$...$$|	\tabularnewline \hline
 % 	\end{tabular}
 % \end{table}
@@ -2587,18 +2587,17 @@ Zobrazení $num$ lze definovat například takto: $num(x) := 1; \ num(y) := 2$, 
 
 \begin{figure}
 	\dirtree{%
-		.1 readme.txt\DTcomment{stručný popis obsahu CD}.
+		.1 BP\_Zaporozhchenko\_Oleksandr\_2020.pdf\DTcomment{text práce ve formátu PDF}.
+		.1 README.md\DTcomment{stručný popis obsahu CD}.
 		.1 src.
 		.2 impl\DTcomment{zdrojové kódy implementace}.
 		.2 Makefile.
-		.2 tests\DTcomment{datové sady použité pro testování}.
 		.2 test.sh\DTcomment{skript určený pro testování správnosti implementací}.
 		.2 testGrep.sh\DTcomment{skript určený pro spuštění testů v programu grep}.
 		.2 testPerl.sh\DTcomment{skript určený pro spuštění testů v jazyce Perl}.
 		.2 testTime.sh\DTcomment{skript určený pro měření času běhu}.
+		.2 tests\DTcomment{datové sady použité pro testování}.
 		.2 thesis\DTcomment{zdrojová forma práce ve formátu \LaTeX{}}.
-		.1 text\DTcomment{text práce}.
-		.2 thesis.pdf\DTcomment{text práce ve formátu PDF}.
 	}
 \end{figure}
 
