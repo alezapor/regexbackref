@@ -26,40 +26,40 @@ time: compile
 
 compile: $(PROGRAM)
 
-doc: src/ast.cpp src/ast.h src/automaton.cpp src/automaton.h src/avdfa.cpp src/avdfa.h src/lexer.cpp src/lexer.h src/main.cpp src/matcher.cpp src/matcher.h src/ndtm.cpp src/ndtm.h src/parser.cpp src/parser.h src/tape.cpp src/tape.h	
+doc: impl/ast.cpp impl/ast.h impl/automaton.cpp impl/automaton.h impl/avdfa.cpp impl/avdfa.h impl/lexer.cpp impl/lexer.h impl/main.cpp impl/matcher.cpp impl/matcher.h impl/ndtm.cpp impl/ndtm.h impl/parser.cpp impl/parser.h impl/tape.cpp impl/tape.h	
 	doxygen Doxyfile
 
 $(PROGRAM): objs/main.o objs/matcher.o objs/parser.o objs/ast.o objs/ndtm.o objs/avdfa.o objs/tape.o objs/automaton.o objs/lexer.o objs/memorystate.o
 	$(CC) $(CFLAGS) $^ -o $@
 
-objs/memorystate.o: src/memorystate.cpp src/memorystate.h |objs
+objs/memorystate.o: impl/memorystate.cpp impl/memorystate.h |objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-objs/lexer.o: src/lexer.cpp src/lexer.h | objs
+objs/lexer.o: impl/lexer.cpp impl/lexer.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-objs/automaton.o: src/automaton.cpp src/automaton.h src/memorystate.h | objs
+objs/automaton.o: impl/automaton.cpp impl/automaton.h impl/memorystate.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-objs/tape.o: src/tape.cpp src/tape.h | objs
+objs/tape.o: impl/tape.cpp impl/tape.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-objs/avdfa.o: src/avdfa.cpp src/avdfa.h src/automaton.h src/tape.h | objs
+objs/avdfa.o: impl/avdfa.cpp impl/avdfa.h impl/automaton.h impl/tape.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-objs/ndtm.o: src/ndtm.cpp src/ndtm.h src/automaton.h src/tape.h | objs
+objs/ndtm.o: impl/ndtm.cpp impl/ndtm.h impl/automaton.h impl/tape.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-objs/ast.o: src/ast.cpp src/ast.h src/ndtm.h src/avdfa.h | objs
+objs/ast.o: impl/ast.cpp impl/ast.h impl/ndtm.h impl/avdfa.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-objs/parser.o: src/parser.cpp src/parser.h src/lexer.h src/ast.h | objs
+objs/parser.o: impl/parser.cpp impl/parser.h impl/lexer.h impl/ast.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-objs/matcher.o: src/matcher.cpp src/matcher.h src/parser.h | objs
+objs/matcher.o: impl/matcher.cpp impl/matcher.h impl/parser.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-objs/main.o: src/main.cpp src/matcher.h src/parser.h | objs
+objs/main.o: impl/main.cpp impl/matcher.h impl/parser.h | objs
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
