@@ -8,6 +8,22 @@ all: compile doc
 run: compile
 	./$(PROGRAM)
 
+tests: compile
+	./test.sh simple
+	./test.sh simpleReg
+	./test.sh nVar
+	./test.sh avd
+	./test.sh nSigma
+	./test.sh hard 
+
+time: compile
+	./testTime.sh simple
+	./testTime.sh simpleReg
+	./testTime.sh nVar
+	./testTime.sh avd
+	./testTime.sh nSigma
+	./testTime.sh hard 
+
 compile: $(PROGRAM)
 
 doc: src/ast.cpp src/ast.h src/automaton.cpp src/automaton.h src/avdfa.cpp src/avdfa.h src/lexer.cpp src/lexer.h src/main.cpp src/matcher.cpp src/matcher.h src/ndtm.cpp src/ndtm.h src/parser.cpp src/parser.h src/tape.cpp src/tape.h	
@@ -51,7 +67,7 @@ objs:
 	mkdir objs
 	
 clean:
-	rm -rf $(PROGRAM) objs/ tests/out/* doc/ 2>/dev/null 
+	rm -rf $(PROGRAM) objs/ tests/out/ doc/ 2>/dev/null 
 
 
 

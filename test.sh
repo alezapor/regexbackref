@@ -7,6 +7,9 @@ in="tests/$1.in"
 lineCnt=$(cat "$in" | wc -l)
 lineCnt=$((lineCnt/2))
 
+if [ ! -d "tests/out" ]; then
+  mkdir tests/out
+fi
 
 touch "$avdOut"
 > "$avdOut"

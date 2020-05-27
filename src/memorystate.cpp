@@ -45,7 +45,7 @@ bool MemoryState::operator>=(const MemoryState &rhs) const {
 }
 
 int MemoryState::getMemory(char x) {
-    for (int i = 0; i < m_MemoryList.size(); i++){
+    for (int i = 0; i < (int) m_MemoryList.size(); i++){
         if (m_MemoryList[i] == x) return i;
     }
     return -1;

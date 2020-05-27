@@ -8,7 +8,7 @@ Tape::Tape(int mLength, int mHead, char mBlank) : m_Head(mHead) {
     m_Cells.resize(mLength, mBlank);
 }
 
-Tape::Tape(std::string s, int mHead) : m_Head(mHead), m_Cells(s) {
+Tape::Tape(std::string s, int mHead) : m_Cells(s), m_Head(mHead) {
 }
 
 Tape::Tape(const Tape &tape) {
@@ -50,7 +50,7 @@ void Tape::moveHead(ShiftType shiftType) {
 }
 
 bool Tape::isEmpty(char blank) {
-    for (int i = 0; i < m_Cells.size(); i++) {
+    for (int i = 0; i < (int) m_Cells.size(); i++) {
         if (m_Cells[i] != blank) return false;
     }
     return true;

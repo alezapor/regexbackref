@@ -13,6 +13,8 @@ class Matcher {
 public:
     Matcher();
 
+    virtual ~Matcher();
+
     Matcher(std::shared_ptr<Parser> parser, char * option);
 
     bool match(std::string w);

@@ -104,7 +104,7 @@ std::unique_ptr<NodeAST> Parser::ParseD() {
             return nullptr;
         }
         getNextToken();
-        return std::move(expr);
+        return expr;
     } else if (m_CurTok == tokenAtom) {
 
         if (m_Lexer->val != '0' && m_Lexer->val != '?') {

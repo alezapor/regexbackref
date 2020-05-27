@@ -72,3 +72,7 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, char * option) :
      m_Simulator->initialize(w);
      return m_Simulator->accepts();
  }
+
+Matcher::~Matcher() {
+    delete m_Simulator;
+}

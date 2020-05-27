@@ -13,6 +13,7 @@
 
 class BaseAutomaton {
 public:
+    virtual ~BaseAutomaton();
    virtual void initialize(std::string input) = 0;
    virtual bool accepts() = 0;
    virtual void print() = 0;
@@ -31,6 +32,8 @@ public:
      * @param automaton an automaton to copy
      */
     Automaton(const Automaton & automaton);
+
+    virtual ~Automaton();
 
     virtual /**
      * A member function that initializes the the automaton to simulate for input string

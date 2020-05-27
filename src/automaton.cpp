@@ -5,7 +5,7 @@
 #include "automaton.h"
 
 template <class T>
-Automaton<T>::Automaton(T start, T end) : m_InitialState(start), m_StateCnt(2), m_CurState(start) {
+Automaton<T>::Automaton(T start, T end) : m_InitialState(start), m_CurState(start), m_StateCnt(2) {
     m_FinalStates.insert(end);
 }
 
@@ -80,5 +80,15 @@ void Automaton<T>::removeFinalStates() {
     this->m_FinalStates.erase(m_FinalStates.begin(), m_FinalStates.end());
 
 }
+
+template<class T>
+Automaton<T>::~Automaton() {
+
+}
+
 template class Automaton<int>;
 template class Automaton<MemoryState>;
+
+BaseAutomaton::~BaseAutomaton() {
+
+}
