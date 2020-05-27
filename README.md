@@ -19,6 +19,9 @@
 Implementace prostředku pro zpracování regulárních výrazů se zpetnými referencemi.
 
 ## Building
+```bash
+cd src
+```
 
 ```bash
 make compile
@@ -42,7 +45,7 @@ Pro spuštění zadejte `./regexmatcher <volba algoritmu> <regex> <vstupni retez
 Pro spuštění testů zadejte: `./test.sh <nazev_sady>`  
 Skripty určené pro spuštění testů v grepu (*testGrep.sh*) a perlu (*testPerl.sh*)  
 Skript pro měření času výpočtu: *testTime.sh*  
-{- Pozor! -} Pokud chcete změřit čas implementace algoritmu simpleTM, odkomentujte odpovídající řádky ve skriptu *testTime.sh* (pro sady avd, hard a nVar může trvat řádově desítky minut).  
+{- Pozor! -} Pokud chcete změřit čas implementace algoritmu simpleTM, odkomentujte odpovídající řádky ve skriptu *testTime.sh* (pro sady **avd**, **hard** a **nVar** může trvat řádově desítky minut).  
 
 ### Příklady
 ```bash
@@ -60,7 +63,7 @@ Dokumentace ve formatu HTML se vytvoří v adresari *doc*.
 ```bash
 make doc
 ```
-## Uklid
+## Úklid
 Smazat spustitelné, objektové soubory, soubory dokumentace a výstupy z testů lze příkazem
 ```bash
 make clean
