@@ -3,7 +3,7 @@
 | adresář/soubor | popis obsahu |
 | ------ | ------ |
 | BP_Zaporozhchenko_Oleksandr_2020.pdf | text práce |
-| src/Doxyfile | konfiguračné soubor nástroje Doxygen |
+| src/Doxyfile | konfigurační soubor nástroje Doxygen |
 | src/impl | adresář obsahující zdrojové kódy implementace prostředku pro zpracování regexů|
 | src/test.sh | skript určený pro testování správnosti implementací | 
 | src/testGrep.sh | skript určený pro spuštění testů v programu grep | 
