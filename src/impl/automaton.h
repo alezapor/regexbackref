@@ -1,7 +1,3 @@
-//
-// Created by osboxes on 4/24/20.
-//
-
 #ifndef REGEX_MATCHER_AUTOMATON_H
 #define REGEX_MATCHER_AUTOMATON_H
 
@@ -11,15 +7,33 @@
 #include <vector>
 #include "memorystate.h"
 
+/*
+ * An interface for all automata in implementation
+ */
 class BaseAutomaton {
 public:
     virtual ~BaseAutomaton();
-   virtual void initialize(std::string input) = 0;
-   virtual bool accepts() = 0;
-   virtual void print() = 0;
+
+    /**
+     * 
+     * Pure virtual function for creating a start configuration for the word
+     * @param input the word to initiale with
+     */
+    virtual void initialize(std::string input) = 0;
+
+    /**
+     * Pure virtual function that returns true if the automaton accepts from the current configuration
+     */
+    virtual bool accepts() = 0;
+
+    virtual void print() = 0;
 };
 
-template <class T=int>
+/**
+ * An interface for automaton with transition function
+ * @tparam T class for the state
+ */
+template<class T=int>
 class Automaton : public BaseAutomaton {
 public:
     /**
@@ -31,15 +45,15 @@ public:
      * A copy constructor.
      * @param automaton an automaton to copy
      */
-    Automaton(const Automaton & automaton);
+    Automaton(const Automaton &automaton);
 
     virtual ~Automaton();
 
-    virtual /**
-     * A member function that initializes the the automaton to simulate for input string
-     * @param input an input string
-     */
-    void initialize(std::string input){}
+    /**
+      * A member function that initializes the the automaton to simulate for input string
+      * @param input an input string
+      */
+    virtual void initialize(std::string input) {}
 
     T getMInitialState() const;
 
@@ -57,18 +71,21 @@ public:
 
     void setMStateCnt(int mStateCnt);
 
+    /**
+     * removes all final states from the automaton
+     */
     void removeFinalStates();
 
 
     /**
      * A member function that simulates the automaton computation
-     * @return returns yes if the automaton accepted the input string
+     * @return returns yes if the automaton accepts from the current configuration
      */
     virtual bool accepts() = 0;
 
     void setInput(std::set<char> input);
 
-    std::set<char> & getInput();
+    std::set<char> &getInput();
 
     void incStateCnt();
 
@@ -76,7 +93,6 @@ public:
      * A member function that prints the automaton definition
      */
     virtual void print() = 0;
-
 
 
 protected:
@@ -107,7 +123,6 @@ protected:
     std::set<char> m_Input;
 
 };
-
 
 
 #endif //REGEX_MATCHER_AUTOMATON_H

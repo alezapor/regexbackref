@@ -1,6 +1,3 @@
-//
-// Created by osboxes on 11/27/19.
-//
 
 #include "lexer.h"
 
@@ -13,13 +10,13 @@ int Lexer::getTok() {
     while (isspace(lastChar))
         lastChar = is->get();
 
-    if (islower(lastChar) || lastChar == '0' || lastChar == '?') { // abeceda [a-z?0]
+    if (islower(lastChar) || lastChar == '0' || lastChar == '?') { // atom [a-z?0]
         val = lastChar;
         lastChar = is->get();
         return tokenAtom;
     }
 
-    if (isupper(lastChar)) { // : []
+    if (isupper(lastChar)) { // var [A-Z]
         val = lastChar;
         lastChar = is->get();
         return tokenVar;

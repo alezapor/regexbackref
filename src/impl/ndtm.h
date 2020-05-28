@@ -1,6 +1,4 @@
-//
-// Created by osboxes on 11/28/19.
-//
+
 
 #ifndef REGEX_MATCHER_NDTM_H
 #define REGEX_MATCHER_NDTM_H
@@ -17,7 +15,7 @@
  * A comparator for a transition function represented with a map
  */
 struct comp {
-    bool operator() (const std::pair<int, std::string> &o1, const std::pair<int, std::string>& o2){
+    bool operator()(const std::pair<int, std::string> &o1, const std::pair<int, std::string> &o2) {
         if (o1.first == o2.first) return o1.second < o2.second;
         return o1.first < o2.first;
     }
@@ -32,7 +30,7 @@ typedef std::vector<std::pair<char, ShiftType>> tapesOperations;
 /**
  * A class that simulates a nondeterministic Turing machine
  */
-class NDTM : public Automaton<int>{
+class NDTM : public Automaton<int> {
 
 public:
 
@@ -42,11 +40,11 @@ public:
      */
     NDTM();
 
-   /**
-    * A copy constructor.
-    * @param tm an NDTM to copy
-    */
-    NDTM(const NDTM & tm);
+    /**
+     * A copy constructor.
+     * @param tm an NDTM to copy
+     */
+    NDTM(const NDTM &tm);
 
     /**
      * A member function that initializes the first tape with an input string
@@ -117,8 +115,9 @@ public:
     * @param alphabet a reference to the alphabet
     * @param insertSymbol symbol to write on ith tape
     */
-    static void epsilonTransitionHelper(std::vector<std::string> & readSymbols, std::vector<tapesOperations> & operations,
-                                        ShiftType shiftType, const std::set<char> & alphabet, char insertSymbol = 'E');
+    static void epsilonTransitionHelper(std::vector<std::string> &readSymbols, std::vector<tapesOperations> &operations,
+                                        ShiftType shiftType, const std::set<char> &alphabet, char insertSymbol = 'E');
+
     int getMTapeCnt() const;
 
     void setMTapeCnt(int mTapeCnt);
@@ -143,8 +142,8 @@ private:
     /**
      * A transition function Q \ F  x (I U {B})^k -> 2^(Q x ((I U {B}) x {L, N, R})^k).
      */
-    std::map  <std::pair<int, std::string>,
-                          std::vector <std::pair <int, tapesOperations>>, comp> m_Transitions;
+    std::map<std::pair<int, std::string>,
+            std::vector<std::pair<int, tapesOperations>>, comp> m_Transitions;
 
 };
 

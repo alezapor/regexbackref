@@ -1,6 +1,3 @@
-//
-// Created by osboxes on 5/13/20.
-//
 
 #ifndef REGEX_MATCHER_MEMORYSTATE_H
 #define REGEX_MATCHER_MEMORYSTATE_H
@@ -9,6 +6,9 @@
 #include <vector>
 #include <ostream>
 
+/**
+ * A class that represents a state with a memory list
+ */
 class MemoryState {
 public:
     MemoryState();
@@ -29,12 +29,17 @@ public:
 
     bool operator>=(const MemoryState &rhs) const;
 
-    MemoryState& operator=(int state);
+    MemoryState &operator=(int state);
 
-    MemoryState& operator=(const MemoryState &rhs);
+    MemoryState &operator=(const MemoryState &rhs);
 
     bool operator>=(int state) const;
 
+    /**
+     * A function that checks if the memory list contains a variable
+     * @param x a variable
+     * @return the memory position that contains x (otherwise -1)
+     */
     int getMemory(char x);
 
     int getMNum() const;

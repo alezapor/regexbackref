@@ -1,7 +1,3 @@
-//
-// Created by osboxes on 11/27/19.
-//
-
 #ifndef REGEX_MATCHER_AST_H
 #define REGEX_MATCHER_AST_H
 
@@ -24,15 +20,25 @@ public:
      * A virtual function that adds a transition to the NDTM corresponding the type of the node
      * @param tm A pointer to the NDTM
      * @param tapes A set of signals that indicate whether to write on the ith tape
-     * @param start An initial state for a node (q_{start})
-     * @param end An accepting state for a node (q_{end})
+     * @param start An initial state for the node (q_{start})
+     * @param end An accepting state for the node (q_{end})
      * @param vars A set of variables of the regex
      *
      */
-    virtual void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    virtual void constructTM(NDTM *tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                              int end) = 0;
 
-    virtual void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
+    /**
+      * A virtual function that adds a transition to the automatom that accepts ref-language of a regex corresponding the type of the node
+      * @param automaton A pointer to the automaton
+      * @param avd a set of initial states for nodes which have a parent node of type Definition 
+      * @param in An initial state for the node 
+      * @param out An accepting state for the node 
+      * @param underDefinition is true if the node has a parent node of type Definition
+      *
+      */
+    virtual void
+    constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 
 };
 
@@ -45,14 +51,15 @@ class AtomAST : public NodeAST {
      */
     int m_Val;
 public:
-    AtomAST(int val) : m_Val(val) {  }
+    AtomAST(int val) : m_Val(val) {}
 
     void print();
 
-    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM *tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
+    void
+    constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 
 };
 
@@ -81,14 +88,15 @@ public:
 class BackRefAST : public VarAST {
 
 public:
-    BackRefAST(int val) : VarAST(val) { }
+    BackRefAST(int val) : VarAST(val) {}
 
     void print();
 
-    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM *tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
+    void
+    constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 
 };
 
@@ -111,10 +119,11 @@ public:
 
     void print();
 
-    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM *tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
+    void
+    constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 };
 
 /**
@@ -136,10 +145,11 @@ public:
 
     void print();
 
-    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM *tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
+    void
+    constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 };
 
 /**
@@ -156,10 +166,11 @@ public:
 
     void print();
 
-    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM *tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
+    void
+    constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 };
 
 
@@ -172,14 +183,15 @@ class DefinitionAST : public VarAST {
 
 public:
     DefinitionAST(int var, std::shared_ptr<NodeAST> expr)
-            : VarAST(var), m_Expr(std::move(expr)) { }
+            : VarAST(var), m_Expr(std::move(expr)) {}
 
     void print();
 
-    void constructTM(NDTM* tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
+    void constructTM(NDTM *tm, std::vector<bool> &tapes, std::map<char, int> &memory, int start,
                      int end);
 
-    void constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
+    void
+    constructAvdFA(std::shared_ptr<AvdFA> automaton, std::set<int> &avd, int in, int out, bool underDefinition = false);
 
 };
 

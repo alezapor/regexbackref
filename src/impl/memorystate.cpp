@@ -1,6 +1,3 @@
-//
-// Created by osboxes on 5/13/20.
-//
 
 #include "memorystate.h"
 
@@ -17,7 +14,7 @@ std::ostream &operator<<(std::ostream &os, const MemoryState &state) {
 
 bool MemoryState::operator==(const MemoryState &rhs) const {
     if (m_Num != rhs.m_Num) return false;
-    return m_MemoryList==rhs.m_MemoryList;
+    return m_MemoryList == rhs.m_MemoryList;
 }
 
 bool MemoryState::operator!=(const MemoryState &rhs) const {
@@ -45,7 +42,7 @@ bool MemoryState::operator>=(const MemoryState &rhs) const {
 }
 
 int MemoryState::getMemory(char x) {
-    for (int i = 0; i < (int) m_MemoryList.size(); i++){
+    for (int i = 0; i < (int) m_MemoryList.size(); i++) {
         if (m_MemoryList[i] == x) return i;
     }
     return -1;

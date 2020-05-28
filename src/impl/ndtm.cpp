@@ -1,6 +1,4 @@
-//
-// Created by osboxes on 11/28/19.
-//
+
 
 #include <iostream>
 #include "ndtm.h"
@@ -179,4 +177,5 @@ void NDTM::setMTapeCnt(int mTapeCnt) {
 }
 
 
-template class Automaton<int>;
+template
+class Automaton<int>;

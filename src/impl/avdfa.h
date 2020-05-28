@@ -1,6 +1,3 @@
-//
-// Created by osboxes on 4/25/20.
-//
 
 #ifndef REGEX_MATCHER_AVDFA_H
 #define REGEX_MATCHER_AVDFA_H
@@ -13,33 +10,110 @@
 
 
 struct comp1 {
-    bool operator() (const std::pair<int, std::string> &o1, const std::pair<int, std::string>& o2){
+    bool operator()(const std::pair<int, std::string> &o1, const std::pair<int, std::string> &o2) {
         if (o1.first == o2.first) return o1.second < o2.second;
         return o1.first < o2.first;
     }
 };
 
-template <class T=int>
+/**
+ * A class that represents a memory automaton
+ * @tparam T
+ */
+template<class T=int>
 class MemoryAutomaton : public Automaton<T> {
 public:
+    /**
+     * A constructor for creating memory automaton with an empty transition function
+     * @param start an initial state
+     * @param end an accepting state
+     * @param memSize a number of memories
+     * @param vars a set of variables
+     */
     MemoryAutomaton(T start, T end, int memSize, std::set<char> vars);
-    MemoryAutomaton(const MemoryAutomaton<T> & automaton);
+
+    /**
+     * A copy constructor
+     * @param automaton to copy
+     */
+    MemoryAutomaton(const MemoryAutomaton<T> &automaton);
+
+    /**
+     * A function that simulates a memory automaton computation from the current configuration
+     * @return true if the memory automaton accepts from the current configuration
+     */
     bool accepts();
+
+    /**
+     * A function that creates an initial configuration for a word
+     * @param input a word to initialize with
+     */
     void initialize(std::string input);
+
+    /**
+     * A function that simulates a transition
+     * @param s the transition type
+     * @param state the new state
+     */
     void execTransition(std::string s, T state);
+
+    /**
+     * A function that adds a transition to the transition function
+     * @param state the first state
+     * @param readSym the transtion type
+     * @param newState the last state
+     */
     void addTransition(T state, std::string readSym, T newState);
+
+    /**
+     * A function that creates a deep copy of the memory automaton
+     * @return a pointer to the created copy
+     */
     std::shared_ptr<MemoryAutomaton> getClone();
+
     bool addState(T state);
+
     void print();
+
+    /**
+     * A function that checks configuration repeating to prevent cycles
+     * @return true if the current configuration has already been visited in this branch
+     */
     bool checkCycle();
+
+    /**
+     * A function that returns memory number for the variable
+     * @param state used for avdMemory algorithm (checks memory in memory list)
+     * @param x a variable
+     * @return memory from memory list (for avdMemory), else return position in variable list (for simpleMemory)
+     */
     int getMemory(T state, int x);
+
 private:
+    /**
+     * An input tape
+     */
     std::string m_Tape;
+    /**
+     * A set of automaton states
+     */
     std::set<T> m_States;
+    /**
+     * A set of variables
+     */
     std::set<char> m_Vars;
 
+    /**
+     * A position of the head
+     */
     int m_Pos;
+    /**
+     * A vector of automata memories
+     */
     std::vector<std::pair<bool, std::string>> m_Memory;
+    /**
+     * A transition function
+     */
     std::map<T, std::vector<std::pair<std::string, T>>> m_Transitions;
 
     /**
@@ -66,7 +140,7 @@ public:
      * A copy constructor.
      * @param t an automaton to copy
      */
-    AvdFA(const AvdFA & t);
+    AvdFA(const AvdFA &t);
 
 
     /**
@@ -110,15 +184,26 @@ public:
 
     const std::map<std::pair<int, std::string>, std::vector<int>, comp1> &getMTransitions() const;
 
-    MemoryAutomaton<int>* simpleMemory (std::set<char> s);
+    /**
+     * A function that creates a memory automaton from using simpleMemory algorithm
+     * @param s
+     * @return
+     */
+    MemoryAutomaton<int> *simpleMemory(std::set<char> s);
 
-    MemoryAutomaton<MemoryState>* avdMemory (std::set<char> s, int avd);
+    /**
+     * A function that creates a memory automaton from using avdMemory algorithm
+     * @param s a set of variables
+     * @param avd active variable degree
+     * @return
+     */
+    MemoryAutomaton<MemoryState> *avdMemory(std::set<char> s, int avd);
 
 protected:
     /**
      * A transition function
      */
-    std::map  <std::pair<int, std::string>,
+    std::map<std::pair<int, std::string>,
             std::vector<int>, comp1> m_Transitions;
 
 };

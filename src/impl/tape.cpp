@@ -1,6 +1,3 @@
-//
-// Created by osboxes on 11/28/19.
-//
 
 #include "tape.h"
 

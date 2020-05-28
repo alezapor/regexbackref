@@ -128,22 +128,22 @@ MemoryAutomaton<int> *AvdFA::simpleMemory(std::set<char> m_Vars) {
     mem->setMStateCnt(m_StateCnt);
     for (auto it = m_Transitions.begin(); it != m_Transitions.end(); it++) {
         mem->addState(it->first.first);
-    for (auto it1 = it->second.begin(); it1 != it->second.end(); it1++) {
-        mem->addTransition(it->first.first, it->first.second, *it1);
-        mem->addState(*it1);
+        for (auto it1 = it->second.begin(); it1 != it->second.end(); it1++) {
+            mem->addTransition(it->first.first, it->first.second, *it1);
+            mem->addState(*it1);
+        }
     }
-}
     return mem;
 }
 
-MemoryAutomaton<MemoryState> *AvdFA::avdMemory(std::set<char> vars, int avd) {
+MemoryAutomaton <MemoryState> *AvdFA::avdMemory(std::set<char> vars, int avd) {
 
     std::string memoryList;
     memoryList.resize(avd, '0');
     MemoryState start(0, memoryList);
     MemoryState end(1, memoryList);
 
-    MemoryAutomaton<MemoryState> *mem = new MemoryAutomaton<MemoryState>(start, end, avd, vars);
+    MemoryAutomaton <MemoryState> *mem = new MemoryAutomaton<MemoryState>(start, end, avd, vars);
 
     std::map<int, std::vector<std::pair<std::string, int>>> simpleTransitions;
     for (auto it = m_Transitions.begin(); it != m_Transitions.end(); it++) {
@@ -164,41 +164,39 @@ MemoryAutomaton<MemoryState> *AvdFA::avdMemory(std::set<char> vars, int avd) {
         auto vec = simpleTransitions[i.getMNum()];
         for (auto it = vec.begin(); it != vec.end(); it++) {
             std::string memList = i.getMMemoryList();
-            for (auto it1 = vars.begin(); it1!=vars.end(); it1++){
-                if (!constructR1(it->second, *it1)->accepts()){
+            for (auto it1 = vars.begin(); it1 != vars.end(); it1++) {
+                if (!constructR1(it->second, *it1)->accepts()) {
                     std::replace(memList.begin(), memList.end(), *it1, '0');
                 }
             }
             if (it->first[0] == '[') {
-                if (!constructR1(it->second, it->first[1])->accepts() || memList.find(it->first[1])!=memList.npos){
+                if (!constructR1(it->second, it->first[1])->accepts() || memList.find(it->first[1]) != memList.npos) {
                     MemoryState n(it->second, memList);
                     mem->addTransition(i, it->first, n);
-                    if (!visited[n]){
+                    if (!visited[n]) {
                         states.push_back(n);
-                        visited[n]=true;
+                        visited[n] = true;
                     }
-                }
-                else {
-                    for (int j = 0; j < (int) memList.size(); j++){
-                        if (memList[j]=='0'){
+                } else {
+                    for (int j = 0; j < (int) memList.size(); j++) {
+                        if (memList[j] == '0') {
                             std::string memList1 = memList;
                             memList1[j] = it->first[1];
                             MemoryState n(it->second, memList1);
                             mem->addTransition(i, it->first, n);
-                            if (!visited[n]){
+                            if (!visited[n]) {
                                 states.push_back(n);
-                                visited[n]=true;
+                                visited[n] = true;
                             }
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 MemoryState n(it->second, memList);
                 mem->addTransition(i, it->first, n);
-                if (!visited[n]){
+                if (!visited[n]) {
                     states.push_back(n);
-                    visited[n]=true;
+                    visited[n] = true;
                 }
             }
         }
@@ -228,7 +226,8 @@ bool MemoryAutomaton<T>::accepts() {
         if (this->checkCycle()) return false;
         auto trans = m_Transitions[Automaton<T>::m_CurState];
         for (auto it = trans.begin(); it != trans.end(); it++) {
-            std::shared_ptr<MemoryAutomaton<T>> automaton = this->getClone();
+            std::shared_ptr<MemoryAutomaton < T>>
+            automaton = this->getClone();
             automaton->execTransition(it->first, it->second);
             if (automaton->accepts()) return true;
         }
@@ -238,12 +237,15 @@ bool MemoryAutomaton<T>::accepts() {
 }
 
 template<class T>
-std::shared_ptr<MemoryAutomaton<T>> MemoryAutomaton<T>::getClone() {
-    return std::make_shared<MemoryAutomaton<T>>(*this);
+std::shared_ptr<MemoryAutomaton < T>>
+
+MemoryAutomaton<T>::getClone() {
+    return std::make_shared<MemoryAutomaton < T>>
+    (*this);
 }
 
 template<class T>
-MemoryAutomaton<T>::MemoryAutomaton(const MemoryAutomaton<T> &automaton) : Automaton<T>(automaton) {
+MemoryAutomaton<T>::MemoryAutomaton(const MemoryAutomaton <T> &automaton) : Automaton<T>(automaton) {
     m_Tape = automaton.m_Tape;
 /*
     for (auto it0 = automaton.m_Transitions.begin(); it0 != automaton.m_Transitions.end(); it0++){
@@ -281,11 +283,11 @@ void MemoryAutomaton<T>::execTransition(std::string s, T state) {
         }
         Automaton<T>::m_CurState = state;
     } else if (s[0] == ']') {
-        if(getMemory(state, s[1]) != -1)
+        if (getMemory(state, s[1]) != -1)
             m_Memory[getMemory(state, s[1])].first = false;
         Automaton<T>::m_CurState = state;
     } else if (isupper(s[0])) {
-        if(getMemory(Automaton<T>::m_CurState, s[0]) != -1) {
+        if (getMemory(Automaton<T>::m_CurState, s[0]) != -1) {
 
             bool equal = true;
             if (m_Pos + m_Memory[getMemory(Automaton<T>::m_CurState, s[0])].second.size() <= m_Tape.size() &&
@@ -307,8 +309,7 @@ void MemoryAutomaton<T>::execTransition(std::string s, T state) {
                 m_Pos += m_Memory[getMemory(Automaton<T>::m_CurState, s[0])].second.size();
                 Automaton<T>::m_CurState = state;
             } else Automaton<T>::m_CurState = INT16_MIN;
-        }
-        else Automaton<T>::m_CurState = state;
+        } else Automaton<T>::m_CurState = state;
     } else if (islower(s[0]) && m_Pos < (int) m_Tape.size() && s[0] == m_Tape[m_Pos]) {
         for (int i = 0; i < (int) m_Memory.size(); i++) {
             if (m_Memory[i].first) {
@@ -387,10 +388,10 @@ bool MemoryAutomaton<T>::addState(T state) {
 
 template<>
 int MemoryAutomaton<int>::getMemory(int state, int x) {
-    return std::distance(m_Vars.begin(), m_Vars.find(x));
+    return std::distance(m_Vars.begin(), m_Vars.find(x)); // returns variable position in set (algorithm simpleMemory)
 }
 
 template<>
 int MemoryAutomaton<MemoryState>::getMemory(MemoryState state, int x) {
-    return state.getMemory(x);
+    return state.getMemory(x);  // returns memory from the memory list of the state (algorithm avdMemory)
 }

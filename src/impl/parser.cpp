@@ -1,6 +1,3 @@
-//
-// Created by osboxes on 11/27/19.
-//
 
 #include "parser.h"
 

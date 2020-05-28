@@ -1,6 +1,3 @@
-//
-// Created by osboxes on 11/27/19.
-//
 
 #ifndef REGEX_MATCHER_LEXER_H
 #define REGEX_MATCHER_LEXER_H
