@@ -63,39 +63,39 @@ initial text=$start$, % sets the text that appears on the start arrow}
 \supervisor{Ing. Ondřej Guth, Ph.D.}
 \acknowledgements{Rád bych zde poděkoval Ing. Ondřeji Guthovi, Ph.D. za vedení mé bakalářské práce, cenné rady a čas, který mi věnoval při zpracování daného tématu. Dále děkuji svým rodičům a bratrovi, kteří mě podporovali a pomáhali při studiu.
 }
-\abstractCS{Rozšířením tradiční syntaxe regulárních výrazů o zpětné reference vznikne mocný prostředek, kterým lze popsat jazyky silnější než regulární. Tato bakalářská práce se zabývá problémem zpracování regulárních výrazů se zpětnými referencemi. V práci je implementován v jazyce C++ algoritmus založený na konstrukci vícepáskového Turingova stroje a algoritmus od Schmida, který řeší verzi tohoto problému parametrizovanou stupněm aktivních proměnných (\emph{active variable degree}). V závěru je program testován a porovnán s již existujícími nástroji pro práci s regulárními výrazy na vytvořených sadách testů. Mimo jiné je v práci předložen alternativní důkaz věty o NP-úplnosti zkoumaného problému.}
+\abstractCS{Rozšířením tradiční syntaxe regulárních výrazů o zpětné reference vznikne mocný prostředek, kterým lze popsat jazyky silnější než regulární. Tato bakalářská práce se zabývá problémem zpracování regulárních výrazů se zpětnými referencemi. v~práci je implementován v~jazyce C++ algoritmus založený na konstrukci vícepáskového Turingova stroje a algoritmus od Schmida, který řeší verzi tohoto problému parametrizovanou stupněm aktivních proměnných (\emph{active variable degree}). v~závěru je program testován a porovnán s~již existujícími nástroji pro práci s~regulárními výrazy na vytvořených sadách testů. Mimo jiné je v~práci předložen alternativní důkaz věty o NP-úplnosti zkoumaného problému.}
 \abstractEN{This bachelor's thesis deals with the matching problem of regular expressions with backreferences (regex, for short), which is a feature available in most modern matching engines. It allows the user to specify even non-regular languages. The chosen algorithm based on the construction of a multi-tape Turing machine and Schmid's algorithm for this problem parametrized by the active variable degree were implemented in C++. All the implementations are tested on created test sets and compared with already existing applications. This paper gives, among other things, an alternative proof of the NP-completeness of the matching problem of regex.}
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
 \keywordsCS{regulární výraz, zpětná reference, Turingův stroj, referenční slovo, problém zpracování, důkaz NP-úplnosti, parametrizovaná složitost, aktivní proměnná, implementace, C++, vytvoření testovacích sad, grep, Perl}
 \keywordsEN{regex, backreference, Turing machine, ref-word, regex matching problem, NP-complete proof, parametrized complexity, active variable, implementation, C++, test set creation, grep, Perl}
-% \website{http://site.example/thesis} %volitelná URL práce, objeví se v tiráži - úplně odstraňte, nemáte-li URL práce
+% \website{http://site.example/thesis} %volitelná URL práce, objeví se v~tiráži - úplně odstraňte, nemáte-li URL práce
 
 \begin{document}
 
-% \newacronym{CVUT}{{\v C}VUT}{{\v C}esk{\' e} vysok{\' e} u{\v c}en{\' i} technick{\' e} v Praze}
+% \newacronym{CVUT}{{\v C}VUT}{{\v C}esk{\' e} vysok{\' e} u{\v c}en{\' i} technick{\' e} v~Praze}
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
 \begin{introduction}
-V dnešní době je těžké najít textový editor, který by nepodporoval regulární výrazy. Mezi nejčastější využití tohoto formalismu pro popis formálních jazyků patří vyhledávání a nahrazování v textu. V~praxi používaná syntaxe regulárních výrazu se značně liší od formálního algebraického zápisu. Jeden z~nejznámějších standardů IEEE POSIX \cite{posix} definuje konstrukce, které umožňují nejen zapsat výraz jednodušším způsobem, ale i popsat jazyky silnější než regulární. Tato práce je zaměřena na jeden z takových prostředků syntaxe, který se nazývá \emph{zpětná reference} (anglicky \emph{backreference}).
+V dnešní době je těžké najít textový editor, který by nepodporoval regulární výrazy. Mezi nejčastější využití tohoto formalismu pro popis formálních jazyků patří vyhledávání a nahrazování v~textu. V~praxi používaná syntaxe regulárních výrazu se značně liší od formálního algebraického zápisu. Jeden z~nejznámějších standardů IEEE POSIX \cite{posix} definuje konstrukce, které umožňují nejen zapsat výraz jednodušším způsobem, ale i popsat jazyky silnější než regulární. Tato práce je zaměřena na jeden z~takových prostředků syntaxe, který se nazývá \emph{zpětná reference} (anglicky \emph{backreference}).
 
-Cílem teoretické části práce je popsat tzv. problém zpracování regulárních výrazů se zpětnými referencemi a formalizovat známé algoritmy pro řešení tohoto problému. Mezi cíle praktické části patří implementace vybraného algoritmu, vytvoření testovacích sad a porovnání výpočetních časů implementace s existujícími nástroji pro práci s regulárními výrazy. Jedním z nedostatků většiny dostupných implementací je fakt, že některé regulární výrazy se zpětnými referencemi nejsou podporovány, resp. je není možné zapsat v požadované notaci. Přínosem praktické části je také nový přístup k dokazování NP-úplnosti daného problému založený na pojmu referenčního slova. Na nesprávnost existujícího důkazu \cite[s. 289]{alfred2014algorithms} poukazoval ve své práci Schmid \cite[s. 83]{schmidregex}.
+Cílem teoretické části práce je popsat tzv. problém zpracování regulárních výrazů se zpětnými referencemi a formalizovat známé algoritmy pro řešení tohoto problému. Mezi cíle praktické části patří implementace vybraného algoritmu, vytvoření testovacích sad a porovnání výpočetních časů implementace s~existujícími nástroji pro práci s~regulárními výrazy. Jedním z~nedostatků většiny dostupných implementací je fakt, že některé regulární výrazy se zpětnými referencemi nejsou podporovány, resp. je není možné zapsat v~požadované notaci. Přínosem praktické části je také nový přístup k~dokazování NP-úplnosti daného problému založený na pojmu referenčního slova. Na nesprávnost existujícího důkazu \cite[s. 289]{alfred2014algorithms} poukazoval ve své práci Schmid \cite[s. 83]{schmidregex}.
 
-Práce má následující strukturu. V první kapitole jsou uvedeny různé způsoby definování regulárních výrazu se zpětnými referencemi (regexy a semiregexy) a jejich výpočetní síla. Hodnota regexu je v práci definována pomocí tzv. \emph{referenčních slov} (anglicky \emph{ref-words}) \cite{schmidrefwords}. V~kapitole je také prozkoumán vztah regexů a referenčního slova, které daný regex generuje. Druhá kapitola se zabývá problémem zpracování regexů, výpočetními modely, které přijímají \textsc{Regex} jazyky, a algoritmy pro převod regexu na vícepáskový Turingův stroj a memory automat. Součásti této kapitoly je také návrh bezkontextové gramatiky generující \textsc{Regex} jazyky a abstraktního syntaktického stromu reprezentujícího libovolný regex. Třetí kapitola je věnována problému zpracování z~hlediska teorie parametrizované složitosti. Pro regex je v této kapitole zaveden parametr složitosti \emph{avd} (anglicky \emph{active variable degree} \cite{schmidref}) a je také popsána efektivní metoda konstrukce memory automatu, v němž počet pamětí záleží pouze na parametru \emph{avd} vstupního regexu. Dále jsou implementovány dva algoritmy založené na konstrukci memory automatu a jeden na konstrukci TS. V~poslední kapitole jsou tyto algoritmy otestovány na vytvořených datových sadách. Na konci práce jsou změřeny a porovnány výpočetní časy implementací autora s nástrojem \emph{grep} a implementací v jazyce \emph{Perl}. 
+Práce má následující strukturu. v~první kapitole jsou uvedeny různé způsoby definování regulárních výrazu se zpětnými referencemi (regexy a semiregexy) a jejich výpočetní síla. Hodnota regexu je v~práci definována pomocí tzv. \emph{referenčních slov} (anglicky \emph{ref-words}) \cite{schmidrefwords}. V~kapitole je také prozkoumán vztah regexů a referenčního slova, které daný regex generuje. Druhá kapitola se zabývá problémem zpracování regexů, výpočetními modely, které rozpoznávají \textsc{Regex} jazyky, a algoritmy pro převod regexu na vícepáskový Turingův stroj a memory automat. Součásti této kapitoly je také návrh bezkontextové gramatiky generující \textsc{Regex} jazyky a abstraktního syntaktického stromu reprezentujícího libovolný regex. Třetí kapitola je věnována problému zpracování z~hlediska teorie parametrizované složitosti. Pro regex je v~této kapitole zaveden parametr složitosti \emph{avd} (anglicky \emph{active variable degree} \cite{schmidref}) a je také popsána efektivní metoda konstrukce memory automatu, v~němž počet paměťových prvků záleží pouze na parametru \emph{avd} vstupního regexu. Dále jsou implementovány dva algoritmy založené na konstrukci memory automatu a jeden na konstrukci TS. V~poslední kapitole jsou tyto algoritmy otestovány na vytvořených datových sadách. Na konci práce jsou změřeny a porovnány výpočetní časy implementací autora s~nástrojem \emph{grep} a regulárními výrazy v~jazyce \emph{Perl}. 
 
 \end{introduction}
 
 \chapter{Regulární výrazy se zpětnými referencemi}
 
-V práci jsou používány základní pojmy teorie formálních jazyků a automatů, jejichž znalost se u čtenáře předpokládá. Standardní definice z teorie deterministické syntaktické analýzy jsou také vzhledem k povaze textu vynechány. V~případě nejasností autor práce odkazuje čtenáře na publikace \cite{hopcroft} a \cite{aho_lam_sethi_ullman_2007}.
+V práci jsou používány základní pojmy teorie formálních jazyků a automatů, jejichž znalost se u čtenáře předpokládá. Standardní definice z~teorie deterministické syntaktické analýzy jsou také vzhledem k~povaze textu vynechány. V~případě nejasností autor práce odkazuje čtenáře na publikace \cite{hopcroft}, \cite{sestakova} a \cite{aho_lam_sethi_ullman_2007}.
 \section{Standardy regulárních výrazů}
-Regulární výrazy jsou v současné době používány ve většině programovacích jazyků a textových editorů. Mezi nejpoužívanější standardy definující regulární výrazy patří IEEE POSIX a PCRE (Perl Compatible Regular Expressions). V těchto standardech jsou definovány mimo jiné zpětné odkazy a další konstrukce, kterými lze popsat jazyky silnější než regulární. V základních regulárních výrazech POSIX (BRE) se objevuje výraz tvaru $\backslash i$. Tato konstrukce označuje zpětnou referenci na podvýraz, který se nachází v $i$-té závorce zleva (závorky se číslují podle pozice otevírací závorky). Zatímco počet číslovaných skupin zachycení v regulárním výrazu podle standardu POSIX BRE je omezen devíti \cite[s. 233]{posix}, ve výrazech podle PCRE může existovat až 100 číslovaných skupin zachycení (i~když se třeba způsob zápisu liší). Standard PCRE zavádí také pojmenované zpětné odkazy \cite{pcre}, které mají stejný sémantický význam jako číslované odkazy.
+Regulární výrazy jsou v~současné době používány ve většině programovacích jazyků a textových editorů. Mezi nejpoužívanější standardy definující regulární výrazy patří IEEE POSIX a PCRE (Perl Compatible Regular Expressions). v~těchto standardech jsou definovány mimo jiné zpětné odkazy a další konstrukce, kterými lze popsat jazyky silnější než regulární. v~základních regulárních výrazech POSIX (BRE) se objevuje výraz tvaru $\backslash i$. Tato konstrukce označuje zpětnou referenci na podvýraz, který se nachází v~$i$-té závorce zleva (závorky se číslují podle pozice otevírací závorky). Zatímco počet číslovaných skupin zachycení v~regulárním výrazu podle standardu POSIX BRE je omezen devíti \cite[s. 233]{posix}, ve výrazech podle PCRE může existovat až 100 číslovaných skupin zachycení (i~když se třeba způsob zápisu liší). Standard PCRE zavádí také pojmenované zpětné odkazy \cite{pcre}, které mají stejný sémantický význam jako číslované odkazy.
 \section{Syntaxe regulárních výrazů se zpětnými referencemi}
 
-Regulární výrazy se zpětnými referencemi je možné definovat několika způsoby. Jeden rozdíl spočívá v tom, jak je označen podřetězec, na nějž se ve výrazu odkazuje. Další způsob definování, v němž je podřetězec vázán na závorku, je popsán v \cite{campeanu}. Jelikož závorky jsou očíslovány vzestupně zleva doprava, není možné v těchto výrazech zopakovat \uv{definici} závorky.
+Regulární výrazy se zpětnými referencemi je možné definovat několika způsoby. Jeden rozdíl spočívá v~tom, jak je označen podřetězec, na nějž se ve výrazu odkazuje. Další způsob definování, v~němž je podřetězec vázán na závorku, je popsán v~\cite{campeanu}. Jelikož závorky jsou očíslovány vzestupně zleva doprava, není možné v~těchto výrazech zopakovat \uv{definici} závorky.
 
 \begin{definition}[Freydenberger--Schmid]
-Buď $X$ konečná množina proměnných, buď $\Sigma$ abeceda ($X\cap\Sigma = \varnothing$). Potom \emph{regulární výraz se zpětnými referencemi} (nad $\Sigma$ a $X$), dále zkracováno na \emph{regex}, je každý řetězec získaný aplikací následujících pravidel v konečně mnoha krocích. 
+Buď $X$ konečná množina proměnných, buď $\Sigma$ abeceda ($X\cap\Sigma = \varnothing$). Potom \emph{regulární výraz se zpětnými referencemi} (nad $\Sigma$ a $X$), dále zkracováno na \emph{regex}, je každý řetězec získaný aplikací následujících pravidel v~konečně mnoha krocích. 
 Množina všech řetězců definovaných tímto způsobem je značena $RV_{\Sigma, X}$. Množina proměnných, které se vyskytují ve výrazu $\alpha$, se značí $var(\alpha)$.
 \begin{enumerate}
 	\item{$a \in RV_{\Sigma, X}$ a $var(a) = \varnothing$ pro všechna $a \in \Sigma\cup\{\varnothing, \varepsilon\}$.}
@@ -106,28 +106,28 @@ Množina všech řetězců definovaných tímto způsobem je značena $RV_{\Sigm
 \end{definition}
 
 \begin{example} 
-Buď $X=\{x\}$ množina proměnných, buď $\Sigma=\{a, b\}$ abeceda. Výraz $(x x\{a\})^\ast$ je validním regexem z množiny $RV_{\Sigma, X}$. Naopak ani řetězec $x\{x\{a^\ast\}\}$, ani $x\{xa\} \ x$ nepatří do $RV_{\Sigma, X}$, protože oba výrazy lze zapsat jako $x\{\varphi\}$ a $var(\varphi) = \{x\}$, což neodpovídá bodu 3 definice regexu.
+Buď $X=\{x\}$ množina proměnných, buď $\Sigma=\{a, b\}$ abeceda. Výraz $(x x\{a\})^\ast$ je validním regexem z~množiny $RV_{\Sigma, X}$. Naopak ani řetězec $x\{x\{a^\ast\}\}$, ani $x\{xa\} \ x$ nepatří do $RV_{\Sigma, X}$, protože oba výrazy lze zapsat jako $x\{\varphi\}$ a $var(\varphi) = \{x\}$, což neodpovídá bodu 3 definice regexu.
 \end{example}
 
 \begin{definition}[Câmpeanu--Salomaa--Yu semiregex]
-Buď $\Sigma$ abeceda. Potom \emph{semiregulární výraz se zpětnými referencemi} (nad $\Sigma$), dále zkracováno na \emph{semiregex}, je každý řetězec získaný aplikací následujících pravidel v konečně mnoha krocích. Množina všech řetězců definovaných tímto způsobem je značena $RV_{\Sigma}^{CSY}$.
+Buď $\Sigma$ abeceda. Potom \emph{semiregulární výraz se zpětnými referencemi} (nad $\Sigma$), dále zkracováno na \emph{semiregex}, je každý řetězec získaný aplikací následujících pravidel v~konečně mnoha krocích. Množina všech řetězců definovaných tímto způsobem je značena $RV_{\Sigma}^{CSY}$.
 \begin{itemize}
 	\item{$\varnothing$, $\varepsilon$, $a \in RV_{\Sigma}^{CSY}$ pro všechna $a \in \Sigma$.}
 	\item{Jestliže $\alpha$, $\beta \in RV_{\Sigma}^{CSY}$, pak také $(\alpha) \in RV_{\Sigma}^{CSY}$, $\left(\alpha + \beta \right) \in RV_{\Sigma}^{CSY}$, $\left(\alpha \cdot \beta \right)\in RV_{\Sigma}^{CSY}$ a $(\alpha)^\ast \in RV_{\Sigma}^{CSY}$.}
-	\item(\emph{zpětná reference}){ $\backslash n \in RV_{\Sigma}^{CSY}$, kde $x \in \mathbb{N} $ a hodnota $\backslash n$ odpovídá hodnotě dílčího výrazu v $n$-té závorce. \cite{campeanu}} 
+	\item(\emph{zpětná reference}){ $\backslash n \in RV_{\Sigma}^{CSY}$, kde $n \in \mathbb{N} $ a hodnota $\backslash n$ odpovídá hodnotě dílčího výrazu v~$n$-té závorce. \cite{campeanu}} 
 \end{itemize}
 \end{definition}
 
 \begin{example} 
-Řetězec $(_1(_2 a^\ast )_2 + \varepsilon)_1 \backslash 1 (_1 (_3 b^\ast )_3 + \varepsilon )_1 \backslash 1 $ není validním semiregexem, protože třetí otevírací závorka zleva může být označena pouze číslem~3.  Naopak množina $RV_{\Sigma, X}$ obsahuje například řetězec $\alpha = (x \{ a^\ast \} +  \varepsilon)\  x \ (x\{b^\ast \} +  \varepsilon) \ x$. Regex $\alpha$ popisuje formální jazyk $L = \{a^{3n} \mid n \in \mathbb{N}_0 \} \cup \{\varepsilon\} \cup {\{a^{2n} b^{2k} \mid n, k \in \mathbb{N}_0 \}} \cup \{b^{2n} \mid n \in \mathbb{N}_0 \}$. Řetězcem z $RV_{\Sigma}^{CSY}$, který reprezentuje jazyk $L$, je například $((_2 a^\ast )_2 \backslash 2 (_3 b^\ast )_3  \backslash 3) + \varepsilon + ((_5 a^\ast )_5 \backslash 5 \backslash 5) + ((_7 b^\ast )_7 \backslash 7) $.
+Řetězec $(_1(_2 a^\ast )_2 + \varepsilon)_1 \backslash 1 (_1 (_3 b^\ast )_3 + \varepsilon )_1 \backslash 1 $ není validním semiregexem, protože třetí otevírací závorka zleva může být označena pouze číslem~3.  Naopak množina $RV_{\Sigma, X}$ obsahuje například řetězec $\alpha = (x \{ a^\ast \} +  \varepsilon)\  x \ (x\{b^\ast \} +  \varepsilon) \ x$. Regex $\alpha$ popisuje formální jazyk $L = \{a^{3n} \mid n \in \mathbb{N}_0 \} \cup \{\varepsilon\} \cup {\{a^{2n} b^{2k} \mid n, k~\in \mathbb{N}_0 \}} \cup \{b^{2n} \mid n \in \mathbb{N}_0 \}$. Řetězcem z~$RV_{\Sigma}^{CSY}$, který reprezentuje jazyk $L$, je například $((_2 a^\ast )_2 \backslash 2 (_3 b^\ast )_3  \backslash 3) + \varepsilon + ((_5 a^\ast )_5 \backslash 5 \backslash 5) + ((_7 b^\ast )_7 \backslash 7) $.
 \end{example}
 
-Ve většině případů regexy umožňují popsat nějaký formální jazyk jednodušším způsobem. Jelikož existuje formální jazyk $L$, který lze popsat regexem z $RV_{\Sigma, X}$, ale žádný semiregex z $RV_{\Sigma}^{CSY}$ nereprezentuje $L$, a každý semiregex lze triviálně převést na ekvivalentní regex \cite[s. 38--40]{berglund}, lze považovat regex za silnější formalismus (toto je hlavní důvod, proč se v této práci používají regexy).
+Ve většině případů regexy umožňují popsat nějaký formální jazyk jednodušším způsobem. Jelikož existuje formální jazyk $L$, který lze popsat regexem z~$RV_{\Sigma, X}$, ale žádný semiregex z~$RV_{\Sigma}^{CSY}$ nereprezentuje $L$, a každý semiregex lze triviálně převést na ekvivalentní regex \cite[s. 38--40]{berglund}, lze považovat regex za silnější formalismus (toto je hlavní důvod, proč se v~této práci používají regexy).
 
 Podobně jako pro klasické regulární výrazy \cite{eggan} lze pro regexy definovat hvězdnou výšku (anglicky \emph{star-height}). Hodnota výšky určuje maximální počet do sebe vnořených iterací ve výrazu. 
 
 \begin{definition}
-Buď $\Sigma$ abeceda, buď $X$ množina proměnných. Hvězdná výška $\lambda(\varphi)$ pro libovolný regex $\varphi$ z $RV_{\Sigma, X}$ je definována takto:
+Buď $\Sigma$ abeceda, buď $X$ množina proměnných. Hvězdná výška $\lambda(\varphi)$ pro libovolný regex $\varphi$ z~$RV_{\Sigma, X}$ je definována takto:
 \begin{itemize}
 	\item{$\lambda(a) = 0$ pro $a \in \Sigma\cup\{\varepsilon, \varnothing\}$,}
 	\item{$\lambda(x) = 0$ pro $x \in X$,}
@@ -141,21 +141,21 @@ Buď $\Sigma$ abeceda, buď $X$ množina proměnných. Hvězdná výška $\lambd
 \end{example}
 
 \section {Hodnota regexu a REGEX jazyky}
-V této sekci je zkoumána vyjadřovací síla regexů a definována třída \textsc{Regex} jazyků. Nejprve se zavede pojem \emph{hodnoty regexu}. Podobně jako u regulárních výrazů, hodnota je definována jako formální jazyk, který daný výraz popisuje. Při definování bude vycházeno z \cite{fsdeter} a \cite{schmidrefwords}.
+V této sekci je zkoumána vyjadřovací síla regexů a definována třída \textsc{Regex} jazyků. Nejprve se zavede pojem \emph{hodnoty regexu}. Podobně jako u regulárních výrazů, hodnota je definována jako formální jazyk, který daný výraz popisuje. Při definování bude vycházeno z~\cite{schmidrefwords} a\cite{fsdeter}.
 
 \begin{definition}
-Buď $\Sigma$ abeceda, buď $X$ konečná množina proměnných a buď $\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$. Konečná posloupnost znaků z $\Sigma \cup X \cup \Gamma$ se nazývá \emph{referenční slovo}. Referenční jazyk je konečná množina referenčních slov. \cite{schmidrefwords}
+Buď $\Sigma$ abeceda, buď $X$ konečná množina proměnných a buď $\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$. Konečná posloupnost znaků z~$\Sigma \cup X \cup \Gamma$ se nazývá \emph{referenční slovo}. Referenční jazyk je konečná množina referenčních slov. \cite{schmidrefwords}
 \end{definition}
 
 Je možné podívat se na regexy jako na generátory referenčních slov, což znamená, že pro každý regex lze definovat referenční jazyk.
 
-\begin{definition}
+\begin{definition}\label{def:reflan}
 Buď $\Sigma$ abeceda, buď $X$ konečná množina proměnných a buď $\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$. Lze definovat \emph{referenční jazyk} pro libovolný regex $\alpha$ následovně:
 \begin{enumerate}
 	\item{$R\left(\varnothing\right) = \varnothing$,}
 	\item{$R\left(a\right) = \{a\} $ pro $ a \in \Sigma \cup \{ \varepsilon \}$,}
         \item{$R\left(x\right) = \{x\} $ pro $ x \in X$,}
-        \item\label{rule:4}{$R\left(x\{ \alpha \}\right) = \{ [\,_x R\left( \alpha \right)  ]\,_x \}$ pro $x \in X$ a $\alpha \in RV_{\Sigma, X}$,}
+        \item\label{rule:4}{$R\left(x\{ \alpha \}\right) = \{ [\,_x \} \cdot R\left( \alpha \right)  \cdot \{]\,_x \}$ pro $x \in X$ a $\alpha \in RV_{\Sigma, X}$,}
         \item{$R\left(\alpha\cdot\beta\right) = R\left(\alpha\right)\cdot R\left(\beta\right)$, kde $\alpha, \beta \in RV_{\Sigma, X}$,}
         \item{$R\left(\alpha + \beta\right) = R\left(\alpha\right)\cup R\left(\beta\right)$, kde $\alpha, \beta \in RV_{\Sigma, X}$,}
         \item{$R\left(\alpha^\ast\right) = R\left(\alpha\right)^\ast$, kde $\alpha \in RV_{\Sigma, X}$. \cite{fsdeter}}
@@ -163,26 +163,26 @@ Buď $\Sigma$ abeceda, buď $X$ konečná množina proměnných a buď $\Gamma =
 \end{definition}
 
 \begin{pozorovani}\label{poz:hodnota}
-Nechť $\Sigma^\prime = \Sigma \cup X \cup \Gamma$. Provede-li se substituce všech definic $x \{ \beta \}$ v nějakém regexu $\alpha \in RV_{\Sigma, X}$ na výrazy $[\,_x \beta ]\,_x$, hodnota výsledného výrazu $\alpha^\prime$ se rovná referenčnímu jazyku $R(\alpha)$ ($\alpha^\prime$ je regulárním výrazem nad~$\Sigma^\prime$ dle definice). \cite[s. 4]{fsdeter}
+Nechť $\Sigma^\prime = \Sigma \cup X \cup \Gamma$. Provede-li se substituce všech definic $x \{ \beta \}$ v~nějakém regexu $\alpha \in RV_{\Sigma, X}$ na výrazy $[\,_x \beta ]\,_x$, hodnota výsledného výrazu $\alpha^\prime$ se rovná referenčnímu jazyku $R(\alpha)$ ($\alpha^\prime$ je regulárním výrazem nad~$\Sigma^\prime$ dle definice). \cite[s. 4]{fsdeter}
 \end{pozorovani}
 
 \begin{example} 
 Regex $\alpha = \left( b^\ast c \right)^\ast x \{ a^\ast c \} \ x $ generuje například referenční slovo $\left(b^9a\right)^3 [\,_x a^2 c ]\,_x \ x$.
 
-Referenční slovo $r = [\,_x aa  [\,_y c ]\,_x aaa ]\,_y$ nelze generovat žádným regexem. Pokud by nějaký regex $\beta$ generoval $r$, potom podřetězec  $[\,_x aa  [\,_y c ]\,_x$ byl vygenerován pomocí pravidla \ref{rule:4} z definice 2.4. To znamená, že podřetězec $aa  [\,_y c$  byl vygenerován z nějakého regexu $\alpha_0$, což není možné. Jediné pravidlo, pomocí něhož lze získat znak $[\,_y$, je pravidlo \ref{rule:4}. Pak ale $aa  [\,_y c$ obsahuje také znak $]\,_y$, což není pravda.
+Referenční slovo $r = [\,_x aa  [\,_y c ]\,_x aaa ]\,_y$ nelze generovat žádným regexem. Pokud by nějaký regex $\beta$ generoval $r$, potom podřetězec  $[\,_x aa  [\,_y c ]\,_x$ byl vygenerován pomocí pravidla \ref{rule:4} z~definice \ref{def:reflan}. To znamená, že podřetězec $aa  [\,_y c$  byl vygenerován z~nějakého regexu $\alpha_0$, což není možné. Jediné pravidlo, pomocí něhož lze získat znak $[\,_y$, je pravidlo \ref{rule:4}. Pak ale $aa  [\,_y c$ obsahuje také znak $]\,_y$, což není pravda.
 \end{example}
 
-Z předchozího příkladu vyplývá, že ne každé referenční slovo lze vygenerovat pomocí regexu. Pod pojmem \uv{referenční slovo} je dále myšlen pouze řetězec z podmnožiny validních slov, který je definován následovně.
+Z předchozího příkladu vyplývá, že ne každé referenční slovo lze vygenerovat pomocí regexu. Pod pojmem \uv{referenční slovo} je dále myšlen pouze řetězec z~podmnožiny validních slov, který je definován následovně.
 
 \begin{definition}
 Buď $\Sigma$ abeceda, buď $X$ konečná množina proměnných a buď $\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$. Referenční slovo $r$ nad $\Sigma \cup X \cup \Gamma$  je \emph{validní}, pokud existuje $\alpha \in RV_{\Sigma, X}$ tak, že platí $r \in R\left(\alpha\right)$.
 \end{definition}
 
-\uv{Výskyt proměnné $x \in X$ v referenčním slově funguje jako ukazatel na nejbližší podřetězec tvaru $[\,_x \alpha  ]\,_x$, který se nachází vlevo}. \cite{fsdeter} V další definici je ukázáno, jak lze formálně převést referenční slovo nad $\Sigma \cup X \cup \Gamma$ na slovo nad $\Sigma$ (v původním textu se této operaci říká \emph{dereference}). Zjednodušeně lze níže uvedené kroky popsat následovně:
+\uv{Výskyt proměnné $x \in X$ v~referenčním slově funguje jako ukazatel na nejbližší podřetězec tvaru $[\,_x \alpha  ]\,_x$, který se nachází vlevo}. \cite{fsdeter} v~další definici je ukázáno, jak lze formálně převést referenční slovo nad $\Sigma \cup X \cup \Gamma$ na slovo nad $\Sigma$ (v původním textu se této operaci říká \emph{dereference}). Zjednodušeně lze níže uvedené kroky popsat následovně:
    
-\emph{Každá proměnná $x$ se substituuje za příslušný podřetězec, na nějž daná proměnná odkazuje (nebo za $\varepsilon$, pokud se nalevo nevyskytuje podřetězec $[\,_x \dots \ ]\,_x$), a všechny znaky z $\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$ z řetězce budou odstraněny.}
+\emph{Každá proměnná $x$ se substituuje za příslušný podřetězec, na nějž daná proměnná odkazuje (nebo za $\varepsilon$, pokud se nalevo nevyskytuje podřetězec $[\,_x \dots \ ]\,_x$), a všechny znaky z~$\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$ z~řetězce budou odstraněny.}
 \begin{definition}
-Buď $r$ referenční slovo nad ${\Sigma \cup X \cup \Gamma}$, buď $var \left( x \right)$ počet znaku $x$ v $r$ a buď $X^\prime = \bigcup\limits_{x \in X} \bigcup\limits_{i=1}^{i \leq var \left( x \right)} \{x_i\}$. Výraz $r^\prime$ je $r$, v němž jsou proměnné očíslované ($r^\prime \in \left(\Sigma \cup X^\prime  \cup \Gamma \right)^\ast$). Pro $r^\prime$ jsou definovány homomorfismy $deref_0^{r^\prime} :  \left(\Sigma \cup X^\prime \cup \Gamma\right)^\ast \rightarrow  \left(\Sigma \cup \Gamma\right)^\ast$ a $deref_1^{r^\prime} : \left(\Sigma \cup \Gamma\right)^\ast \rightarrow \Sigma^\ast$ následovně:
+Buď $r$ referenční slovo nad ${\Sigma \cup X \cup \Gamma}$, buď $var \left( x \right)$ počet znaku $x$ v~$r$ a buď $X^\prime = \bigcup\limits_{x \in X} \bigcup\limits_{i=1}^{i \leq var \left( x \right)} \{x_i\}$. Výraz $r^\prime$ je $r$, v~němž jsou proměnné očíslované ($r^\prime \in \left(\Sigma \cup X^\prime  \cup \Gamma \right)^\ast$). Pro $r^\prime$ jsou definovány homomorfismy $deref_0^{r^\prime} :  \left(\Sigma \cup X^\prime \cup \Gamma\right)^\ast \rightarrow  \left(\Sigma \cup \Gamma\right)^\ast$ a $deref_1^{r^\prime} : \left(\Sigma \cup \Gamma\right)^\ast \rightarrow \Sigma^\ast$ následovně:
 \begin{enumerate}
 	\item{$deref_0^{r^\prime} \left( a \right) = a$ pro $a \in \Sigma \cup \Gamma$, }
 	\item{$deref_0^{r^\prime} \left( x_i \right) = deref_1^{r^\prime} \left( deref_0^{r^\prime} \left( \alpha \right) \right) $, pokud platí $x_i \in X^\prime \ \wedge $ \\ \bigg($\exists  \alpha, a, b, c \in \left(\Sigma \cup X \cup \Gamma\right)^\ast$\bigg) $\bigg[ \ r^\prime = a [\,_x \alpha  ]\,_x b x_i c \ \wedge \ [\,_x ,  ]\,_x \notin \alpha \ \wedge [\,_x ,  ]\,_x \notin b \ \bigg]$,}
@@ -193,56 +193,57 @@ Buď $r$ referenční slovo nad ${\Sigma \cup X \cup \Gamma}$, buď $var \left( 
 \end{definition}
 
 \begin{definition}\label{def:refword}
-Pro referenční slovo $r$ hodnota je definována takto:
+Pro referenční slovo $r$ hodnota (anglicky \emph{dereference)} je definována takto:
 \begin{equation}D\left(r\right) = deref_1^{r^\prime}  \left( deref_0^{r^\prime}  \left( r^\prime \right) \right),
-\end{equation}kde $r^\prime$ je $r$ s očíslovanými proměnnými.
+\end{equation}kde $r^\prime$ je $r$ s~očíslovanými proměnnými.
 Dvě referenční slova $r_1$ a $r_2$ jsou \emph{ekvivalentní}, právě když $D\left(r_1\right) = D\left(r_2\right)$.
 Hodnota referenčního jazyka $R$ je definována takto:
 \begin{equation} D\left(R\right) = \{ D\left(r\right) \mid r \in R\} \end{equation}
 Pro regex $\alpha$ \emph{hodnota} je definována následovně:
 \begin{equation}L\left(\alpha\right) = D\left(R\left(\alpha\right)\right)\end{equation}
-\emph{Třída REGEX jazyků} je definována takto:
+Třída \textsc{Regex} jazyků je definována takto:
 \begin{equation}\mathbb{L}_{REGEX} = \bigcup\limits_{\alpha \in RV_{\Sigma, X}} L\left(\alpha\right)\end{equation}
 \end{definition}
 
 \begin{example}\label{ex:ref}
 Regex $\alpha = x \left( bc \right)^\ast x \{ y a \ y \{ b a^\ast + a\} \ c \} x $ generuje referenční jazyk 
-\begin{flalign*} &R\left(\alpha\right) = \{x \left( bc \right)^n  [\,_x y a  [\,_y b a^k]\,_y c ]\,_x x \mid n, k \in \mathbb{N}_0\} \ \cup \\
+\begin{flalign*} &R\left(\alpha\right) = \{x \left( bc \right)^n  [\,_x y a  [\,_y b a^k]\,_y c ]\,_x x \mid n, k~\in \mathbb{N}_0\} \ \cup \\
  &\{x \left( bc \right)^n  [\,_x y a  [\,_y a]\,_y c ]\,_x x \mid n \in \mathbb{N}_0\}.
 \end{flalign*} Referenční slovo $x bcbc [\,_x y a [\,_y ba]\,_y c ]\,_x x \in R\left(\alpha\right)$ odpovídá řetězci 
 \begin{flalign*} &D\left(x_1 bcbc [\,_x y_1 a [\,_y ba]\,_y c ]\,_x x_2 \right) =  D\left(bcbc [\,_x  \underbrace{a [\,_y ba]\,_y c }_\text{$\alpha$} ]\,_x  \underline{x_2} \right) =  \\ &bcbcabacabac.\end{flalign*}
-Hodnota regexu $\alpha$ se rovná \begin{flalign*}&L\left(\alpha\right) = D\left(R\left(\alpha\right)\right) = \{ \left( bc \right)^n \left( a b a^k c\right)^2 \mid n, k \in \mathbb{N}_0\} \ \cup \\&\{ \left( bc \right)^n \left(  a a c\right)^2 \mid n \in \mathbb{N}_0\}.\end{flalign*}
+Hodnota regexu $\alpha$ se rovná \begin{flalign*}&L\left(\alpha\right) = D\left(R\left(\alpha\right)\right) = \{ \left( bc \right)^n \left( a b a^k c\right)^2 \mid n, k~\in \mathbb{N}_0\} \ \cup \\&\{ \left( bc \right)^n \left(  a a c\right)^2 \mid n \in \mathbb{N}_0\}.\end{flalign*}
 \end{example}
 
-K výpočtu hodnoty referenčního slova lze použít algoritmus \ref{alg:refword}, který vychází přímo z definice hodnoty. Tento algoritmus se chová tak, že projde každý znak ze vstupu jednou a spočítá jeho hodnotu v čase $\mathcal{O}(1)$, což dává celkovou složitost $\mathcal{O}(|r|)$. 
+Pro porovnání hodnoty referenčního slova se vstupním řetězcem lze použít algoritmus \ref{alg:refword}, který vychází přímo z~definice dereference \ref{def:refword}. Tento algoritmus se chová tak, že projde každý znak $c$ referenčního slova jednou a porovná hodnotu $deref_1^{r^\prime}  \left( deref_0^{r^\prime}  \left( c \right) \right)$ s~odpovídajícími znaky vstupního řetězce. Pokud celkový počet porovnávaných znaků překročí délku řetězce $w$, algoritmus vrátí \texttt{false}. Pro nějaký symbol referenčního slova algoritmus porovná maximálně $\mathcal{O}(|w|)$ znaků (řádky 12--15), celkem tedy algoritmus spotřebuje čas  $\mathcal{O}(|r|\cdot|w|)$. 
 
 \begin{algorithm}
 		
-  \caption{Výpočet hodnoty referenčního slova}\label{alg:refword}
+  \caption{Porovnání hodnoty referenčního slova s~řetězcem}\label{alg:refword}
     \SetKwInOut{Input}{Vstup}
     \SetKwInOut{Output}{Výstup}
 	\DontPrintSemicolon
-    \Input{referenční slovo $r$ nad $\Sigma \cup X \cup \Gamma$} 
-    \Output{$w \in \Sigma$ takové, že $D(r) = w$}
-    $pos : \Gamma \rightarrow \mathbb{N}$ ; $(\forall x \in \Gamma)$ $pos(x) \gets -\infty$
+    \Input{referenční slovo $r$ nad $\Sigma \cup X \cup \Gamma$, vstupní řetězec $w \in \Sigma^\ast$} 
+    \Output{$D(r) = w$?}
+    $pos : \Gamma \rightarrow \mathbb{N}$; $(\forall x \in \Gamma)$ $pos(x) \gets -\infty$\;
+    $j \gets 0$
 
 \For{$i\gets1$ \KwTo $|r|$}{
-	\lIf{$r[i] \in \Sigma$}{continue}
-	\uElseIf{$r[i] \in \Gamma$}{$pos(x) \gets i$\; 
-	$r \gets r[0 \dots i-1]  . r[i+1\dots]$; $i \gets i-1$\; }
+	\lIf{$r[i] \in \Sigma$}{\lIf{$j \ge |w| \ \vee \ r[i] \ne w[j+1]$}{\KwRet false}
+	$j \gets j + 1$}
+	\uElseIf{$r[i] \in \Gamma$}{$pos(x) \gets j$\; }
 	\uElse{
 		$start \gets [\,_{r[i]}$; $end \gets ]\,_{r[i]}$ \;
-		\uIf{$pos(start)=-\infty \ \vee \ pos(end) \le pos(start)$}{
-			$r \gets r[0 \dots i-1]  . r[i+1\dots]$\; 
-			 $i \gets i-1$\; 
-		}
+		\lIf{$pos(start)=-\infty \ \vee \ pos(end) \le pos(start)$}{continue}
 		\uElse{
-			$r \gets r[1 \dots i-1] . r[pos(start)\dots pos(end)] . r[i+1\dots]$\; 
-			$i \gets i + pos(start) - pos(end) + 1$\; 
+			\For{$k\gets pos(start)+1$ \KwTo $pos(end)$}{
+			\lIf{$j \ge |w| \ \vee \ w[k] \ne w[j+1]$}{\KwRet false}
+			$j \gets j + 1$
+			}
 		}
 	}
 }
-\KwRet r
+\lIf{$j=|w|+1$}{\KwRet true}
+\lElse{\KwRet false}
   
 \end{algorithm}
 
@@ -250,48 +251,48 @@ K výpočtu hodnoty referenčního slova lze použít algoritmus \ref{alg:refwor
 Z příkladu \ref{ex:ref} vyplývá, že některá referenční slova je možné převést na jednodušší (kratší), pokud budou vynechány například \uv{nedefinované} proměnné. 
 
 \begin{definition}
-Buď $r$ referenční slovo nad ${\Sigma \cup X \cup \Gamma}$. Referenční slovo $r$ obsahuje \emph{referenci na nedefinovanou proměnnou $x \in X$}, právě když platí alespoň jedno z následujících tvrzení:
+Buď $r$ referenční slovo nad ${\Sigma \cup X \cup \Gamma}$. Referenční slovo $r$ obsahuje \emph{referenci na nedefinovanou proměnnou $x \in X$}, právě když platí alespoň jedno z~následujících tvrzení:
 
 	\begin{equation}\label{eq:ref1}\bigg (\exists  a, b \in \left(\Sigma \cup X \cup \Gamma\right)^\ast\bigg) \bigg [ \ r = a x b \ \wedge \ ]\,_x \notin a \ \bigg ]\end{equation}
 	\begin{equation}\begin{split}\label{eq:ref2}&\bigg(\exists  \alpha, a, b, c \in \left(\Sigma \cup X \cup \Gamma\right)^\ast\bigg) \bigg [ \ r = a [\,_x \alpha  ]\,_x b x c \ \wedge \ [\,_x, ]\,_x \notin \alpha  \ \wedge \ [\,_x ,  ]\,_x \notin b \ \wedge \\&D \left( \alpha \right) = \varepsilon \ \bigg ] \end{split}\end{equation}
 \end{definition}
 
 \begin{example}
-	Buď $\Sigma = \{c, d\}$ abeceda, buď $X=\{x, y\}$ množina proměnných. $\Gamma = \{[\,_x , ]\,_x, [\,_y , ]\,_y\}$. Referenční slovo $r = c [\,_x y ]\,_x ddx$ nad $\Sigma\cup X\cup\Gamma$ má dvě zpětné reference na nedefinovanou proměnnou. Reference na $y \in X$ je nedefinovaná, protože neexistuje žádná definice této proměnné zleva (je splňen bod~\ref{eq:ref1}, protože existuje rozklad $r=ayb$ takový, že $a = c [\,_x$ a $]\,_y \notin a$). Zpětná reference $x$ je také nedefinovaná, protože je splněn bod~\ref{eq:ref2}, což znamená, že zleva od tohoto výrazu existuje definice proměnné $x$, ale hodnota tohoto výrazu se rovná $\varepsilon$ (hodnota nedefinované zpětné reference $y$ je prázdné slovo dle pravidla \ref{rule:eps} z definice hodnoty). Nedefinované proměnné lze z řetězce odstranit, aniž by se změnila hodnota referenčního slova: $D( c [\,_x y ]\,_x ddx ) = D(c [\,_x ]\,_x d d) = cdd$.
+	Buď $\Sigma = \{c, d\}$ abeceda, buď $X=\{x, y\}$ množina proměnných. $\Gamma = \{[\,_x , ]\,_x, [\,_y , ]\,_y\}$. Referenční slovo $r = c [\,_x y ]\,_x ddx$ nad $\Sigma\cup X\cup\Gamma$ má dvě zpětné reference na nedefinovanou proměnnou. Reference na $y \in X$ je nedefinovaná, protože neexistuje žádná definice této proměnné zleva (je splňen bod~\ref{eq:ref1}, protože existuje rozklad $r=ayb$ takový, že $a = c [\,_x$ a $]\,_y \notin a$). Zpětná reference $x$ je také nedefinovaná, protože je splněn bod~\ref{eq:ref2}, což znamená, že zleva od tohoto výrazu existuje definice proměnné $x$, ale hodnota tohoto výrazu se rovná $\varepsilon$ (hodnota nedefinované zpětné reference $y$ je prázdné slovo dle pravidla \ref{rule:eps} z~definice hodnoty). Nedefinované proměnné lze z~řetězce odstranit, aniž by se změnila hodnota referenčního slova: $D( c [\,_x y ]\,_x ddx ) = D(c [\,_x ]\,_x d d) = cdd$.
 \end{example}
 
 \begin{definition}\label{def:ref}
-Referenční slovo $r$ obsahuje \emph{zbytečnou definici proměnné} $x$, právě když platí alespoň jedno z následujících tvrzení:
+Referenční slovo $r$ obsahuje \emph{zbytečnou definici proměnné} $x$, právě když platí alespoň jedno z~následujících tvrzení:
 
 	\begin{equation}\label{eq:def1}\bigg (\exists  \alpha, a, b \in \left(\Sigma \cup X \cup \Gamma\right)^\ast\bigg) \bigg [ \ r = a [\,_x \alpha  ]\,_x b \ \wedge \  [\,_x, ]\,_x \notin \alpha  \ \wedge \ x \notin b \ \bigg] \end{equation}
 	\begin{equation}\label{eq:def2}\bigg(\exists  \alpha, a, b, c \in \left(\Sigma \cup X \cup \Gamma\right)^\ast\bigg) \bigg [ \ r = a [\,_x \alpha  ]\,_x b  ]\,_x c x \ \wedge \  [\,_x, ]\,_x \notin \alpha  \ \wedge \ x \notin b \ \bigg ]\end{equation}
 \end{definition}
 
 \begin{example}
-	Referenční slovo $r = c [\,_x c ]\,_x [\,_x d ]\,_x [\,_y x ]\,_y$ nad $\Sigma\cup X\cup\Gamma$ má dvě zbytečné definice, První definice ve výrazu ($[\,_x c ]\,_x$) je zbytečná, protože jediná zpětná reference, která se vyskytuje napravo, odkazuje na definici nacházející bezprostředně po dané definici ($ [\,_x d ]\,_x$), což splňuje bod \ref{eq:def2}. Poslední definice je zbytečná, protože napravo od ní neexistuje žádná reference na proměnnou $y$ (je splněn bod \ref{eq:def1}). Závorky, které ohraničují zbytečnou definici, je možné z referenčního slova odstranit, přičemž hodnota výsledného řetězce zůstane stejná: $D(c [\,_x c ]\,_x [\,_x d ]\,_x [\,_y x ]\,_y)=D(c c [\,_x d ]\,_x x)=ccdd$.
+	Referenční slovo $r = c [\,_x c ]\,_x [\,_x d ]\,_x [\,_y x ]\,_y$ nad $\Sigma\cup X\cup\Gamma$ má dvě zbytečné definice, První definice ve výrazu ($[\,_x c ]\,_x$) je zbytečná, protože jediná zpětná reference, která se vyskytuje napravo, odkazuje na definici nacházející bezprostředně po dané definici ($ [\,_x d ]\,_x$), což splňuje bod \ref{eq:def2}. Poslední definice je zbytečná, protože napravo od ní neexistuje žádná reference na proměnnou $y$ (je splněn bod \ref{eq:def1}). Závorky, které ohraničují zbytečnou definici, je možné z~referenčního slova odstranit, přičemž hodnota výsledného řetězce zůstane stejná: $D(c [\,_x c ]\,_x [\,_x d ]\,_x [\,_y x ]\,_y)=D(c c [\,_x d ]\,_x x)=ccdd$.
 \end{example}
 
-Z definice \ref{def:refword} plyne, že referenční slovo může \uv{dosvědčit} příslušnost slova k hodnotě regexu. V této práci je poprvé zformulováno a dokázáno tvrzení, že pro každé slovo $w$, které je popsáno nějakým regexem $\alpha$, existuje referenční slovo, jehož délka je polynomiální vzhledem k $|\alpha|^2\cdot|w|$.
+Z definice \ref{def:refword} plyne, že referenční slovo může \uv{dosvědčit} příslušnost slova k~hodnotě regexu. v~této práci je poprvé zformulováno a dokázáno tvrzení, že pro každé slovo $w$, které je popsáno nějakým regexem $\alpha$, existuje referenční slovo, jehož délka je polynomiální vzhledem k~$|\alpha|^2\cdot|w|$.
 
 \begin{lemma}\label{lem:ref1}
 Buď $\alpha \in RV_{\Sigma, X}$, a buď $w \in L(\alpha)$. Potom nutně existuje referenční slovo $r$ nad $\Sigma\cup X \cup\Gamma$ ($\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$) takové, že $r \in R(\alpha)$, $D(r) = w$ a platí $|r| \le |\alpha|+|\alpha|^2\cdot|w|$.
 \end{lemma}
 
-\begin{proof} Trvzení $w \in L(\alpha) \iff \bigg(\exists r \in R(\alpha)\bigg) \ D(r) = w$ plyne z definice hodnoty regexu. Platí totiž $L(\alpha)=D(R(\alpha))=\{D(r) \mid r \in R(\alpha)\}$. Potom v~referenčním jazyce $R(\alpha)$ existuje nějaké $r$, jehož hodnota se rovná $w$ ($D(r)=w$).  
+\begin{proof} Trvzení $w \in L(\alpha) \iff \bigg(\exists r \in R(\alpha)\bigg) \ D(r) = w$ plyne z~definice hodnoty regexu. Platí totiž $L(\alpha)=D(R(\alpha))=\{D(r) \mid r \in R(\alpha)\}$. Potom v~referenčním jazyce $R(\alpha)$ existuje nějaké $r$, jehož hodnota se rovná $w$ ($D(r)=w$).  
 
 Druhé tvrzení se rozdělí do dvou případů. 
  \begin{itemize}
-	\item{Nechť $\alpha$ neobsahuje žádnou iteraci. Z pozorování \ref{poz:hodnota} vyplývá, že $\alpha$ generuje referenční jazyk $R$, který je také regulárním jazykem nad $\Sigma^\prime = \Sigma \cup X \cup \Gamma$. Potom délka libovolného referenční slova $r \in R(\alpha)$ nemůže přesáhnout délku regexu ($|r| \leq |\alpha|$). Pokud by délka $r$ byla větší, potom musí nějaké dva podřetězce $\varphi$, $\gamma$ ($\varphi \ne \gamma$) z $r$ odpovídat stejnému podřetězci $\pi$ z $\alpha$. To ale je možné, jedině když se $\pi$ nachází v iteraci, což je spor s předpokladem.}
-	\item{Předpokládejme, že $\alpha$ obsahuje alespoň jednu iteraci. Nechť $S$ je souborem všech podřetězců $\alpha$ tvaru $\beta^\ast$. Jelikož $r \in R(\alpha)$, existuje nějaké přiřazení podřetězců z $r$ výrazům $s_i$ ($s_i^\ast \in S$). Potom lze z $r$ odstranit podřetězec $\gamma$, který odpovídá nějakému $s_i$ ($s_i^\ast \in S$), pokud hodnota tohoto podřetězce je $\varepsilon$. Podle definice může $\gamma$ obsahovat pouze zbytečné reference, které mají prázdnou hodnotu, a nedefinované proměnné. Po odstranění všech takových podřetězců z $r$, jejichž hodnoty jsou prázdné, hodnota výsledného referenčního slova $r^\prime$ zůstane stejná, tedy platí $D(r^\prime)=D(r)=w$. Jelikož byly z $r$ odstraněny pouze podřetězce odpovídající nějaké iteraci a $\varepsilon$ patří do hodnoty regulárního výrazu $\beta^\ast$ pro libovolné $\beta$, slovo $r^\prime$ bude patřit do referenčního jazyka $R(\alpha)$.  
+	\item{Nechť $\alpha$ neobsahuje žádnou iteraci. z~pozorování \ref{poz:hodnota} vyplývá, že $\alpha$ generuje referenční jazyk $R$, který je také regulárním jazykem nad $\Sigma^\prime = \Sigma \cup X \cup \Gamma$. Potom délka libovolného referenční slova $r \in R(\alpha)$ nemůže přesáhnout délku regexu ($|r| \leq |\alpha|$). Pokud by délka $r$ byla větší, potom musí nějaké dva podřetězce $\varphi$, $\gamma$ ($\varphi \ne \gamma$) z~$r$ odpovídat stejnému podřetězci $\pi$ z~$\alpha$. To ale je možné, jedině když se $\pi$ nachází v~iteraci, což je spor s~předpokladem.}
+	\item{Předpokládejme, že $\alpha$ obsahuje alespoň jednu iteraci. Nechť $S$ je souborem všech podřetězců $\alpha$ tvaru $\beta^\ast$. Jelikož $r \in R(\alpha)$, existuje nějaké přiřazení podřetězců z~$r$ výrazům $s_i$ ($s_i^\ast \in S$). Potom lze z~$r$ odstranit podřetězec $\gamma$, který odpovídá nějakému $s_i$ ($s_i^\ast \in S$), pokud hodnota tohoto podřetězce je $\varepsilon$. Podle definice může $\gamma$ obsahovat pouze zbytečné definice, které mají prázdnou hodnotu, a nedefinované reference. Po odstranění všech takových podřetězců z~$r$, jejichž hodnoty jsou prázdné, hodnota výsledného referenčního slova $r^\prime$ zůstane stejná, tedy platí $D(r^\prime)=D(r)=w$. Jelikož byly z~$r$ odstraněny pouze podřetězce odpovídající nějaké iteraci a $\varepsilon$ patří do hodnoty regulárního výrazu $\beta^\ast$ pro libovolné $\beta$, slovo $r^\prime$ bude patřit do referenčního jazyka $R(\alpha)$.  
 
-	Jelikož $r^\prime \in R(\alpha)$, existuje nějaké přiřazení podřetězců z $r^\prime$ výrazům $s_i$ ($s_i^\ast \in S$). Potom $r_0$ je $r^\prime$, kde všechny takové řetězce jsou opatřeny kulatými závorkami. Nechť tedy $\mathcal{G}$ je strom, pro který platí:
+	Jelikož $r^\prime \in R(\alpha)$, existuje nějaké přiřazení podřetězců z~$r^\prime$ výrazům $s_i$ ($s_i^\ast \in S$). Potom $r_0$ je $r^\prime$, kde všechny takové řetězce jsou opatřeny kulatými závorkami. Nechť tedy $\mathcal{G}$ je strom, pro který platí:
 	\begin{itemize}  \item{V kořeni $\mathcal{G}$ je uložen klíč $r_0$.}
-				\item{Vrchol $a$ s klíčem $\pi(a)$ je synem $b$ (dále značeno $s(a, b)$) právě tehdy, když v $\pi(b)$ existuje podřetězec tvaru $\gamma= (\pi(a))$ a $\gamma$ se nenachází unitř kulatých závorek v $\pi(b)$.}
+				\item{Vrchol $a$ s~klíčem $\pi(a)$ je synem $b$ (dále značeno $s(a, b)$) právě tehdy, když v~$\pi(b)$ existuje podřetězec tvaru $\gamma= (\pi(a))$ a $\gamma$ se nenachází unitř kulatých závorek v~$\pi(b)$.}
 				\item{V listech stromu jsou uloženy klíče neobsahující kulaté závorky.}
-				\item{Hloubka stromu $\mathcal{G}$ je menší než $\lambda(\alpha)$+1, kde $\lambda(\alpha)$ je hvězdná výška $\alpha$. Předpokládejme, že strom má hloubku $l \ge \lambda(\alpha)+1$, potom musí existovat alespoň jeden uzel na $n$-té úrovni, kde $n = \lambda(\alpha)+2$. To znamená, že kořen stromu má klíč $\pi$ obsahující podřetězec $\gamma$, kde $\gamma$ se nachází uvnitř $\lambda(\alpha)+1$ kulatých závorek. Z toho plyne, že $\gamma$ odpovídá $s_i$ ($s_i^\ast \in S$) a $s_i$ se nachází uvnitř $\lambda(\alpha)+1$ do sebe vnořených iterací v regexu $\alpha$. Potom z definice pro hvězdnou výšku $\alpha$ musí platí $\lambda(\alpha) \ge \lambda(\alpha)+1$, což není možné.}
-				\item{Počet listu (a tedy i šířka stromu) je menší nebo roven $|w|$. Pokud by strom měl $|w|+1$ listů, potom alespoň jeden z listů má klíč $\pi$ takový, že $D(\pi)=\varepsilon$, což není možné (všechny takové řetězce byly z $r^\prime$ odstraněny).}
+				\item{Hloubka stromu $\mathcal{G}$ je menší než $\lambda(\alpha)$+1, kde $\lambda(\alpha)$ je hvězdná výška $\alpha$. Předpokládejme, že strom má hloubku $l \ge \lambda(\alpha)+1$, potom musí existovat alespoň jeden uzel na $n$-té úrovni, kde $n = \lambda(\alpha)+2$. To znamená, že kořen stromu má klíč $\pi$ obsahující podřetězec $\gamma$, kde $\gamma$ se nachází uvnitř $\lambda(\alpha)+1$ kulatých závorek. z~toho plyne, že $\gamma$ odpovídá $s_i$ ($s_i^\ast \in S$) a $s_i$ se nachází uvnitř $\lambda(\alpha)+1$ do sebe vnořených iterací v~regexu $\alpha$. Potom z~definice pro hvězdnou výšku $\alpha$ musí platí $\lambda(\alpha) \ge \lambda(\alpha)+1$, což není možné.}
+				\item{Počet listu (a tedy i šířka stromu) je menší nebo roven $|w|$. Pokud by strom měl $|w|+1$ listů, potom alespoň jeden z~listů má klíč $\pi$ takový, že $D(\pi)=\varepsilon$, což není možné (všechny takové řetězce byly z~$r^\prime$ odstraněny).}
 	\end{itemize}
-Kořen $\mathcal{G}$ potom má maximálně $\lambda(\alpha)\cdot|w|$ potomků. Množina potomků pro vrchol $a$ je značena $P(a)$. Délka klíče pro každý vrchol $a$ se rovná $|\pi_{0}(a)| + \sum_{s(i, a)}(|\pi(i)|+2)$, kde $\pi_{0}(a)$ je $\pi(a)$ po odstranění všech podřetězců v kulatých závorkách. Jelikož $\pi_{0}(a)$ odpovídá podsekvenci $\alpha$ neobsahující iteraci, délka $\pi_{0}(a)$ pro každý vrchol $a$ nepřesáhne $|\alpha|$ a je splněna nerovnost $|\pi(a)| \le |\alpha| + \sum_{s(i, a)}(|\pi(i)|+2)$. V $r_0$ počet závorek je roven počtu potomků kořene stromu $\varphi$. Potom pro délku referenčního slova $r^\prime$ platí: 
+Kořen $\mathcal{G}$ potom má maximálně $\lambda(\alpha)\cdot|w|$ potomků. Množina potomků pro vrchol $a$ je značena $P(a)$. Délka klíče pro každý vrchol $a$ se rovná $|\pi_{0}(a)| + \sum_{s(i, a)}(|\pi(i)|+2)$, kde $\pi_{0}(a)$ je $\pi(a)$ po odstranění všech podřetězců v~kulatých závorkách. Jelikož $\pi_{0}(a)$ odpovídá podsekvenci $\alpha$ neobsahující iteraci, délka $\pi_{0}(a)$ pro každý vrchol $a$ nepřesáhne $|\alpha|$ a je splněna nerovnost $|\pi(a)| \le |\alpha| + \sum_{s(i, a)}(|\pi(i)|+2)$. v~$r_0$ počet závorek je roven počtu potomků kořene stromu $\varphi$. Potom pro délku referenčního slova $r^\prime$ platí: 
 \begin{equation*}\begin{split}|r^{\prime}|&=|\pi(\varphi)|-2|P(\varphi)|=\pi_0(\varphi)+\sum_{i \in P(\varphi)}(|\pi_{0}(i)|+2) - 2|P(\varphi)| \\&= \pi_{0}(\varphi)+\sum_{i \in P(\varphi)}|\pi_{0}(i)| \le |\alpha|+|\alpha|\cdot\lambda(\alpha)\cdot|w| \le |\alpha|+|\alpha|^2\cdot|w|.
 \end{split}\end{equation*}
 	}
@@ -301,7 +302,7 @@ Kořen $\mathcal{G}$ potom má maximálně $\lambda(\alpha)\cdot|w|$ potomků. M
 Pro lepší pochopení důkazu lemmatu \ref{lem:ref1} kroky, které se používají pro regex obsahující iteraci, jsou dále demonstrovány na konkretním příkladě.
  
 \begin{example}
-Nechť $\Sigma = \{a, b\}$ je abeceda a $X=\{y\}$ je množina proměnných. Regex $\alpha = (y^\ast \ y \{a+b\})^\ast$ patří do množiny $RV_{\Sigma, X}$. Hvězdná výška je rovna $\lambda(\alpha) = 2$. Soubor iterací výrazu se rovná $S = \left((y^\ast \ y \{a+b\})^\ast, y^\ast\right)$. Referenční slovo $r = y^{1000} [\,_y a ]\,_y y y [\,_y b ]\,_y [\,_y a ]\,_y \in R(\alpha)$ má hodnotu $w=D(r)=aaaba$. Každá z první tisíce referencí na $y$ odpovídá $y$ ($y^\ast \in S)$ a je nedefinovaná, proto lze podřetězec $y^{1000}$ z $r$ odstranit. Pro výsledné referenční slovo $r^\prime = [\,_y a ]\,_y y y [\,_y b ]\,_y [\,_y a ]\,_y$ platí tvrzení $D(r^\prime)=D(r) \ \wedge \ r^\prime \in R(\alpha)$. Potom řetězec $r_0 = ([\,_y a ]\,_y) ((y) (y) [\,_y b ]\,_y) ([\,_y a ]\,_y)$ je $r^\prime$, kde odpovídající řetězce jsou opatřeny kulatými závorkami, jak je popsáno v důkazu. Graf $\mathcal{G}$ pro $r^\prime$ je zobrazen na obrázku \ref{fig:refproof}. Graf má hloubku $\lambda(\alpha)$ a počet listů je 4 $\le |w|$. Délka referenčního slova $r^\prime$ je rovna $11 \le |\alpha| + |\alpha|^2\cdot|w|=616$, i když $|r| > 616$. 
+Nechť $\Sigma = \{a, b\}$ je abeceda a $X=\{y\}$ je množina proměnných. Regex $\alpha = (y^\ast \ y \{a+b\})^\ast$ patří do množiny $RV_{\Sigma, X}$. Hvězdná výška je rovna $\lambda(\alpha) = 2$. Soubor iterací výrazu se rovná $S = \left((y^\ast \ y \{a+b\})^\ast, y^\ast\right)$. Referenční slovo $r = y^{1000} [\,_y a ]\,_y y y [\,_y b ]\,_y [\,_y a ]\,_y \in R(\alpha)$ má hodnotu $w=D(r)=aaaba$. Každá z~první tisíce referencí na $y$ odpovídá $y$ ($y^\ast \in S)$ a je nedefinovaná, proto lze podřetězec $y^{1000}$ z~$r$ odstranit. Pro výsledné referenční slovo $r^\prime = [\,_y a ]\,_y y y [\,_y b ]\,_y [\,_y a ]\,_y$ platí tvrzení $D(r^\prime)=D(r) \ \wedge \ r^\prime \in R(\alpha)$. Potom řetězec $r_0 = ([\,_y a ]\,_y) ((y) (y) [\,_y b ]\,_y) ([\,_y a ]\,_y)$ je $r^\prime$, kde odpovídající řetězce jsou opatřeny kulatými závorkami, jak je popsáno v~důkazu. Graf $\mathcal{G}$ pro $r^\prime$ je zobrazen na obrázku \ref{fig:refproof}. Graf má hloubku $\lambda(\alpha)$ a počet listů je 4 $\le |w|$. Délka referenčního slova $r^\prime$ je rovna $11 \le |\alpha| + |\alpha|^2\cdot|w|=616$, i když $|r| > 616$. 
 \end{example}
 
 \begin{figure}[h]
@@ -335,9 +336,9 @@ Otázka: Platí $w \in L\left(\alpha\right)$?
 \begin{theorem}
 Problém \ref{prob} je NP-úplný.
 \end{theorem}
-Těžkost tohoto problému lze ukázat převodem z problému vrcholového pokrytí \cite[s. 289]{alfred2014algorithms}. I když autor práce používá odlišnou notaci regulárních výrazu se zpětnými referencemi, vyjadřovací síla daného formalismu je rovna vyjadřovací síle regexu \cite[lemma 23 na s. 39]{berglund}. Aho též popisuje jednoduchý nedeterministický algoritmus, pomocí nějž lze vyřešit problém \ref{prob} v polynomiálním čase. Základní myšlenka spočívá v nalezení $k$ podřetězců z~$w$, kde $k$~je celkový počet definic a referencí v $\alpha$. Tímto se problém převede na problém zpracování klasických regulárních výrazů. Algoritmus však nebude nefungovat pro regexy obsahující dílčí výrazy tvaru $\left(w_1 x\{ w_2 \} w_3 \right)^\ast$ (resp. $\left(w_1 x w_2 \right)^\ast$), kde $w_1, w_2, w_3 \in RV_{\Sigma, X}$ \cite[s. 83]{schmidregex}. 
+Těžkost tohoto problému lze ukázat převodem z~problému vrcholového pokrytí \cite[s. 289]{alfred2014algorithms}. I když autor práce používá odlišnou notaci regulárních výrazu se zpětnými referencemi, vyjadřovací síla daného formalismu je rovna vyjadřovací síle regexu \cite[lemma 23 na s. 39]{berglund}. Aho též popisuje jednoduchý nedeterministický algoritmus, pomocí nějž lze vyřešit problém \ref{prob} v~polynomiálním čase. Základní myšlenka spočívá v~nalezení $k$ podřetězců z~$w$, kde $k$~je celkový počet definic a referencí v~$\alpha$. Tímto se problém převede na problém zpracování klasických regulárních výrazů. Algoritmus však nebude nefungovat pro regexy obsahující dílčí výrazy tvaru $\left(w_1 x\{ w_2 \} w_3 \right)^\ast$ (resp. $\left(w_1 x w_2 \right)^\ast$), kde $w_1, w_2, w_3 \in RV_{\Sigma, X}$ \cite[s. 83]{schmidregex}. 
 \begin{example}
-Pro regex $\alpha=\left(x\{a\} \ b x \right)^\ast$ a $w = abaaba$ algoritmus Aho nalezne dva podřetězce, které odpovídají výrazu $a$ v definici proměnné $x$ a tyto podřetězce se musí rovnat (definice a reference na tutéž proměnnou). Jelikož počet podřetězců $a$ v $\alpha$ je 4, celkový počet takových dvojic je roven 6. Po odstranění těchto podřetězců z $w$ algoritmus vrátí \texttt{true}, pokud $w^\prime \in h( \ (\varepsilon b \varepsilon )^\ast) = h(b^\ast)$.
+Pro regex $\alpha=\left(x\{a\} \ b x \right)^\ast$ a $w = abaaba$ algoritmus Aho nalezne dva podřetězce, které odpovídají výrazu $a$ v~definici proměnné $x$ a tyto podřetězce se musí rovnat (definice a reference na tutéž proměnnou). Jelikož počet podřetězců $a$ v~$\alpha$ je 4, celkový počet takových dvojic je roven 6. Po odstranění těchto podřetězců z~$w$ algoritmus vrátí \texttt{true}, pokud $w^\prime \in h( \ (\varepsilon b \varepsilon )^\ast) = h(b^\ast)$.
 \begin{itemize}
 	\item{$w_0 = \overbrace{a}b\overbrace{a}aba$. $w^\prime = baba \notin h(b^\ast)$. }
 	\item{$w_1 =  \overbrace{a}ba \overbrace{a}ba$. $w^\prime = baba \notin h(b^\ast)$. }
@@ -346,20 +347,20 @@ Pro regex $\alpha=\left(x\{a\} \ b x \right)^\ast$ a $w = abaaba$ algoritmus Aho
 	\item{$w_4 = ab \overbrace{a}ab \overbrace{a}$. $w^\prime = abab \notin h(b^\ast)$.}
 	\item{$w_5 = aba \overbrace{a}b \overbrace{a}$. $w^\prime = abab \notin h(b^\ast)$.}
 \end{itemize} 
-Algoritmus vrátí nesprávný výsledek, protože $abaaba \in L(\alpha)$. Problém spočívá v tom, že nelze předem určit počet podřetězců z~$w$, které je potřeba přiřadit nějakým proměnným v regexu, pokud vstupní regex obsahuje definice nebo zpětné reference v iteraci. 
+Algoritmus vrátí nesprávný výsledek, protože $abaaba \in L(\alpha)$. Problém spočívá v~tom, že nelze předem určit počet podřetězců z~$w$, které je potřeba přiřadit nějakým proměnným v~regexu, pokud vstupní regex obsahuje definice nebo zpětné reference v~iteraci. 
 \end{example} 
 
-Dá se však ukázat, že problém je v NP, i když regex obsahuje definici proměnné v iteraci. V této práce je poprvé popsán přístup k dokazování založený na pojmu referenčního slova.
+Dá se však ukázat, že problém je v~NP, i když regex obsahuje definici proměnné v~iteraci. v~této práce je poprvé popsán přístup k~dokazování založený na pojmu referenčního slova.
 
 \begin{theorem}
 Problém \ref{prob} patří do třídy NP.
 \end{theorem}
-\begin{proof} Jednou z možností, jak by mohl vypadat certifikát kladné odpovědí, je nějaké referenční slovo $r$ nad $\Sigma \cup X \cup \Gamma$ ($\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$). Pokud $w \in L\left(\alpha\right)$, podle lemmatu \ref{lem:ref1} musí nutně existovat nějaké referenční slovo, pro něž platí $w = D\left(r\right)$, $r \in R\left(\alpha\right)$ a $ |r| \le |\alpha|+|\alpha|^2\cdot|w|$, což znamená, že délka tohoto certifikátu je polynomiální vzhledem k vstupu.
+\begin{proof} Jednou z~možností, jak by mohl vypadat certifikát kladné odpovědí, je nějaké referenční slovo $r$ nad $\Sigma \cup X \cup \Gamma$ ($\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$). Pokud $w \in L\left(\alpha\right)$, podle lemmatu \ref{lem:ref1} musí nutně existovat nějaké referenční slovo, pro něž platí $w = D\left(r\right)$, $r \in R\left(\alpha\right)$ a $ |r| \le |\alpha|+|\alpha|^2\cdot|w|$, což znamená, že délka tohoto certifikátu je polynomiální vzhledem k~vstupu.
 
-Lze také ukázat, jak tento polynomiální certifikát dosvědčí, že $w$ odpovídá regexu $\alpha$. K tomu stačí ověřit, že referenční slovo patří k referenčnímu jazyku $R\left(\alpha\right)$ a hodnota $D\left(r\right)$ se rovná $w$. Z pozorování \ref{poz:hodnota} vyplývá, že rozhodovací problém jestli platí $r \in R(\alpha)$ je možné převést na problém zpracování regulárních výrazů, který lze vyřešit v čase $\mathcal{O}\left(|\alpha| \cdot |r|\right)$ (\cite[s. 282--285]{alfred2014algorithms}). Zbývá ověřit, jestli se hodnota $D\left(r\right)$ rovná $w$. Hodnotu $D\left(r\right)$ tedy lze spočítat pomocí algoritmu \ref{alg:refword} v čase $\mathcal{O}(|r|)$ a porovnat výsledek s $w$ v lineárním čase vzhledem k $|w|$. Jelikož ověření lze provést deterministicky v polynomiálním čase vzhledem k délce vstupu, problém 3.1 patří do třídy NP.
+Lze také ukázat, jak tento polynomiální certifikát dosvědčí, že $w$ odpovídá regexu $\alpha$. k~tomu stačí ověřit, že referenční slovo patří k~referenčnímu jazyku $R\left(\alpha\right)$ a hodnota $D\left(r\right)$ se rovná $w$. z~pozorování \ref{poz:hodnota} vyplývá, že rozhodovací problém jestli platí $r \in R(\alpha)$ je možné převést na problém zpracování regulárních výrazů, který lze vyřešit v~čase $\mathcal{O}\left(|\alpha| \cdot |r|\right)$ (\cite[s. 282--285]{alfred2014algorithms}). Zbývá ověřit, jestli se hodnota $D\left(r\right)$ rovná $w$. Hodnotu $D\left(r\right)$ tedy lze porovnat se vstupním slovem pomocí algoritmu \ref{alg:refword} v~čase $\mathcal{O}(|r|\cdot|w|)$. Jelikož ověření lze provést deterministicky v~polynomiálním čase vzhledem k~délce vstupu, problém 3.1 patří do třídy NP.
 \end{proof}
 
-Všechny algoritmy pro zpracování regexů, kterým je věnován zbytek této kapitoly, se skládají ze dvou části: konstrukce výpočetního modelu, který přijímá jazyk $L\left(\alpha\right)$, a simulace jeho běhu pro vstupní slovo $w$ (viz obrázek \ref{fig:engine}). V dalších sekcích jsou popsány výpočetní modely přijímající libovolný \textsc{Regex} jazyk a algoritmy pro převod regexů na tyto modely.
+Všechny algoritmy pro zpracování regexů, kterým je věnován zbytek této kapitoly, se skládají ze dvou části: konstrukce automatu, který přijímá jazyk $L\left(\alpha\right)$, a simulace jeho běhu pro vstupní slovo $w$ (viz obrázek \ref{fig:engine}). v~dalších sekcích jsou popsány výpočetní modely přijímající libovolný \textsc{Regex} jazyk a algoritmy pro převod regexů na tyto modely.
 \tikzstyle{block} = [draw, rectangle, 
     minimum height=3em, minimum width=6em]
 \tikzstyle{input} = [coordinate]
@@ -384,7 +385,7 @@ Všechny algoritmy pro zpracování regexů, kterým je věnován zbytek této k
     \draw [draw, ->] (gen) -- (match);
 
 \end{tikzpicture}
-\caption{Struktura prostředku na zpracování regexu}\label{fig:engine}
+\caption{Struktura prostředku pro zpracování regexu}\label{fig:engine}
 \end{figure}
 \section{Parsování regexů}
 Algoritmy pro převod nezpracovávají přímo na vstupu znaky regexu, nýbrž strukturu tohoto výrazu. Cílem této sekce je ukázat, jak by mohla vypadat struktura regexu, a popsat následující fáze \uv{překladu} výrazu: lexikální, syntaktickou a sémantickou analýzu.
@@ -420,7 +421,7 @@ $($ nebo $)$ & $($ nebo $)$ & - \\
 \end{table}
 
 \subsection{Návrh gramatiky}\label{sec:gram}
-Aby bylo možné přijímat jazyk regexů, je vhodné pro něj zkonstruovat gramatiku. Bezkontextová gramatika generující regexy z $RV_{\Sigma, X}$ by mohla vypadat následovně:
+Aby bylo možné přijímat jazyk regexů, je vhodné pro něj zkonstruovat gramatiku. Bezkontextová gramatika generující regexy z~$RV_{\Sigma, X}$ by mohla vypadat následovně:
 
 $G = \left(\{A, B, C, D\}, \{atom, var, \{, \}, \left(, \right), union, iter\}, P, A\right)$, kde:
 \begin{flalign*}
@@ -429,11 +430,11 @@ P = \ \ &\{A \rightarrow B \ union \ A \ | \ B,\\
       &C \rightarrow D \ iter \ | \ D,\\
       &D \rightarrow atom \ | \ var \ | \ var \{ A \}  \ | \left( A \right) \}
 \end{flalign*}
-Uvedená gramatika podporuje všechny operace a operátory mají rozdílnou prioritu. Priorita ovlivňuje v jakém pořadí je výraz vyhodnocován. Kulaté závorky mají nejvyšší prioritu.
+Uvedená gramatika podporuje všechny operace a operátory mají rozdílnou prioritu. Priorita ovlivňuje v~jakém pořadí je výraz vyhodnocován.
 \subsection{Syntaktická analýza}\label{sec:synt}
-Cílem syntaktické analýzy je určit gramatickou strukturu vstupu na základě předem dané gramatiky. Syntaktický analyzátor (též \emph{parser}) dostane na vstup řetězec tokenů a hledá derivační strom k tomuto řetězci. Pokud žádný derivační strom nenajde, vznikne syntaktická chyba.
+Cílem syntaktické analýzy je určit gramatickou strukturu vstupu na základě předem dané gramatiky. Syntaktický analyzátor (též \emph{parser}) dostane na vstup řetězec tokenů a hledá derivační strom k~tomuto řetězci. Pokud žádný derivační strom nenajde, vznikne syntaktická chyba.
 
-V této práci se používá $LL(1)$ analýza jako metoda pro syntaktický analyzátor. Před zpracováním řetězce tokenů je nutné ověřit, zda daná gramatika je LL(1) (v opačném případě hrozí nekonečná rekurze). Gramatika $G$ z~sekce~\ref{sec:gram} není LL(1), protože tato gramatika má \emph{first-first konflikty} v rozkladové tabulce pro neterminální symboly $A, B, C$ a terminály $atom, var, ($. K~odstranění konfliktů lze použít levou faktorizaci.
+V této práci se používá $LL(1)$ analýza jako metoda pro syntaktický analyzátor. Před zpracováním řetězce tokenů je nutné ověřit, zda daná gramatika je LL(1) (v opačném případě hrozí nekonečná rekurze). Gramatika $G$ z~sekce~\ref{sec:gram} není LL(1), protože tato gramatika má \emph{first-first konflikty} v~rozkladové tabulce pro neterminální symboly $A, B, C$ a terminály $atom, var, ($. K~odstranění konfliktů lze použít levou faktorizaci.
 Výsledná ekvivalentní gramatika $G^{\prime}$ je uspořádanou čtveřicí:
 
 	$\left(\{A, A^\prime, B, B^\prime, C, C^\prime, D, F^\prime\}, \{atom, var, \{, \}, \left(, \right), union, iter\},  P^\prime, A\right)$, kde:
@@ -534,7 +535,7 @@ Na obrázku \ref{fig:ast} je zobrazen příklad AST pro regex $x\{a^\ast+b^\ast\
 \end{figure}
 
 \subsection{Sémantická analýza}\label{sec:semantic}
-Sémantická analýza se obvykle provádí zároveň se syntaktickou analýzou. Úkolem sémantické analýzy je sestrojit abstraktní syntaktický strom, který uchovává všechny podstatné informace obsažené v regexu s ohledem na jeho strukturu. 
+Sémantická analýza se obvykle provádí zároveň se syntaktickou analýzou. Úkolem sémantické analýzy je sestrojit abstraktní syntaktický strom, který uchovává všechny podstatné informace obsažené v~regexu s~ohledem na jeho strukturu. 
 
 Sémantický analyzátor může být vytvořen podle L-atributové gramatiky se vstupní gramatikou $G^\prime$ (viz sekci \ref{sec:synt}). Všem neterminálům je přiřazen syntetizovaný atribut $snode$, jehož hodnotou bude ukazatel na vytvořený strom. Dědičný atribut $dnode$ u neterminálních symbolů $A^\prime, B^\prime, C^\prime$ obsahuje ukazatel na vytvořený podstrom pro levý operand. Pro terminální symbol $atom$ syntetizovaný atribut $svalue$ odpovídá hodnotě elementárního výrazu a atribut $svar$ pro symbol $var$ obsahuje název proměnné.
 Posloupnost sémantických akcí pro atributovou gramatiku je definována pomocí tabulky \ref{tab:sem}.
@@ -582,11 +583,11 @@ $F^\prime$ & $\rightarrow$& $\varepsilon$ & $F^\prime.snode = F^\prime.dnode$ \\
 
 \section{Vícepáskový lineárně omezený Turingův stroj}\label{sec:turmac}
 
-V této sekci je definován vícepáskový lineární omezený Turingův stroj a jsou popsány jeho vlastnosti (vycházeno z \cite{sestakova} a \cite{hopcroft}).
-Pod pojmem \uv{Turingův stroj} je v textu myšlena nedeterministická verze tohoto výpočetního modelu.  
+V této sekci je definován vícepáskový lineární omezený Turingův stroj a jsou popsány jeho vlastnosti (vycházeno z~\cite{hopcroft} a \cite{sestakova}).
+Pod pojmem \uv{Turingův stroj} je v~textu myšlena nedeterministická verze tohoto výpočetního modelu.  
 
 \begin{definition}
-\emph{Turingův stroj s k páskami}, zkráceně \emph{TS($k$)}, je formálně definován jako sedmice $\mathcal{M} = \left(Q, \Sigma, G, \delta, q_0, B, F\right)$, kde:
+\emph{Turingův stroj s~k páskami}, zkráceně \emph{TS($k$)}, je formálně definován jako sedmice $\mathcal{M} = \left(Q, \Sigma, G, \delta, q_0, B, F\right)$, kde:
 \begin{itemize}
 	\item{$Q$ je konečná neprázdná množina stavů,}
 	\item{$G$ je konečná neprázdná pracovní abeceda,}
@@ -597,10 +598,10 @@ Pod pojmem \uv{Turingův stroj} je v textu myšlena nedeterministická verze toh
 	\item{$F \subseteq Q$ je konečná množina koncových stavů.}
 \end{itemize}
 \end{definition}
-Definice přechodové funkce nám říká, že je-li vícepáskový TS v nekoncovém stavu a čtecí hlavy na páskách ukazují na nějaké symboly z pracovní abecedy, poté přejde do dalšího stavu, na každou pásku zapíše nějaký symbol a každou čtecí hlavu posune vlevo, vpravo nebo zůstane na místě.
+Definice přechodové funkce nám říká, že je-li vícepáskový TS v~nekoncovém stavu a čtecí hlavy na páskách ukazují na nějaké symboly z~pracovní abecedy, poté přejde do dalšího stavu, na každou pásku zapíše nějaký symbol a každou čtecí hlavu posune vlevo, vpravo nebo zůstane na místě.
 
 \begin{definition}
-Nechť $\mathcal{M} = \left(Q, \Sigma, G, \delta, q_0, B, F\right)$ je Turingův stroj s $k$ páskami.
+Nechť $\mathcal{M} = \left(Q, \Sigma, G, \delta, q_0, B, F\right)$ je Turingův stroj s~$k$ páskami.
 \emph{Konfigurace} $\mathcal{M}$ je trojice $\left(q, \langle w_1, \dots, w_k\rangle,  \langle i_1, \dots, i_k\rangle\right)$, kde:
 \begin{itemize}
 	\item{$q$ je aktuální stav,}
@@ -629,7 +630,7 @@ Počáteční konfigurace $\mathcal{M}$ pro vstup $w$ je konfigurace $$\left(q_0
 \end{equation}
 \end{definition}
 
-V této práci se používá graf přechodů pro znázornění přechodové funkce automatu. Hrany grafu reprezentují přechody a jsou ohodnoceny posloupností $k$ trojic. Každá trojice odpovídá operacím, které se provádějí s $i$-tou páskou (kde $i$ je pozice trojice v posloupnosti), a skládá se ze čteného symbolu, symbolu k zápisu a pohybu čtecí hlavy. Na obrázku \ref{fig:trans} je zobrazen přechod ze stavu $q$ do $p$, po němž automat přečte z 0. pásky symbol $a$, zapíše na ni blank symbol a posune čtecí hlavu vpravo. 
+V této práci se používá graf přechodů pro znázornění přechodové funkce automatu. Hrany grafu reprezentují přechody a jsou ohodnoceny posloupností $k$ trojic. Každá trojice odpovídá operacím, které se provádějí s~$i$-tou páskou (kde $i$ je pozice trojice v~posloupnosti), a skládá se ze čteného symbolu, symbolu k~zápisu a pohybu čtecí hlavy. Na obrázku \ref{fig:trans} je zobrazen přechod ze stavu $q$ do $p$, po němž automat přečte z~0. pásky symbol $a$, zapíše na ni blank symbol a posune čtecí hlavu vpravo. 
 
 \begin{figure}[ht] % ’ht’ tells LaTeX to place the figure ’here’ or at the top of the page
 	\centering % centers the figure
@@ -679,7 +680,7 @@ V této práci se používá graf přechodů pro znázornění přechodové funk
 \begin{theorem}\label{thm:multitape}
 Pro každý $k$-páskový TS existuje ekvivalentní jednopáskový TS.
 \end{theorem}
-Důkaz věty \ref{thm:multitape} je podrobně uveden v \cite[s. 337--338]{hopcroft}.
+Důkaz věty \ref{thm:multitape} je podrobně uveden v~\cite[s. 337--338]{hopcroft}.
 
 \begin{definition}
 \emph{Lineárně omezený Turingův stroj}, zkráceně LOTS, je Turingův stroj, který nemůže překročit délku $k$-násobku vstupního slova pro nějaké $k \ge 1$.
@@ -689,24 +690,24 @@ Algoritmus \ref{alg:tmsim} lze použít pro simulaci výpočtu vícepáskového 
 
 \section{Algoritmus pro převod regexu na vícepáskový LOTS}\label{sec:turing}
 V této sekci je ukázáno, jak lze pro libovolný regex $\alpha$ sestrojit vícepáskový lineárně omezený TS, který přijímá jazyk $L\left(\alpha\right)$.
-Základní myšlenka konstrukce byla převzata z \cite[s. 8]{campeanu}, kde je popsán převod semiregexů na vícepáskový TS. Autor práce zmíněný algoritmus rozšířil na množinu regexů. Při modifikaci byl brán zřetel především na to, že se v regexech oproti semerigexům může vyskytnout několik definic téže proměnné ($\dots x\{\dots\}\dots x\{\dots\}\dots$).
+Základní myšlenka konstrukce byla převzata z~\cite[s. 8]{campeanu}, kde je popsán převod semiregexů na vícepáskový TS. Autor práce zmíněný algoritmus rozšířil na množinu regexů. Při modifikaci byl brán zřetel především na to, že se v~regexech oproti semerigexům může vyskytnout několik definic téže proměnné ($\dots x\{\dots\}\dots x\{\dots\}\dots$).
 
 Algoritmus \ref{alg:turing} dostane AST pro regex $\alpha$ na vstupu. 
 Potom výstupem algoritmu je $TS(k+1)$ ($k=|var(\alpha)|$), který má následující vlastnosti:
 \begin{itemize}
 	\item{Na počátku výpočtu je na 0. pásce zapsán vstupní řetězec. Této pásce se také říká \emph{vstupní}. Ostatní (pracovní) pásky jsou vyplněny prázdnými symboly. Počáteční konfigurace tedy je $$\left(q_{start}, \langle BwB, B^{|w|+2}, \dots, B^{|w|+2} \rangle,  \langle 1, \dots, 1\rangle\right)$$}
-	\item{Pro nějaké $i \in \{1, \dots, k\}$ $i$-tá páska odpovídá nějaké proměnné $x$ v $\alpha$. V~kroku výpočtu, kdy symboly na vstupní pásce odpovídají dílčímu výrazu v definici proměnné $x$, automat odstraní symboly z $i$-té pásky a začne kopírovat znaky ze vstupní pásky na $i$-tou, dokud nenarazí na poslední symbol odpovídající tomuto výrazu. Pokud se čtecí hlava na vstupní pásce ukazuje na začátek řetězce, který odpovídá zpětné referenci na $x$, TS posune čtecí hlavu na $i$-té pásce na začátek a začne porovnávat obsah $i$-té pásky se vstupní.}
+	\item{Pro nějaké $i \in \{1, \dots, k\}$ $i$-tá páska odpovídá nějaké proměnné $x$ v~$\alpha$. V~kroku výpočtu, kdy symboly na vstupní pásce odpovídají dílčímu výrazu v~definici proměnné $x$, automat odstraní symboly z~$i$-té pásky a začne kopírovat znaky ze vstupní pásky na $i$-tou, dokud nenarazí na poslední symbol odpovídající tomuto výrazu. Pokud se čtecí hlava na vstupní pásce ukazuje na začátek řetězce, který odpovídá zpětné referenci na $x$, TS posune čtecí hlavu na $i$-té pásce na začátek a začne porovnávat obsah $i$-té pásky se vstupní.}
 \end{itemize} 
 
-Nechť $num$ je zobrazení z $var(\alpha)$ do množiny $\{1, \dots, k\}$ takové, že pro každé dvě různé proměnné $x, y$ v $\alpha$ platí $num(x) \ne num(y)$. Potom $i$-tá páska odpovídá proměnné označené číslem $i$. Nechť tedy $T[1, \dots, k]$ je tabulka, která nabývá hodnot z $\{0,1\}$. Potom $T[i] = 1$, právě když se na $i$-tou pásku kopíruje obsah 0. pásky, jinak $T[i] = 0$. 
+Nechť $num$ je zobrazení z~$var(\alpha)$ do množiny $\{1, \dots, k\}$ takové, že pro každé dvě různé proměnné $x, y$ v~$\alpha$ platí $num(x) \ne num(y)$. Potom $i$-tá páska odpovídá proměnné označené číslem $i$. Nechť tedy $T[1, \dots, k]$ je tabulka, která nabývá hodnot z~$\{0,1\}$. Potom $T[i] = 1$, právě když se na $i$-tou pásku kopíruje obsah 0. pásky, jinak $T[i] = 0$. 
 
 \begin{algorithm}
   \caption{Převod regexu na vícepáskový LOTS}\label{alg:turing}
     \SetKwInOut{Input}{Vstup}
     \SetKwInOut{Output}{Výstup}
 	\DontPrintSemicolon
-    \Input{AST s kořenem $\varphi$ reprezentující regex $\alpha \in RV_{\Sigma, X}$} 
-    \Output{$(k+1)$-páskový LOTS $M$ takový, že $L(M)=L(\alpha)$} \tcc{$k$ je počet proměnných v $\alpha$ ($k = |var(\alpha)|$)}
+    \Input{AST reprezentující regex $\alpha \in RV_{\Sigma, X}$ s~kořenem $\varphi$} 
+    \Output{$(k+1)$-páskový LOTS $M$ takový, že $L(M)=L(\alpha)$} \tcc{$k$ je počet proměnných v~$\alpha$ ($k = |var(\alpha)|$)}
     $num : X \rightarrow \{1, \dots, k\}$; ($\forall x, y \in X$)  $num(x)=num(y) \Rightarrow x=y$\; ($\forall i \in \{1, \dots, k\}$) $ T[i] \gets 0$\;
     $Q \gets \{q_{start}, q_{end}\}$; $F \gets \{q_{end}\}$; $G \gets \Sigma \cup \{B\}$\;
 	
@@ -761,12 +762,12 @@ $\mathcal{M} =  (Q, \Sigma, G, \delta, q_{start}, B, F)$\;
   
 \end{algorithm}
 
-Algoritmus prochází rekurzivně uzly stromu a přidává nové stavy a odpovídající přechody pro daný typ uzlu. Konstrukce vícepáskového Turingova stroje pro atomy a regulární operace vychází z podobné myšlenky jako Thompsonův algoritmus pro převod regulárních výrazů na NKA. Výsledný Turingův stroj má počáteční stav $q_{start}$ a jediný koncový stav $q_{end}$. Postup konstrukce je popsán pro jednotlivé uzly takto:
+Algoritmus prochází rekurzivně uzly stromu a přidává nové stavy a odpovídající přechody pro daný typ uzlu. Konstrukce vícepáskového Turingova stroje pro atomy a regulární operace vychází z~podobné myšlenky jako Thompsonův algoritmus pro převod regulárních výrazů na NKA. Výsledný Turingův stroj má počáteční stav $q_{start}$ a jediný koncový stav $q_{end}$. Postup konstrukce je popsán pro jednotlivé uzly takto:
 \begin{enumerate}
- \item{Prvním typem uzlu je elementární výraz. Může nastat jeden z následujících případů:}
+ \item{Prvním typem uzlu je elementární výraz. Může nastat jeden z~následujících případů:}
    \begin{enumerate}
    \item \label{itm:eps}{Uzel reprezentuje prázdný řetězec. Potom se přidají \uv{$\varepsilon$-přechody} ze stavu $q_{start}$ do stavu $q_{end}$. 
-	 Pod pojmem \uv{$\varepsilon$-přechod} je myšleno přechod, při kterém stroj přečte a zapíše tentýž symbol na každou pásku a čtecí hlavy na každé pásce zůstanou na místě. Počet přechodů je roven počtu $(k+1)$-členných variací s opakováním z $|G|$ prvků ($|G|^{k+1}$).
+	 Pod pojmem \uv{$\varepsilon$-přechod} je myšleno přechod, při kterém stroj přečte a zapíše tentýž symbol na každou pásku a čtecí hlavy na každé pásce zůstanou na místě. Počet přechodů je roven počtu $(k+1)$-členných variací s~opakováním z~$|G|$ prvků ($|G|^{k+1}$).
 
 	Pro $\forall x_0, \dots, x_{k} \in G$ se přechodová funkce modifikuje následovně (viz obrázek \ref{fig:eps}):
 	\begin{equation*}\begin{split}\delta(q_{start}, \langle  x_0, \dots, x_{k}\rangle)\leftarrow &\delta(q_{start}, \langle  x_0, \dots, x_{k}\rangle)  \ \cup \\&\{(q_{end}, \langle x_0, 0\rangle, \dots, \langle x_k, 0\rangle)\}.\end{split}\end{equation*}
@@ -821,7 +822,7 @@ Algoritmus prochází rekurzivně uzly stromu a přidává nové stavy a odpoví
 	\end{enumerate}
  \item{Další typ vrcholu je binární operátor. Pro takovýto případ se do množiny stavů pro každý operand přidají \uv{počáteční} a \uv{koncový} stav (například stavy $q_{start}^{l}$ a $q_{end}^{l}$ pro levý operand). Algoritmus začne rekurzivně procházet pravého a levého potomka a přidávat pro ně nové stavy a přechody do automatu.}
    \begin{enumerate}
-	   \item \label{itm:union}{Pokud při průchodu algoritmus narazí na uzel reprezentující sjednocení dvou výrazů, jednoduše se přidají \uv{$\varepsilon$-přechody} mezi stavem $q_{start}$ a \uv{počátečními} stavy pro potomky a z \uv{koncových} stavů do stavu $q_{end}$  (viz obrázek \ref{fig:alter}).
+	   \item \label{itm:union}{Pokud při průchodu algoritmus narazí na uzel reprezentující sjednocení dvou výrazů, jednoduše se přidají \uv{$\varepsilon$-přechody} mezi stavem $q_{start}$ a \uv{počátečními} stavy pro potomky a z~\uv{koncových} stavů do stavu $q_{end}$  (viz obrázek \ref{fig:alter}).
 	
 	Pro $\forall x_0, \dots, x_{k} \in G$ se přechodová funkci modifikuje následovně:
 	\begin{align*}\delta(q_{start}, \langle  x_0, \dots, x_{k}\rangle)\leftarrow&\delta(q_{start}, \langle  x_0, \dots, x_{k}\rangle) \ \cup \\ &\{(q_{start}^{l}, \langle x_0, 0\rangle, \dots, \langle x_k, 0\rangle)\}\end{align*}
@@ -910,14 +911,14 @@ Algoritmus prochází rekurzivně uzly stromu a přidává nové stavy a odpoví
 	\label{fig:iter}
 \end{figure}
 
-	 \item \label{itm:def}{Dalším typem uzlu je definice proměnné. Jelikož pro libovolnou proměnnou $y$ je vyhrazena právě jedna $num(y)$-tá páska a definice proměnné se může opakovat ve výrazů několikrát, je nutné nejprve všechny neprázdné symboly z pásky vymazat. Stroj postupně posouvá čtecí hlavu na příslušné pásce a maže symboly, dokud nenarazí na první \emph{blank} symbol (viz obrázek \ref{fig:def}). Pak algoritmus \uv{povolí} zápis na pásku a rekurzivně projde uzlem potomka. Po skončení se \uv{zakáže} zápis na pásku a automat přejde do koncového stavu $q_{end}$. 
+	 \item \label{itm:def}{Dalším typem uzlu je definice proměnné. Jelikož pro libovolnou proměnnou $y$ je vyhrazena právě jedna $num(y)$-tá páska a definice proměnné se může opakovat ve výrazů několikrát, je nutné nejprve všechny neprázdné symboly z~pásky vymazat. Stroj postupně posouvá čtecí hlavu na příslušné pásce a maže symboly, dokud nenarazí na první \emph{blank} symbol (viz obrázek \ref{fig:def}). Pak algoritmus \uv{povolí} zápis na pásku a rekurzivně projde uzlem potomka. Po skončení se \uv{zakáže} zápis na pásku a automat přejde do koncového stavu $q_{end}$. 
 
 	Pro  $\forall x_0, \dots, x_{k-1} \in G$ se přechodová funkce modifikuje následovně:
 		\begin{equation*}\begin{split}
 		\delta(q_{start}, \langle  x_0, \dots, \overbrace{B}^{num(y)}, \dots \rangle)\leftarrow&\delta(q_{start}, \langle  x_0, \dots, B, \dots \rangle) \ \cup\\&\{(p, \langle x_0, 0\rangle, \dots, \langle B, -1\rangle, \dots)\}\end{split}\end{equation*}
 		\begin{equation*}\begin{split}
 		\delta(p, \langle  x_0, \dots, \overbrace{B}^{num(y)}, \dots \rangle)\leftarrow&\delta(p, \langle  x_0, \dots, B, \dots \rangle) \ \cup\\&\{(q_{start}^{\alpha}, \langle x_0, 0\rangle, \dots, \langle B, 1\rangle, \dots)\}\end{split}\end{equation*}
-	Pro $\forall x_0, \dots, x_{k-1} \in G$,  $\forall z \in \Sigma$ algoritmus vytvoří přechody takto:
+	Pro $\forall x_0, \dots, x_{k-1} \in G$,  $\forall z~\in \Sigma$ algoritmus vytvoří přechody takto:
 \begin{equation*}\begin{split}\delta(p, \langle  x_0, \dots, \overbrace{z}^{num(y)}, \dots \rangle)\leftarrow&\delta(p, \langle  x_0, \dots, z, \dots \rangle) \ \cup\\&\{(p, \langle x_0, 0\rangle, \dots, \langle B, -1\rangle, \dots)\}\end{split}\end{equation*}
 		Pro $\forall x_0, \dots, x_{k} \in G$:
 		\begin{equation*}\begin{split}\delta(q_{end}^{\alpha}, \langle  x_0, \dots, x_{k}\rangle)\leftarrow&\delta(q_{end}^{\alpha}, \langle  x_0, \dots, x_k\rangle) \ \cup \\ &\{(q_{end}, \langle x_0, 0\rangle, \dots, \langle x_k, 0\rangle)\} \end{split}\end{equation*}
@@ -946,15 +947,15 @@ Algoritmus prochází rekurzivně uzly stromu a přidává nové stavy a odpoví
 \end{figure}
 
 	\end{enumerate}
-	\item \label{itm:ref}{Poslední typ uzlu, na který lze narazit při průchodu, je zpětná reference. Podobně jako v předchozím případě stroj postupně posouvá čtecí hlavu na příslušné pásce, dokud nenarazí na první \emph{blank} symbol (viz obrázek~\ref{fig:ref}). Pak začne porovnávat obsah vstupní pásky s $num(y)$-tou a přejde do koncového stavu pouze v případě, že se obsahy obou pásek shodují.
+	\item \label{itm:ref}{Poslední typ uzlu, na který lze narazit při průchodu, je zpětná reference. Podobně jako v~předchozím případě stroj postupně posouvá čtecí hlavu na příslušné pásce, dokud nenarazí na první \emph{blank} symbol (viz obrázek~\ref{fig:ref}). Pak začne porovnávat obsah vstupní pásky s~$num(y)$-tou a přejde do koncového stavu pouze v~případě, že se obsahy obou pásek shodují.
 
 	Pro  $\forall x_0, \dots, x_{k-1} \in G$ se přidají následující přechody:
 		\begin{equation*}\begin{split}\delta(q_{start}, \langle  x_0, \dots, \overbrace{B}^{num(y)}, \dots \rangle)\leftarrow&\delta(q_{start}, \langle  x_0, \dots, B, \dots \rangle) \ \cup\\&\{(p, \langle x_0, 0\rangle, \dots, \langle B, -1\rangle, \dots)\}\end{split}\end{equation*}
 		\begin{equation*}\begin{split}\delta(p, \langle  x_0, \dots, \overbrace{B}^{num(y)}, \dots \rangle)\leftarrow&\delta(p, \langle  x_0, \dots, B, \dots \rangle) \ \cup\\&\{(q, \langle x_0, 0\rangle, \dots, \langle B, 1\rangle, \dots)\}\end{split}\end{equation*}
 		\begin{equation*}\begin{split}\delta(q, \langle  x_0, \dots, \overbrace{B}^{num(y)}, \dots \rangle)\leftarrow&\delta(q, \langle  x_0, \dots, B, \dots \rangle) \ \cup\\&\{(q_{end}, \langle x_0, 0\rangle, \dots, \langle B, 0\rangle, \dots)\}\end{split}\end{equation*}
-	Pro $\forall x_0, \dots, x_{k-1} \in G$,  $\forall z \in \Sigma$ se přechodová funkce modifikuje následovně:
+	Pro $\forall x_0, \dots, x_{k-1} \in G$,  $\forall z~\in \Sigma$ se přechodová funkce modifikuje následovně:
 	\begin{flalign*}\delta(p, \langle  x_0, \dots, \overbrace{z}^{num(y)}, \dots \rangle)\leftarrow&\delta(p, \langle  x_0, \dots, z, \dots \rangle) \ \cup\\&\{(p, \langle x_0, 0\rangle, \dots, \langle z, -1\rangle, \dots)\}\end{flalign*}
-		Pro $\forall x_0, \dots, x_{k-2} \in G$,  $\forall z \in \Sigma$:
+		Pro $\forall x_0, \dots, x_{k-2} \in G$,  $\forall z~\in \Sigma$:
 	\begin{flalign*}\delta(q, \langle  z, \dots, \overbrace{z}^{num(y)}, \dots \rangle)\leftarrow&\delta(q, \langle  z, \dots, z, \dots \rangle) \ \cup\\&\{(q, \langle B, 1\rangle, \dots, \langle z, 1\rangle, \dots)\}\end{flalign*}
 	}
 
@@ -982,7 +983,7 @@ Algoritmus prochází rekurzivně uzly stromu a přidává nové stavy a odpoví
 \begin{theorem}
 	Časová složitost algoritmu \ref{alg:turing} je $\mathcal{O}(|\alpha| \cdot |\Sigma|^{k+1} )$.
 \end{theorem}
-\begin{proof} Inicializace algoritmu (kroky 1 až 3) trvá $\mathcal{O}(k)$. Algoritmus rekurzivně prochází každý vrchol syntaktického stromu nejvýše jednou, tedy se celkem provede $\mathcal{O}(|\alpha|)$ volání funkce \texttt{build-TM}. V každém volání se do množiny stavů přidají maximálně $5$ stavů (krok 15) a vytvoří se nejvýše $2|G|^k + |G|^{k+1} + |\Sigma|\cdot|G|^k \le 3|G|^{k+1}$ přechodů (krok 24). Jelikož $|G|=|\Sigma|+1$, jedno volání funkce potrvá $\mathcal{O}(|\Sigma|^{k+1})$. Celkově tedy algoritmus spotřebuje čas $\mathcal{O}(|\alpha| \cdot |\Sigma|^{k+1} )$.
+\begin{proof} Inicializace algoritmu (kroky 1 až 3) trvá $\mathcal{O}(k)$. Algoritmus rekurzivně prochází každý vrchol syntaktického stromu nejvýše jednou, tedy se celkem provede $\mathcal{O}(|\alpha|)$ volání funkce \texttt{build-TM}. v~každém volání se do množiny stavů přidají maximálně $5$ stavů (krok 15) a vytvoří se nejvýše $2|G|^k + |G|^{k+1} + |\Sigma|\cdot|G|^k \le 3|G|^{k+1}$ přechodů (krok 24). Jelikož $|G|=|\Sigma|+1$, jedno volání funkce potrvá $\mathcal{O}(|\Sigma|^{k+1})$. Celkově tedy algoritmus spotřebuje čas $\mathcal{O}(|\alpha| \cdot |\Sigma|^{k+1} )$.
 \end{proof}
 
 \begin{theorem}\label{theorem:correct1}
@@ -991,11 +992,11 @@ Pro regex $\alpha$ výstupem algoritmu \ref{alg:turing} je lineárně omezený T
 \begin{proof} Buď $\mathcal{M}$ výstupní Turingův stroj, buď $\varphi$ kořen AST pro $\alpha$. Ekvivalenci tohoto výpočetního modelu a regexu lze dokázat indukcí podle typu uzlu $\varphi$.
 \begin{enumerate}
 	\item{Pro elementární výraz je tvrzení triviální.
-		\subitem{Nechť je $\varphi$ uzel reprezentující regex $\varepsilon$. $L(\varepsilon)=\{\varepsilon\}$. Výstupem algoritmu pro $\varphi$ je $\mathcal{M}=(\{q_{start}, q_{end}\}, \{B\}, B, \varnothing, \delta, q_{start}, \{q_{end}\} )$. Jazyk přijímaný $\mathcal{M}$ je $\{ w \mid \left(q_{start}, \left( BwB \right),  \left(1\right)\right) \vdash_{\mathcal{M}} \left(q_{end}, \left(B^{|w|+2} \right),  \left(1 \right)\right) \} = \{\varepsilon\}$. 
+		\subitem{Nechť je $\varphi$ uzel reprezentující regex $\varepsilon$. $L(\varepsilon)=\{\varepsilon\}$. Výstupem algoritmu pro $\varphi$ je $\mathcal{M}=(\{q_{start}, q_{end}\},  \varnothing, \{B\}, \delta, q_{start}, B, \{q_{end}\} )$. Jazyk přijímaný $\mathcal{M}$ je $\{ w \mid \left(q_{start}, \left( BwB \right),  \left(1\right)\right) \vdash_{\mathcal{M}} \left(q_{end}, \left(B^{|w|+2} \right),  \left(1 \right)\right) \} = \{\varepsilon\}$. 
 		}
-		\subitem{Nechť $\varphi$ reprezentuje prázdný regulární výraz. $L(\varnothing)=\varnothing$. Výstupem je $\mathcal{M}=(\{q_{start}, p,  q_{end}\}, \{B\}, B, \varnothing, \delta, q_{start}, \{q_{end}\} )$. Jelikož v přechodové funkci automatu neexistuje žádný přechod do koncového stavu, $L(\mathcal{M})=\varnothing$. 
+		\subitem{Nechť $\varphi$ reprezentuje prázdný regulární výraz. $L(\varnothing)=\varnothing$. Výstupem je $\mathcal{M}=(\{q_{start}, p,  q_{end}\}, \varnothing, \{B\}, \delta, q_{start}, B, \{q_{end}\} )$. Jelikož v~přechodové funkci automatu neexistuje žádný přechod do koncového stavu, $L(\mathcal{M})=\varnothing$. 
 		}
-		\subitem{Poslední elementární výraz, na něhož může algoritmus při průchodu narazit, je symbol abecedy $a$. $L(a)=a$. Výstupem algoritmu pro $\varphi$ je  $\mathcal{M}=(\{q_{start}, q_{end}\}, \{B, a\}, B, \{a\}, \delta, q_{start}, \{q_{end}\} )$.  Jazyk přijímaný $\mathcal{M}$ je $\{ w \mid \left(q_{start}, \left( BwB \right),  \left(1\right)\right) \vdash_{\mathcal{M}} \left(q_{end}, \left(B^{|w|+2} \right),  \left(2 \right)\right) \} = \{a\}$. 
+		\subitem{Poslední elementární výraz, na něhož může algoritmus při průchodu narazit, je symbol abecedy $a$. $L(a)=a$. Výstupem algoritmu pro $\varphi$ je  $\mathcal{M}=(\{q_{start}, q_{end}\}, \{a\}, \{B, a\}, \delta, q_{start}, B, \{q_{end}\} )$.  Jazyk přijímaný $\mathcal{M}$ je $\{ w \mid \left(q_{start}, \left( BwB \right),  \left(1\right)\right) \vdash_{\mathcal{M}} \left(q_{end}, \left(B^{|w|+2} \right),  \left(2 \right)\right) \} = \{a\}$. 
 		}
 	}
 	\item{Nechť $\varphi$ reprezentuje regulární operaci. 
@@ -1006,9 +1007,9 @@ Pro regex $\alpha$ výstupem algoritmu \ref{alg:turing} je lineárně omezený T
 		\subitem{Nechť je $\varphi$ uzel reprezentující regex $\beta^\ast$. Hodnota výrazu je $L(\beta^\ast) = L(\beta)^\ast$. Buď $\mathcal{M}_{\beta}$ automat pro regex $\beta$. Jazyk přijímaný výstupním TS $\mathcal{M}$ je $\{\varepsilon\}\cup L(\mathcal{M}_{\beta})\cup L(\mathcal{M}_{\beta}) L(\mathcal{M}_{\beta})\cup\dots = L(\mathcal{M}_{\beta})^\ast= L(\beta)^\ast$.
 		}
 	}
-	\item{Nechť $\varphi$ reprezentuje definici proměnné $x\{\beta\}$. $L(x\{\beta\})= L(\beta)$. Buď $\mathcal{M}_{\beta} = (Q, G, B, \Sigma, \delta_{\mathcal{M}_{\beta}}, start_{\mathcal{M}_{\beta}}, F)$ automat pro regex $\beta$. Výstupní automat $\mathcal{M}$ je sedmice $(\{q_{start}, p, q_{end}\}\cup Q, G, B, \Sigma, \delta_{\mathcal{M}}, q_{start}, \{q_{end}\})$. Jazyk přijímaný automatem $\mathcal{M}$ je $\{ w \mid \left(q_{start}, \left( BwB, B^{|w|+2}\right),  \left(1, 1\right)\right) \vdash_{\mathcal{M}}^\ast \left(q_{end}, \left(B^{|w|+2}, BwB \right),  \left(|w|+1, |w|+1 \right)\right) \} = L(\mathcal{M}_{\beta})= L(\beta)$. Na konci výpočtu na pracovní pásce pro proměnnou $x$ je zapsáno vstupní slovo $w$. 
+	\item{Nechť $\varphi$ reprezentuje definici proměnné $x\{\beta\}$. $L(x\{\beta\})= L(\beta)$. Buď $\mathcal{M}_{\beta} = (Q, \Sigma, G, \delta_{\mathcal{M}_{\beta}}, start_{\mathcal{M}_{\beta}}, B, F)$ automat pro regex $\beta$. Výstupní automat $\mathcal{M}$ je sedmice $(\{q_{start}, p, q_{end}\}\cup Q, \Sigma, G, \delta_{\mathcal{M}}, q_{start}, B, \{q_{end}\})$. Jazyk přijímaný automatem $\mathcal{M}$ je $\{ w \mid \left(q_{start}, \left( BwB, B^{|w|+2}\right),  \left(1, 1\right)\right) \vdash_{\mathcal{M}}^\ast \left(q_{end}, \left(B^{|w|+2}, BwB \right),  \left(|w|+1, |w|+1 \right)\right) \} = L(\mathcal{M}_{\beta})= L(\beta)$. Na konci výpočtu na pracovní pásce pro proměnnou $x$ je zapsáno vstupní slovo $w$. 
 	}
-	\item{Nechť $\varphi$ reprezentuje zpětnou referenci na $x$. Výstupní automat $\mathcal{M}$ je sedmice $(\{q_{start}, p, q, q_{end}\}, G, B, \Sigma, \delta_{\mathcal{M}}, q_{start}, \{q_{end}\})$. Jazyk přijímaný $\mathcal{M}$ je \begin{flalign*}\{ w \mid &\left(q_{start}, \left( BwB, BwB\right),  \left(1, 1\right)\right) \vdash_{\mathcal{M}}^\ast \\&\left(q_{end}, \left(B^{|w|+2}, BwB \right),  (|w|+1, |w|+1)\right) \}.\end{flalign*} Automat přijme pouze slova, která odpovídají obsahu pracovní pásky pro proměnnou $x$. Pokud je páska prázdná, proměnná nebyla ve výrazu definována. Potom $L(\mathcal{M})$ se rovná hodnotě $L(x)$.}
+	\item{Nechť $\varphi$ reprezentuje zpětnou referenci na $x$. Výstupní automat $\mathcal{M}$ je sedmice $(\{q_{start}, p, q, q_{end}\}, \Sigma, G, \delta_{\mathcal{M}}, q_{start}, B, \{q_{end}\})$. Jazyk přijímaný $\mathcal{M}$ je \begin{flalign*}\{ w \mid &\left(q_{start}, \left( BwB, BwB\right),  \left(1, 1\right)\right) \vdash_{\mathcal{M}}^\ast \\&\left(q_{end}, \left(B^{|w|+2}, BwB \right),  (|w|+1, |w|+1)\right) \}.\end{flalign*} Automat přijme pouze slova, která odpovídají obsahu pracovní pásky pro proměnnou $x$. Pokud je páska prázdná, proměnná nebyla ve výrazu definována. Potom $L(\mathcal{M})$ se rovná hodnotě $L(x)$.}
 \end{enumerate}
 Jelikož automat $\mathcal{M}$ použije maximálně $|w|+2$ buněk na každé pásce (celkem $(k+1)(|w|+2)$ pro $k=|var(\alpha)|$), výstupní TS je lineárně omezený. 
 \end{proof}
@@ -1016,16 +1017,16 @@ Jelikož automat $\mathcal{M}$ použije maximálně $|w|+2$ buněk na každé p�
 Jelikož pro každý regex lze sestrojit ekvivalentní vícepáskový Turingův stroj pomocí algoritmu \ref{alg:turing} a pro každý $k$-páskový TS existuje ekvivalentní jednopáskový TS (věta \ref{thm:multitape}), platí následující tvrzení.
 
 \begin{theorem}
-Každý jazyk z množiny $\mathbb{L}_{REGEX} $ je kontextovým jazykem.
+Každý jazyk z~množiny $\mathbb{L}_{REGEX} $ je kontextovým jazykem.
 \end{theorem} 
 
-Algoritmus, který přijme na vstup regex $\alpha$ a vstupní slovo $w$, zkonstruuje ekvivalentní vícepáskový TS $\mathcal{M}$ a nasimuluje výpočet $\mathcal{M}$ pro vstup $w$, se v této práci nazývá \texttt{simpleTM}.
+Algoritmus, který přijme na vstup regex $\alpha$ a vstupní slovo $w$, zkonstruuje ekvivalentní vícepáskový TS $\mathcal{M}$ a nasimuluje výpočet $\mathcal{M}$ pro vstup $w$, se v~této práci nazývá \texttt{simpleTM}.
 
-Příklad převodu regexu na vícepáskový TS lze najít v příloze \ref{ukazka:simpletm}.
+Příklad převodu regexu na vícepáskový TS lze najít v~příloze \ref{ukazka:simpletm}.
 
 Lze však ukázat, že se výpočet vícepáskového Turingova stroje, který byl zkonstruován pomocí algoritmu \texttt{simpleTM}, může zacyklit (i když ve vstupním regexu není žádná proměnná). Tento případ je potřeba ošetřit.
 \begin{example}\label{ex:cycle}
-Buď $\alpha = (a+\varepsilon)^\ast a$. Výstupem algoritmu pro tento regex je TS~$\mathcal{M}$ s jednou páskou a přechodovou funkcí $\delta$ (viz obrázek \ref{fig:infiniteloop}).
+Buď $\alpha = (a+\varepsilon)^\ast a$. Výstupem algoritmu pro tento regex je TS~$\mathcal{M}$ s~jednou páskou a přechodovou funkcí $\delta$ (viz obrázek \ref{fig:infiniteloop}).
 
 \begin{figure}[ht] % ’ht’ tells LaTeX to place the figure ’here’ or at the top of the page
 	\centering % centers the figure
@@ -1065,7 +1066,7 @@ Buď $\alpha = (a+\varepsilon)^\ast a$. Výstupem algoritmu pro tento regex je T
 	\caption{Přechodová funkce TS přijímajícího jazyk $L((a+\varepsilon)^\ast a)$}
 	\label{fig:infiniteloop}
 \end{figure}
-Automat se zacyklí například pro vstup $w=\varepsilon$. Posloupnost přechodů $\mathcal{M}$ z počáteční konfigurace $(q_s, \big\langle BB\big\rangle, \big\langle1\big\rangle)$ je zobrazena na obrázku \ref{fig:exloop}.
+Automat se zacyklí například pro vstup $w=\varepsilon$. Posloupnost přechodů $\mathcal{M}$ z~počáteční konfigurace $(q_s, \big\langle BB\big\rangle, \big\langle1\big\rangle)$ je zobrazena na obrázku \ref{fig:exloop}.
 \begin{figure}[h]
 \centering
 
@@ -1099,20 +1100,20 @@ Automat se zacyklí například pro vstup $w=\varepsilon$. Posloupnost přechod�
 \end{tikzpicture}
 \caption{Posloupnost přechodů $\mathcal{M}$ pro $w=\varepsilon$}\label{fig:exloop}
 \end{figure}
-Lze všimnout, že tato situace nastává, když v AST existuje vrchol reprezentující iteraci a hodnota výrazu potomka daného vrcholu obsahuje prázdné slovo~$\varepsilon$. Potom se při výpočtu může vzniknout cyklus v posloupnosti přechodů $$(q_{start}^\alpha, \big\langle w_0, \dots\big\rangle, \big\langle i_0, \dots\big\rangle) \vdash_{\mathcal{M}}^\ast (q_{start}^\alpha, \big\langle w_0, \dots\big\rangle, \big\langle i_0, \dots\big\rangle),$$ kde $q_{start}^\alpha$ je počáteční stav pro potomka (viz obrázek~\ref{fig:iter}). 
+Lze si všimnout, že tato situace nastává, když v~AST existuje vrchol reprezentující iteraci a hodnota výrazu potomka daného vrcholu obsahuje prázdné slovo~$\varepsilon$. Potom se při výpočtu může vzniknout cyklus v~posloupnosti přechodů $$(q_{start}^\alpha, \big\langle w_0, \dots\big\rangle, \big\langle i_0, \dots\big\rangle) \vdash_{\mathcal{M}}^\ast (q_{start}^\alpha, \big\langle w_0, \dots\big\rangle, \big\langle i_0, \dots\big\rangle),$$ kde $q_{start}^\alpha$ je počáteční stav pro potomka (viz obrázek~\ref{fig:iter}). 
 \end{example}
 
 Je však možné upravit algoritmus \ref{alg:tmsim} pro simulaci vícepáskového TS tak, aby podobné situace nevznikaly. Nejprve pro každý takový stav $q_{start}^\alpha$ uložíme konfiguraci pásek pokaždé, když algoritmus zavolá funkci \texttt{accepts} se vstupním parametrem $curState = q_{start}^\alpha$. Pokud se nová konfigurace rovná uložené, algoritmus tuto větev zahodí a funkce vrátí \texttt{false}. Pomocí kontroly opakování konfigurací je docíleno toho, aby se při simulaci konfigurace neopakovaly.  
 \begin{pozorovani}\label{poz:out}Výstup algoritmu \ref{alg:turing} je $TS(k)$ $\mathcal{M}$, který má následující vlastnost. Pro libovolnou konfiguraci $\varphi = \left(q, \langle w_1, \dots, w_k\rangle,  \langle i_1, \dots, i_k\rangle\right)$ platí $$|\{p  \mid \varphi \vdash_\mathcal{M} p\}|\le2.$$
 \end{pozorovani}
-\begin{theorem}Algoritmus \texttt{simpleTM} pracuje v čase $\mathcal{O}(|\alpha|\cdot|\Sigma|^{k+1}\cdot|w|^{4k})$, kde $k = |var(\alpha)|$. \end{theorem}
+\begin{theorem}Algoritmus \texttt{simpleTM} pracuje v~čase $\mathcal{O}(|\alpha|\cdot|\Sigma|^{k+1}\cdot|w|^{4k})$, kde $k = |var(\alpha)|$. \end{theorem}
 \begin{proof}
 Množina všech konfigurací vícepáskového TS $\mathcal{M}$, který je výstupem algoritmu \ref{alg:turing}, je $C_{\mathcal{M}}= \{\left(q, \langle w_0, w_1, \dots, w_k\rangle,  \langle i_0, i_1, \dots, i_k\rangle\right) \mid w_0 \in S_w, \forall i \in \{1, \dots, k\} \ w_i \in F_w\}$ (kde $S_w$ (resp. $F_w$) je množina suffixů (resp. podřetězců) $w$). Pro počet konfigurací stroje platí $|C_{\mathcal{M}}| = \mathcal{O}(|Q|\cdot|w|^k \cdot (|w|^2)^k \cdot |w|^{k} ) = \mathcal{O}(|Q|\cdot|w|^{4k})$ (kde $Q$ je množina stavů $\mathcal{M}$).
 Z pozorování \ref{poz:out} vyplývá, že simulace $\mathcal{M}$ spotřebuje čas $\mathcal{O}(|Q|\cdot|w|^{4k})$. Jelikož platí $Q=\mathcal{O}(|\alpha|)$ (pro každý vrchol AST se vytvoří maximálně 5 stavů) a konstrukce $TS(k)$ spotřebuje čas $\mathcal{O}(|\alpha|\cdot|\Sigma|^{k+1})$, celkem zpracování regexu $\alpha$ trvá $\mathcal{O}(|\alpha|\cdot|\Sigma|^{k+1}\cdot|w|^{4k})$.
 \end{proof}
 
 \section{Memory automat}\label{sec:memory}
-V této sekci je popsán další výpočetní model přijímající \textsc{Regex} jazyky. \emph{Memory automat} (zkráceně $\mu KA(k)$) lze chápat jako nedeterministický konečný automat rozšířený o $k$ adresovatelných paměti. Při definování pojmů týkajících se memory automatů je vycházeno z \cite[sekce 2.2]{schmidref}.
+V této sekci je popsán další výpočetní model přijímající \textsc{Regex} jazyky. \emph{Memory automat} (zkráceně $\mu KA(k)$) lze chápat jako nedeterministický konečný automat rozšířený o $k$ adresovatelných paměti. Při definování pojmů týkajících se memory automatů je vycházeno z~\cite[sekce 2.2]{schmidref}.
 
 \begin{definition}
 Buď $k \in \mathbb{N}_0$ a buď $\Gamma = \{i, [\,_i, ]\,_i \mid i \in \{0,\dots, k-1\}\}$.
@@ -1122,7 +1123,7 @@ $\mu KA(k)$ je formálně definován jako pětice $\mathcal{M} = \left(Q, \Sigma
 	\item{$\Sigma$ je neprázdná vstupní abeceda,}
 	\item{$\delta$ : $\left(Q \times (\Sigma \cup \{\varepsilon\} \cup \Gamma)\right) \rightarrow \wp\left( Q \right)$ je přechodová funkce,}
 	\item{$q_0 \in Q$ je počáteční stav,}
-	\item{$F \subseteq Q$ je množina koncových stavů.}
+	\item{$F \subseteq Q$ je množina koncových stavů. \cite{schmidref}}
 \end{itemize}
 \end{definition}
 
@@ -1132,7 +1133,7 @@ Konfigurace $\mu KA(k)$ je trojice ${(q, w, (\big\langle r_0, s_0\big\rangle, \d
 	\item $q$ je aktuální stav,
 	\item $w$ je obsah vstupní pásky,
 	\item $r_i$ je obsah $i$-té paměti,
-	\item $s_i \in \{\texttt{O}, \texttt{C}\}$ je stav $i$-té paměti. 
+	\item $s_i \in \{\texttt{O}, \texttt{C}\}$ je stav $i$-té paměti. \cite{schmidref}
 \end{itemize}
 \end{definition}
 
@@ -1141,13 +1142,13 @@ Sémantický význam jednotlivých přechodů je zaveden pomocí následující 
 \begin{definition}
 	Buď $c_i, c_j$ jsou konfigurace automatu. Binární relace $\vdash_{\mathcal{M}}$ na množině konfigurací automatů je definovaná následovně:
 	
-	$c_i \vdash_{\mathcal{M}} c_j$, právě když platí alespoň jedno z následujících tvrzení:
+	$c_i \vdash_{\mathcal{M}} c_j$, právě když platí alespoň jedno z~následujících tvrzení:
 	\begin{itemize}
 		\item $c_i=(q, vw,  (\big\langle r_0, s_0\big\rangle, \dots, \big\langle r_{k-1}, s_{k-1}\big\rangle))$;
 
 			 $c_j = (p, w,  (\big\langle r_0^\prime, s_0\big\rangle, \dots, \big\langle r_{k-1}^\prime, s_{k-1}\big\rangle))$;
 
-			 $\exists p \in \delta(q, x)$, kde $(x \in \Sigma \cup \{\varepsilon\} \ \wedge \ v = x)$ nebo $(x \in \{0,\dots, k-1\} \ \wedge{s_x = \texttt{C} \ \wedge \ v = r_{x} })$ a platí
+			 $\exists p \in \delta(q, x)$, kde $(x \in \Sigma \cup \{\varepsilon\} \ \wedge \ v~= x)$ nebo $(x \in \{0,\dots, k-1\} \ \wedge{s_x = \texttt{C} \ \wedge \ v~= r_{x} })$ a platí
 
 			\subitem$\forall i \in \{0, \dots, k-1\} \bigg( s_i = \texttt{O} \implies r_i^\prime = r_i v\bigg)$,
 
@@ -1156,25 +1157,25 @@ Sémantický význam jednotlivých přechodů je zaveden pomocí následující 
 
 			 $c_j = (p, w,  (\big\langle r_0^\prime, s_0\big\rangle,  \dots , \big\langle r_{j}^\prime, s_{j}\big\rangle, \dots ,\big\langle r_{k-1}^\prime, s_{k-1}\big\rangle))$;
 			
-			 $\exists p \in \delta(q, x)$, kde $(x = [\,_j \ \wedge \ s_j^\prime = \texttt{O} \ \wedge \ r_j^\prime = \varepsilon)$ nebo $(x = \ ]\,_j \ \wedge \  {s_j^\prime = \texttt{C} \ \wedge}  {r_j^\prime = r_j})$.
+			 $\exists p \in \delta(q, x)$, kde $(x = [\,_j \ \wedge \ s_j^\prime = \texttt{O} \ \wedge \ r_j^\prime = \varepsilon)$ nebo $(x = \ ]\,_j \ \wedge \  {s_j^\prime = \texttt{C} \ \wedge}  {r_j^\prime = r_j})$. \cite{schmidref}
 			
 			
 	\end{itemize}
 \end{definition}
 
-Počáteční konfigurace $\mu KA(k)$ $\mathcal{M}$ pro vstup $w$ je konfigurace $$\left(q_0, w, (\langle \varepsilon, \texttt{C} \rangle \dots \langle\varepsilon, \texttt{C}\rangle)\right).$$ Konfigurace ${\left(p, \varepsilon, (\langle r_0, s_0 \rangle, \dots, \langle r_{k-1}, s_{k-1}\rangle)\right)}$ je \emph{koncová}, právě když p je koncový stav. Memory automat {přijímá slovo $w$}, pokud existuje posloupnost konfigurací z počáteční (pro tento vstup) do nějaké koncové.
+Počáteční konfigurace $\mu KA(k)$ $\mathcal{M}$ pro vstup $w$ je konfigurace $$\left(q_0, w, (\langle \varepsilon, \texttt{C} \rangle \dots \langle\varepsilon, \texttt{C}\rangle)\right).$$ Konfigurace ${\left(p, \varepsilon, (\langle r_0, s_0 \rangle, \dots, \langle r_{k-1}, s_{k-1}\rangle)\right)}$ je \emph{koncová}, právě když p je koncový stav. Memory automat {přijímá slovo $w$}, pokud existuje posloupnost konfigurací z~počáteční (pro tento vstup) do nějaké koncové.
 
 \emph{Jazyk přijímaný $\mu KA(k)$ $\mathcal{M}$} je množina všech slov, které daný automat přijímá.
 
 Podobně jako je tomu u vícepáskového TS, simulace výpočtu memory automatu pro vstupní slovo $w$ odpovídá prohledávání grafů konfigurací tohoto automatu. 
 
 \section{Převod regexu na ekvivalentní memory automat}\label{section:simplemem}
-Tato sekce je věnována algoritmu pro převod regexu na memory automat. Postup konstrukce byl převzat z \cite[sekce 2.3]{schmidref}.
+Tato sekce je věnována algoritmu pro převod regexu na memory automat. Postup konstrukce byl převzat z~\cite[sekce 2.3]{schmidref}.
 
-Prvním krokem je konstrukce orientovaného grafu s ohodnocenými hranami $\mathcal{H}(\alpha)$ pro vstupní regex $\alpha$, která je popsána pomocí následující definice.     
+Prvním krokem je konstrukce orientovaného grafu s~ohodnocenými hranami $\mathcal{H}(\alpha)$ pro vstupní regex $\alpha$, která je popsána pomocí následující definice.     
 
 \begin{definition}Buď $\alpha \in RV_{\Sigma, X}$, a buď $\mathcal{N}(\alpha)$ množina uzlů syntaktického stromu, který reprezentuje $\alpha$.
-Orientovaný graf s ohodnocenými hranami $\mathcal{H}(\alpha)$ je trojice $(V, E, f)$, kde $V$ je množina vrcholů, $E$ je množina hran a $f$ je zobrazení z $E$ do $\Sigma\cup X \cup \Gamma \cup \{\varepsilon\}$ ($\Gamma = \{ [\,_x, ]\,_x \mid x \in X \}$). Pro každý uzel $t$ z $\mathcal{N}(\alpha)$ v~množině vrcholu $V$ jsou dva vrcholy $t_{in}, t_{out}$ (pro zřetězení $V$ obsahuje navíc vrchol $t_{mid}$). 
+Orientovaný graf s~ohodnocenými hranami $\mathcal{H}(\alpha)$ je trojice $(V, E, f)$, kde $V$ je množina vrcholů, $E$ je množina hran a $f$ je zobrazení z~$E$ do $\Sigma\cup X \cup \Gamma \cup \{\varepsilon\}$ ($\Gamma = \{ [\,_x, ]\,_x \mid x \in X \}$). Pro každý uzel $t$ z~$\mathcal{N}(\alpha)$ v~množině vrcholu $V$ jsou dva vrcholy $t_{in}, t_{out}$ (pro zřetězení $V$ obsahuje navíc vrchol $t_{mid}$). 
 	\begin{itemize}
 		\item{Pokud uzel $t$ reprezentuje zřetězení, množina hran obsahuje hrany $e_1 = (t_{in}, l_{in})$, $e_2=(l_{out}, t_{mid})$, $e_3=(t_{mid}, r_{in})$ a $e_4=(r_{out}, t_{out})$, kde $l$ (resp. $r$) je uzel reprezentující levého (resp. pravého) potomka. Hrany $e_1, e_2, e_3, e_4$ jsou ohodnoceny $\varepsilon$.}
 		\item{Pokud uzel $t$ reprezentuje sjednocení, množina hran obsahuje hrany $e_1 = (t_{in}, l_{in})$, $e_2=(t_{in}, r_{in})$, $e_3=(l_{out}, t_{out})$ a $e_4=(r_{out}, t_{out})$. Hrany $e_1, e_2, e_3, e_4$ jsou ohodnoceny $\varepsilon$.}
@@ -1302,29 +1303,29 @@ Orientovaný graf s ohodnocenými hranami $\mathcal{H}(\alpha)$ je trojice $(V, 
 \caption{Graf $\mathcal{H}(x\{a^\ast+b^\ast\} \ x \ (yb \ y \{b^\ast\})^\ast)$}\label{fig:avdgraph}
 \end{figure}
 
-\begin{example} Nechť $\alpha = x\{a^\ast+b^\ast\} \ x \ (yb \ y \{b^\ast\})^\ast$ je regex z $RV_{\{a, b\},\{x, y\}}$. Graf $\mathcal{H}(\alpha)$ je zobrazen na obrázku \ref{fig:avdgraph}. Všimněte si, že se na graf $\mathcal{H}(\alpha)$ lze podívat jako na graf přechodové funkce NKA s $\varepsilon$-přechody $\mathcal{M} = (V(\mathcal{H}(\alpha)), \{a, b\}\cup\{x, y\}\cup\{[\,_x, [\,_y, ]\,_x, ]\,_y\}, \delta, \varphi_{in}, \{\varphi_{out}\})$ přijímajícího referenční jazyk $R(\alpha)$. Počáteční (resp. jediný koncový) stav automatu je $\varphi_{in}$ (resp. $\varphi_{out}$), kde $\varphi$ je kořen AST reprezentujícího regex $\alpha$.
+\begin{example} Nechť $\alpha = x\{a^\ast+b^\ast\} \ x \ (yb \ y \{b^\ast\})^\ast$ je regex z~$RV_{\{a, b\},\{x, y\}}$. Graf $\mathcal{H}(\alpha)$ je zobrazen na obrázku \ref{fig:avdgraph}. Všimněte si, že se na graf $\mathcal{H}(\alpha)$ lze podívat jako na graf přechodové funkce NKA s~$\varepsilon$-přechody $\mathcal{M} = (V(\mathcal{H}(\alpha)), \{a, b\}\cup\{x, y\}\cup\{[\,_x, [\,_y, ]\,_x, ]\,_y\}, \delta, \varphi_{in}, \{\varphi_{out}\})$ přijímajícího referenční jazyk $R(\alpha)$. Počáteční (resp. jediný koncový) stav automatu je $\varphi_{in}$ (resp. $\varphi_{out}$), kde $\varphi$ je kořen AST reprezentujícího regex $\alpha$.
 \end{example}
  
-Nechť $num$ je zobrazení z $var(\alpha)$ do množiny $\{0, \dots, k-1\}$ takové, že pro každé dvě různé proměnné $x, y$ v $\alpha$ platí $num(x) \ne num(y)$. Z grafu $\mathcal{H}(\alpha)$ lze vytvořit graf přechodové funkce $\delta$ substitucí každého výskyt proměnné $x$ v ohodnocení nějaké hrany za $num(x)$. Potom $i$-tá paměť odpovídá proměnné označené číslem $i$ a výsledný automat $\mathcal{M} = (V(\mathcal{H}(\alpha)), \Sigma, \delta, \varphi_{in}, \{\varphi_{out}\})$ (kde $\varphi$ je kořen AST pro $\alpha$) přijímá jazyk $L(\alpha)$ \cite[s. 5]{schmidref}.
+Nechť $num$ je zobrazení z~$var(\alpha)$ do množiny $\{0, \dots, k-1\}$ takové, že pro každé dvě různé proměnné $x, y$ v~$\alpha$ platí $num(x) \ne num(y)$. z~grafu $\mathcal{H}(\alpha)$ lze vytvořit graf přechodové funkce $\delta$ substitucí každého výskyt proměnné $x$ v~ohodnocení nějaké hrany za $num(x)$. Potom $i$-tá paměť odpovídá proměnné označené číslem $i$ a výsledný automat $\mathcal{M} = (V(\mathcal{H}(\alpha)), \Sigma, \delta, \varphi_{in}, \{\varphi_{out}\})$ (kde $\varphi$ je kořen AST pro $\alpha$) přijímá jazyk $L(\alpha)$ \cite[s. 5]{schmidref}.
 
-Příklad převodu regexu na memory automat pomocí uvedeného algoritmu lze najít v příloze \ref{ukazka:avd}.
+Příklad převodu regexu na memory automat pomocí uvedeného algoritmu lze najít v~příloze \ref{ukazka:avd}.
 
-Jelikož konstrukce memory automatu pro regex je podobná konstrukci TS, výsledný $\mu$KA se také může zacyklit, pokud v AST existuje vrchol reprezentující iteraci a hodnota výrazu potomka obsahuje $\varepsilon$ (viz příklad \ref{ex:cycle}). Při simulaci memory automatu je kontrolováno, jestli se konfigurace neopakují, obdobným způsobem, jako je tomu u TS.  
+Jelikož konstrukce memory automatu pro regex je podobná konstrukci TS, výsledný $\mu$KA se také může zacyklit, pokud v~AST existuje vrchol reprezentující iteraci a hodnota výrazu potomka obsahuje $\varepsilon$ (viz příklad \ref{ex:cycle}). Při simulaci memory automatu je kontrolováno, jestli se konfigurace neopakují, obdobným způsobem, jako je tomu u TS.  
 
 Algoritmus, který přijme na vstup regex $\alpha$ a vstupní slovo $w$, zkonstruuje ekvivalentní memory automat $\mathcal{M}$ a nasimuluje výpočet $\mathcal{M}$ pro vstup $w$, se v~této práci nazývá \texttt{simpleMemory}.
 
 \begin{theorem}\label{thm:simplemem}
-Časová složitost algoritmu \texttt{simpleMemory} je $\mathcal{O}(|\alpha|\cdot|w|^{k+1})$, kde $k = |var(\alpha)|$. 
+Časová složitost algoritmu \texttt{simpleMemory} je $\mathcal{O}(|\alpha|\cdot|w|^{k+1})$, kde $k = |var(\alpha)|$.
 \end{theorem}
 \begin{proof} Konstrukce grafu $H(\alpha)$ spotřebuje čas $\mathcal{O}(|\alpha|)$ \cite[lemma 3]{schmidref}. Simulace výsledného memory automatu potrvá $\mathcal{O}(|Q|\cdot|2|^k\cdot|w|^{k+1})$, kde $|Q| = \mathcal{O}(|\alpha|)$ \cite[lemma~2]{schmidref}.
 \end{proof}
 
 \iffalse
 \section{Dvoucestný konečný automat}\label{sec:twoway}
-V této sekci je popsán další výpočetní model přijímající REGEX jazyky. Dvoucestný konečný automat s více čtecími hlavami se skládá z řídící jednotky, read-only vstupní pásky a konečného počtu čtecích hlav, které se mohou pohybovat oběma směry. 
-Při definování pojmů týkajících se dvoucestných automatů je vycházeno z \cite{holzer}.
+V této sekci je popsán další výpočetní model přijímající REGEX jazyky. Dvoucestný konečný automat s~více čtecími hlavami se skládá z~řídící jednotky, read-only vstupní pásky a konečného počtu čtecích hlav, které se mohou pohybovat oběma směry. 
+Při definování pojmů týkajících se dvoucestných automatů je vycházeno z~\cite{holzer}.
 \begin{definition}
-\emph{Nedeterministický dvoucestný KA s k čtecími hlavami}, zkráceně \emph{2NKA($k$)}, je formálně definován jako osmice $M = \left(Q, \Sigma, k, \delta, \triangleright, \triangleleft, q_0, F\right)$, kde:
+\emph{Nedeterministický dvoucestný KA s~k čtecími hlavami}, zkráceně \emph{2NKA($k$)}, je formálně definován jako osmice $M = \left(Q, \Sigma, k, \delta, \triangleright, \triangleleft, q_0, F\right)$, kde:
 \begin{itemize}
 	\item{$Q$ je konečná neprázdná množina vnitřních stavů,}
 	\item{$\Sigma$ je neprázdná vstupní abeceda,}
@@ -1336,7 +1337,7 @@ Při definování pojmů týkajících se dvoucestných automatů je vycházeno 
 \end{itemize}
 \end{definition}
 
-Definice přechodové funkce nám říká, že je-li $2NKA(k)$ v nějakém stavu a čtecí hlavy na páskách ukazují na nějaké symboly z vstupní abecedy, počáteční nebo koncový symbol, poté přejde automat do dalšího stavu a každou čtecí hlavu posune vlevo, vpravo nebo zůstane na místě.
+Definice přechodové funkce nám říká, že je-li $2NKA(k)$ v~nějakém stavu a čtecí hlavy na páskách ukazují na nějaké symboly z~vstupní abecedy, počáteční nebo koncový symbol, poté přejde automat do dalšího stavu a každou čtecí hlavu posune vlevo, vpravo nebo zůstane na místě.
 
 \begin{definition}
 Nechť $M = \left(Q, \Sigma, k, \delta, \triangleright, \triangleleft, q_0, F\right)$ je $2NKA(k)$.
@@ -1359,7 +1360,7 @@ Buď $\alpha = \triangleright w \triangleleft$. \emph{Přechodem} $M$ se nazýv�
 \end{equation*}
 \end{definition}
 
-Dvoucestný KA s více čtecími hlavami skončí výpočet, pokud je v nějakém stavu $p$ a jeho čtecí hlavy ukazují na nějaké symboly $\alpha[i_1], \dots, \alpha[i_k]$ tak, že přechodová funkce pro tuto situaci není definována. Automat přijímá slovo $w$, jestliže přečtením $w$, přejde do koncového stavu a výpočet skončí.
+Dvoucestný KA s~více čtecími hlavami skončí výpočet, pokud je v~nějakém stavu $p$ a jeho čtecí hlavy ukazují na nějaké symboly $\alpha[i_1], \dots, \alpha[i_k]$ tak, že přechodová funkce pro tuto situaci není definována. Automat přijímá slovo $w$, jestliže přečtením $w$, přejde do koncového stavu a výpočet skončí.
 
 \begin{definition}
 \emph{Jazyk přijímaný 2NKA(k) M} je množina: 
@@ -1371,7 +1372,7 @@ L\left(M\right) = \{ w \mid \left(\exists p \in F \right)  \left(\exists \alpha_
 \end{equation*}
 \end{definition}
 
-V této práci se používá graf přechodů pro znázornění přechodové funkce obousměrného automatu. Hrany grafu reprezentují přechody a jsou ohodnoceny posloupností $k$ dvojic z množiny $(\Sigma\cup\{\triangleright, \triangleleft\}) \times \{-1, 0, 1\}$. Na $j$-té pozici se nachází dvojice $\langle \alpha_j, i_j \rangle$, kde $\alpha_j$ je čtený symbol, na nějž ukazuje $j$-tá čtecí hlava, a $i_j$ odpovídá pohybu této čtecí hlavy (viz obrázek \ref{fig:transtw}). 
+V této práci se používá graf přechodů pro znázornění přechodové funkce obousměrného automatu. Hrany grafu reprezentují přechody a jsou ohodnoceny posloupností $k$ dvojic z~množiny $(\Sigma\cup\{\triangleright, \triangleleft\}) \times \{-1, 0, 1\}$. Na $j$-té pozici se nachází dvojice $\langle \alpha_j, i_j \rangle$, kde $\alpha_j$ je čtený symbol, na nějž ukazuje $j$-tá čtecí hlava, a $i_j$ odpovídá pohybu této čtecí hlavy (viz obrázek \ref{fig:transtw}). 
 
 \begin{figure}[ht] % ’ht’ tells LaTeX to place the figure ’here’ or at the top of the page
 	\centering % centers the figure
@@ -1424,11 +1425,11 @@ Algoritmus \ref{alg:twsim} lze použít pro simulaci výpočtu dvoucestného KA 
 \iffalse
 \section{Algoritmus pro převod regexu na dvoucestný KA}
 
-V této sekci je formálně popsán algoritmus pro převod regexu na ekvivalentní dvoucestný konečný automat. Základní myšlenka algoritmu konstrukce je založena na pozorování z \cite[s. 21--22]{schmidthesis}.
+V této sekci je formálně popsán algoritmus pro převod regexu na ekvivalentní dvoucestný konečný automat. Základní myšlenka algoritmu konstrukce je založena na pozorování z~\cite[s. 21--22]{schmidthesis}.
 \begin{pozorovani} Čtecí hlava $2NKA(k)$ může sloužit jako čítač. Hodnota takového čítače odpovídá pozici hlavy na pásce a může nabývat hodnot $0$ až $|w+1|$. Inkrementace (resp. dekrementace) je potom posun doprava (resp. doleva). 
 \end{pozorovani}
 
-Nechť $num$ je zobrazení z $var(\alpha)$ do množiny $\{1, \dots, k\}$ takové, že pro každé dvě různé proměnné $x, y$ v $\alpha$ platí $num(x) \ne num(y)$. Potom $i$-tá páska odpovídá proměnné označené číslem $i$. Zavedeme také tabulku $T[1, \dots, k]$, kde $T[i] = 1$ právě, když automat čte řetězec, který odpovídá hodnotě výrazu v~definici proměnné $num^{-1}(i)$. 
+Nechť $num$ je zobrazení z~$var(\alpha)$ do množiny $\{1, \dots, k\}$ takové, že pro každé dvě různé proměnné $x, y$ v~$\alpha$ platí $num(x) \ne num(y)$. Potom $i$-tá páska odpovídá proměnné označené číslem $i$. Zavedeme také tabulku $T[1, \dots, k]$, kde $T[i] = 1$ právě, když automat čte řetězec, který odpovídá hodnotě výrazu v~definici proměnné $num^{-1}(i)$. 
 
 
 \begin{algorithm}
@@ -1437,8 +1438,8 @@ Nechť $num$ je zobrazení z $var(\alpha)$ do množiny $\{1, \dots, k\}$ takové
     \SetKwInOut{Input}{Vstup}
     \SetKwInOut{Output}{Výstup}
 	\DontPrintSemicolon
-    \Input{AST s kořenem $\varphi$ reprezentující regex $\alpha \in RV_{\Sigma, X}$} 
-    \Output{$2NKA(3k+2)$ $\mathcal{M}$ takový, že $L(M)=L(\alpha)$} \tcc{$k$ je počet proměnných v $\alpha$ ($k = |var(\alpha)|$)}
+    \Input{AST s~kořenem $\varphi$ reprezentující regex $\alpha \in RV_{\Sigma, X}$} 
+    \Output{$2NKA(3k+2)$ $\mathcal{M}$ takový, že $L(M)=L(\alpha)$} \tcc{$k$ je počet proměnných v~$\alpha$ ($k = |var(\alpha)|$)}
     $num : X \rightarrow \{1, \dots, k\}$; ($\forall x, y \in X$)  $num(x)=num(y) \Rightarrow x=y$\; ($\forall i \in \{1, \dots, k\}$) $ T[i] \gets 0$\;
     $Q \gets \{start, p, end\}$; $F \gets \{end\}$\;
     uprav $\delta$ podle (\ref{itm:init})\;
@@ -1496,7 +1497,7 @@ $\mathcal{M}=(Q, \Sigma, k, \delta, \triangleright, \triangleleft, start, F)$\;
 
 Algoritmus \ref{alg:twoway} dostane na vstup ukazatel na kořen AST reprezentující regex $\alpha$, projde rekurzivně vrcholy tohoto stromu a přidá odpovídající přechody do přechodové funkce automatu. Výsledný dvoucestný KA $\mathcal{M}$ má počáteční stav $start$, jediný koncový stav $end$ a následující vlastnosti:
 \begin{itemize}
-	\item{$\mathcal{M}$ je $2NKA(3 k + 2)$, kde $k$ je počet proměnných v $\alpha$.}
+	\item{$\mathcal{M}$ je $2NKA(3 k~+ 2)$, kde $k$ je počet proměnných v~$\alpha$.}
 	\item{Nulté čtecí hlavě se říká \emph{vstupní}. Tato hlava bude postupně procházet vstupní slovo zleva doprava a nikdy se neposune doleva. Druhá čtecí hlava funguje jako čítač délky dosud přečteného řetězce (dále \emph{hlavní čítač}).}
 	\item{Ke každé proměnné, která se alespoň jednou ve výrazu vyskytuje, jsou přiřazeny tři čtecí hlavy. První ukazuje na začátek podřetězce, který odpovídá hodnotě dílčího výrazu uvnitř definice, ostatní fungují jako čítače. Na začátku hodnoty dvou čítačů se rovnají 0. Po přijetí podřetězce, který odpovídá hodnotě výrazu uvnitř definice, hodnota čítače č. 1 je nastavena na jeho délku. Počáteční konfigurace tedy je $$\left(w, start, \langle \underbrace{1, 0}, \underbrace{1, 0, 0},\dots,\underbrace{1, 0, 0}\rangle\right)$$}
 \item{Řetězec odpovídající zpětné referenci na nějakou proměnnou bude přijat tak, že se porovnají $n$ (kde $n$ je hodnota čítače č. 1) symbolů, počínaje symbolem, na nějž ukazuje čtecí hlava pro tuto proměnnou, se symboly, na něž ukazuje vstupní hlava. Při porovnávání řetězců se čítač č. 1 dekrementuje a druhý čítač se inkrementuje. Pomocí čítače č. 2 automat přepočítá počáteční pozici, na kterou ukazovala první čtecí hlava pro proměnnou. }
@@ -1521,10 +1522,10 @@ Jelikož \textit{2NKA} přijímá koncovým stavem a má \textit{read-only} pás
 
 Dále je popsána činnost rekurzivní funkce \texttt{build-TW} podle typu uzlu, který je dán vstupním parametrem $\beta$:
 \begin{enumerate}
- \item{Prvním typem uzlu je elementární výraz. Může nastat jeden z následujících případů:}
+ \item{Prvním typem uzlu je elementární výraz. Může nastat jeden z~následujících případů:}
 \begin{enumerate}
 \item \label{itm:eps2}{Uzel reprezentuje prázdný řetězec. Potom se přidají \uv{$\varepsilon$-přechody} ze stavu $q_{start}$ do stavu $q_{end}$. 
-	 Pod pojmem \uv{$\varepsilon$-přechod} je myšleno přechod, při kterém automat nepřečte žádný symbol a neposune žádnou čtecí hlavu. Počet přechodů je roven počtu $(3k+1)$-členných variací s opakováním z $|\Sigma \cup \{\triangleright, \triangleleft\}|$ prvků ($(|\Sigma|+2)^{3k+2}$).
+	 Pod pojmem \uv{$\varepsilon$-přechod} je myšleno přechod, při kterém automat nepřečte žádný symbol a neposune žádnou čtecí hlavu. Počet přechodů je roven počtu $(3k+1)$-členných variací s~opakováním z~$|\Sigma \cup \{\triangleright, \triangleleft\}|$ prvků ($(|\Sigma|+2)^{3k+2}$).
 
 	Buď $G := \Sigma \cup  \{\triangleright, \triangleleft\}$. Pro $\forall x_0, \dots, x_{3k+1} \in G$ se přechodová funkce modifikuje následovně (viz obrázek \ref{fig:eps2}):
 	
@@ -1583,9 +1584,9 @@ Dále je popsána činnost rekurzivní funkce \texttt{build-TW} podle typu uzlu,
 \end{figure}
 	\end{enumerate}
  
-	 \item{Dalším typ vrcholu je binární operátor. Algoritmus zachází s binárním operátorem podobně jako algoritmus \ref{alg:turing}. Pro takovýto případ se do množiny stavů pro každý operand přidají \uv{počáteční} a \uv{koncový} stav (například stavy $q_{start}^{l}$ a $q_{end}^{l}$ pro levý operand). Algoritmus začne rekurzivně procházet pravého a levého potomka a přidávat pro ně nové stavy a přechody do automatu.}
+	 \item{Dalším typ vrcholu je binární operátor. Algoritmus zachází s~binárním operátorem podobně jako algoritmus \ref{alg:turing}. Pro takovýto případ se do množiny stavů pro každý operand přidají \uv{počáteční} a \uv{koncový} stav (například stavy $q_{start}^{l}$ a $q_{end}^{l}$ pro levý operand). Algoritmus začne rekurzivně procházet pravého a levého potomka a přidávat pro ně nové stavy a přechody do automatu.}
    \begin{enumerate}
-	   \item \label{itm:union2}{Pokud při průchodu algoritmus narazí na uzel reprezentující sjednocení dvou výrazů, jednoduše se přidají \uv{$\varepsilon$-přechody} mezi stavem $q_{start}$ a \uv{počátečními} stavy pro potomky a z \uv{koncových} stavů do stavu $q_{end}$.
+	   \item \label{itm:union2}{Pokud při průchodu algoritmus narazí na uzel reprezentující sjednocení dvou výrazů, jednoduše se přidají \uv{$\varepsilon$-přechody} mezi stavem $q_{start}$ a \uv{počátečními} stavy pro potomky a z~\uv{koncových} stavů do stavu $q_{end}$.
 	
 	Pro $\forall x_0, \dots, x_{3k+1} \in G$ se přechodová funkci modifikuje následovně:
 	
@@ -1614,7 +1615,7 @@ Dále je popsána činnost rekurzivní funkce \texttt{build-TW} podle typu uzlu,
    \end{enumerate}
     \item{Při průchodu lze také narazit na unární operátor nebo definice proměnné. Potom se do množiny stavů přidají nové stavy $q_{start}^{\alpha}$ a  $q_{start}^{\alpha}$ pro potomka.}
 	\begin{enumerate}
-	 \item \label{itm:iter2}{Jediným unárním operátorem, na nějž lze narazit při průchodu, je iterace. Podobně jako v algoritmu \ref{alg:turing} pro takovýto případ algoritmus vytvoří \uv{$\varepsilon$-přechody} mezi stavy a začne rekurzivně procházet uzlem potomka.
+	 \item \label{itm:iter2}{Jediným unárním operátorem, na nějž lze narazit při průchodu, je iterace. Podobně jako v~algoritmu \ref{alg:turing} pro takovýto případ algoritmus vytvoří \uv{$\varepsilon$-přechody} mezi stavy a začne rekurzivně procházet uzlem potomka.
 	
 	Pro $\forall x_0, \dots, x_{3k+1} \in G$ se přidají přechody takto:
 
@@ -1717,53 +1718,53 @@ Pro  $\forall x_0, \dots, x_{3k+1} \in G$, $\forall z, x_{3num(y)-1}, x_{3num(y)
 \begin{theorem}
 	Časová složitost algoritmu \ref{alg:twoway} je $\mathcal{O}(|\alpha| \cdot |\Sigma|^{3k+2} )$.
 \end{theorem}
-\begin{proof}  Inicializace algoritmu (kroky 1 až 3) trvá $\mathcal{O}(k)$. Algoritmus rekurzivně prochází každý uzel syntaktického stromu právě jednou, tedy se celkem provede $\mathcal{O}(|\alpha|)$ volání funkce \texttt{build-TW}. V každém volání se do množiny stavů přidají maximálně $5$ stavů (krok 31) a vytvoří se nejvýše $(|\Sigma|+2)^{3k} \cdot (4|\Sigma|^2 + 10|\Sigma|+9)$ přechodů (krok 32). Celkově tedy algoritmus spotřebuje čas $\mathcal{O}(|\alpha| \cdot |\Sigma|^{3k+2} )$. 
+\begin{proof}  Inicializace algoritmu (kroky 1 až 3) trvá $\mathcal{O}(k)$. Algoritmus rekurzivně prochází každý uzel syntaktického stromu právě jednou, tedy se celkem provede $\mathcal{O}(|\alpha|)$ volání funkce \texttt{build-TW}. v~každém volání se do množiny stavů přidají maximálně $5$ stavů (krok 31) a vytvoří se nejvýše $(|\Sigma|+2)^{3k} \cdot (4|\Sigma|^2 + 10|\Sigma|+9)$ přechodů (krok 32). Celkově tedy algoritmus spotřebuje čas $\mathcal{O}(|\alpha| \cdot |\Sigma|^{3k+2} )$. 
 \end{proof}
 
 \begin{pozorovani}\label{poz:out}Výstup algoritmu \ref{alg:twoway} je $2NKA(3k+2)$ $\mathcal{M}$, který má následující vlastnost. Pro libovolnou konfiguraci $\varphi = \left(w, q, \langle p_1, \dots, p_{3k+2}\rangle\right)$ platí $|\{p  \mid \varphi \vdash_{\mathcal{M}} p\}|\le2$.
 \end{pozorovani}
 
-\begin{theorem}\label{thm:ctime}Algoritmus pro zpracování regexu $\alpha \in RV_{\Sigma, X}$ založený na konstrukci dvoucestného KA pracuje v čase $\mathcal{O}(|\alpha|\cdot(|w|^{3k+2} + |\Sigma|^{3k+2}))$, kde $k$ je počet definic v $\alpha$. \end{theorem}
+\begin{theorem}\label{thm:ctime}Algoritmus pro zpracování regexu $\alpha \in RV_{\Sigma, X}$ založený na konstrukci dvoucestného KA pracuje v~čase $\mathcal{O}(|\alpha|\cdot(|w|^{3k+2} + |\Sigma|^{3k+2}))$, kde $k$ je počet definic v~$\alpha$. \end{theorem}
 Z pozorování \ref{poz:out} vyplývá, že simulace $2NKA$ $\mathcal{M}$, který je výstupem algoritmu \ref{alg:twoway}, spotřebuje čas $\mathcal{O}(|Q|\cdot|w|^{3k+2})$ (kde $Q$ ke množina stavů $M$). Jelikož platí $Q=\mathcal{O}(|\alpha|)$ a konstrukce $2NKA$ spotřebuje čas $\mathcal{O}(|\alpha|\cdot|\Sigma|^{3k+2})$, celkem zpracování regexu $\alpha$ trvá $\mathcal{O}(|\alpha|\cdot|w|^{3k+2} + |\alpha|\cdot|\Sigma|^{3k+2})$.
 \fi
 \chapter{Parametrizovaná složitost zpracování regexů}
 
-Problém zpracování regexů patří mezi problémy, jejichž parametrizovaná složitost dosud nebyla podrobně zkoumána. Věta \ref{thm:simplemem} nám poskytuje algoritmus pracující v čase $\mathcal{O}(|I|^{k+1})$, kde $k$ je součástí vstupu $I$. Lze proto tvrdit, že parametrizovaný problém \ref{prob} patří do třídy XP.
+Problém zpracování regexů patří mezi problémy, jejichž parametrizovaná složitost dosud nebyla podrobně zkoumána. Věta \ref{thm:simplemem} nám poskytuje algoritmus pracující v~čase $\mathcal{O}(|I|^{k+1})$, kde $k$ je součástí vstupu $I$. Lze proto tvrdit, že parametrizovaný problém \ref{prob} patří do třídy XP.
 
-Cílem této kapitoly je prozkoumat společnou vlastnost (parametr) vstupů a vlastnost regexů, na níž je tento parametr závislý. V této kapitole bude vycházeno z \cite{schmidref}.
+Cílem této kapitoly je prozkoumat společnou vlastnost (parametr) vstupů a vlastnost regexů, na níž je tento parametr závislý. v~této kapitole bude vycházeno z~\cite{schmidref}.
 
 \section{Množina aktivních proměnných}
 
-Časovou složitost algoritmu pro převod regulárních výrazů se zpětnými referencemi na memory automat, je možné zlepšit několika způsoby. Jednou možností je omezení paměťových prostředků, které se používají na zpracování zpětných referencí.  
+Časovou složitost algoritmu pro převod regulárních výrazů se zpětnými referencemi na memory automat, je možné zlepšit několika způsoby. Jednou možností je omezení paměťových prvků, které se používají pro zpracování zpětných referencí.  
 
 \begin{example}\label{ex:avd}
-Buď $X=\{x, y\}$ množina proměnných, buď $\Sigma=\{a, b\} $ abeceda. Pro regex $\alpha = x \{a^\ast\} \ x \ ( y a \ y \{b^\ast\})^\ast \in RV_{\Sigma, X}$ podle algoritmu \texttt{simpleMemory} lze sestrojit memory automat se dvěma pamětmi. Je očividné, že jazyk $L(\alpha)$ lze přijat i $\mu$KA(1) tak, že se jediná paměť současně využije ke zpracování obou zpětných referencí. K tomu však nestačí pouze substituovat proměnnou $y$ za $x$, protože se hodnota regexu $ x \{a^\ast\} \ x \ ( xa \ x \{b^\ast\})^\ast$ nerovná $L(\alpha)$. 
+Buď $X=\{x, y\}$ množina proměnných, buď $\Sigma=\{a, b\} $ abeceda. Pro regex $\alpha = x \{a^\ast\} \ x \ ( y a \ y \{b^\ast\})^\ast \in RV_{\Sigma, X}$ podle algoritmu \texttt{simpleMemory} lze sestrojit memory automat se dvěma pamětmi. Je očividné, že jazyk $L(\alpha)$ lze přijat i $\mu$KA(1) tak, že se jediná paměť současně využije ke zpracování obou zpětných referencí. k~tomu však nestačí pouze substituovat proměnnou $y$ za $x$, protože se hodnota regexu $ x \{a^\ast\} \ x \ ( xa \ x \{b^\ast\})^\ast$ nerovná $L(\alpha)$. 
 \end{example}
 
-Vlastnost regexu, pomocí níž lze omezit počet pásek při převodu na TS, je definována na orientovaném grafu s ohodnocenými hranami $\mathcal{H}(\alpha)$. Konstrukce tohoto grafu je popsána v sekci \ref{sec:memory}.
+Vlastnost regexu, pomocí níž lze omezit počet pásek při převodu na TS, je definována na orientovaném grafu s~ohodnocenými hranami $\mathcal{H}(\alpha)$. Konstrukce tohoto grafu je popsána v~sekci \ref{sec:memory}.
 
 \begin{definition}
-Buď $\varphi \in \mathcal{N}(\alpha)$ kořen AST. Binární relace $\triangleright_{def} \subseteq X \times V$ a $\triangleright_{call} \subseteq V \times X$ jsou definovány takto:
-\begin{equation}\begin{split} x \triangleright_{def} \beta &\iff \text{v $\mathcal{H}(\alpha)$ existuje cesta }  (\varphi_{in}, e_1, \dots, e_n, \beta) \text{ taková, že } \\ &\bigg(\exists k \in \{1, \dots, n\}\bigg) \bigg [ f(e_k)=[\,_x \ \bigg] \end{split}\end{equation}
-\begin{equation}\begin{split} \beta \triangleright_{call} x &\iff \text{v $\mathcal{H}(\alpha)$ existuje cesta }  (\beta, e_1, \dots, e_n, \varphi_{out}) \text{ taková, že } \\ &\bigg(\exists k \in \{1, \dots, n\}\bigg) \bigg [ f(e_k)=x \bigg ] \ \wedge \ \bigg(\forall i < k\bigg) \bigg[ f(e_i)\ne [\,_x \ \bigg] \end{split}\end{equation}
+Buď $\varphi \in \mathcal{N}(\alpha)$ kořen AST. Binární relace $\triangleright_{def} \subseteq X \times V$ a $\triangleright_{call} \subseteq v~\times X$ jsou definovány takto:
+\begin{equation}\begin{split} x \triangleright_{def} \beta &\iff \text{v $\mathcal{H}(\alpha)$ existuje cesta }  (\varphi_{in}, e_1, \dots, e_n, \beta) \text{ taková, že } \\ &\bigg(\exists k~\in \{1, \dots, n\}\bigg) \bigg [ f(e_k)=[\,_x \ \bigg] \end{split}\end{equation}
+\begin{equation}\begin{split} \beta \triangleright_{call} x &\iff \text{v $\mathcal{H}(\alpha)$ existuje cesta }  (\beta, e_1, \dots, e_n, \varphi_{out}) \text{ taková, že } \\ &\bigg(\exists k~\in \{1, \dots, n\}\bigg) \bigg [ f(e_k)=x \bigg ] \ \wedge \ \bigg(\forall i < k\bigg) \bigg[ f(e_i)\ne [\,_x \ \bigg] \end{split}\end{equation}
 Pro $\beta \in V$ se množina $avs(\beta):=\{x \mid x \triangleright_{def} \beta \triangleright_{call} x\}$ nazývá množina aktivních proměnných. 
-Parametr $avd$ (anglicky \emph{active variable degree}) pro regex $\alpha$ je definován takto:
-\begin{equation} avd(\alpha) := max\bigg\{|avs(\varphi)| \ \bigg | \ \varphi \in V \ \wedge \bigg (
+Parametr $avd$ (anglicky \emph{active variable degree}) pro regex $\alpha$ je definován takto: \cite{schmidref}
+\begin{equation} avd(\alpha) := max\bigg\{|avs(\varphi)| \ \bigg | \ \varphi \in v~\ \wedge \bigg (
 \exists e = (\gamma, \varphi) \in E \bigg ) \bigg [ f(e)=[\,_x \ \bigg] \bigg\}\end{equation}
 \end{definition}
 
-\begin{example} Nechť $\alpha = x\{a^\ast+b^\ast\} \ x \ (yb \ y \{b^\ast\})^\ast$ je regex z $RV_{\{a, b\},\{x, y\}}$. Graf $\mathcal{H}(\alpha)$ je zobrazen na obrázku \ref{fig:avdgraph}. K určení parametru \emph{avd} stačí najít aktivní proměnné pouze pro dva vrcholy $\gamma_{in}$, $\beta_{in}$ z $V(\mathcal{H}(\alpha))$ (označeny červeně), kde $\gamma$, $\beta \in \mathcal{N}(a)$ jsou uzly reprezentující výraz uvnitř definice. Jelikož množina aktivních proměnných pro oba vrcholy je jednoprvková, $avd(\alpha) = 1$.
+\begin{example} Nechť $\alpha = x\{a^\ast+b^\ast\} \ x \ (yb \ y \{b^\ast\})^\ast$ je regex z~$RV_{\{a, b\},\{x, y\}}$. Graf $\mathcal{H}(\alpha)$ je zobrazen na obrázku \ref{fig:avdgraph}. k~určení parametru \emph{avd} stačí najít aktivní proměnné pouze pro dva vrcholy $\gamma_{in}$, $\beta_{in}$ z~$V(\mathcal{H}(\alpha))$ (označeny červeně), kde $\gamma$, $\beta \in \mathcal{N}(a)$ jsou uzly reprezentující výraz uvnitř definice. Jelikož množina aktivních proměnných pro oba vrcholy je jednoprvková, $avd(\alpha) = 1$.
 \end{example}
 
 \begin{pozorovani}\label{obs:avd} Buď $x \in X$, a buď $G:=\Sigma\cup X\cup\{\varepsilon\}\cup\Gamma$. Nedeterministický konečný automat $\mathcal{M}_{x, \triangleright_{def}} = (\{q, p\}, G, \delta_0, q, \{p\})$ přijímá jazyk $L(\mathcal{M}_{x, \triangleright_{def}})={\{w \mid \ |w|_{[\,_x}\ge1\}}$. NKA $\mathcal{M}_{x, \triangleright_{call}}$ je pětice $(\{q, p, \varnothing\}, G, \delta_1, q, \{p\})$ a $L(\mathcal{M}_{x, \triangleright_{call}})= \{uxv \mid \ |u|_{[\,_x}=0\}$. Přechodové funkce $\delta_0$ a $\delta_1$ jsou znázorněny pomocí grafů přechodů na obrázku~\ref{fig:avd2}. 
 
-Nechť $\alpha$ je regex z $RV_{\Sigma, X}$ a $\mathcal{H}(\alpha)=(V,E,f)$. Nechť $\delta : V \times G \rightarrow \wp(V)$ je zobrazení definované takto:
+Nechť $\alpha$ je regex z~$RV_{\Sigma, X}$ a $\mathcal{H}(\alpha)=(V,E,f)$. Nechť $\delta : v~\times G \rightarrow \wp(V)$ je zobrazení definované takto:
 \begin{equation*}(\forall p, q \in V) (\forall x \in G) \ q \in \delta(p, x) \iff (p, q) \in E \ \wedge \ f((p,q))=x
 \end{equation*}
 Potom pro libovolné $\beta \in V$ a $x\in X$ platí následující tvrzení:
 \begin{equation*} x \triangleright_{def} \beta \iff L(\mathcal{R}_0(\alpha))\cap L(\mathcal{M}_{x, \triangleright_{def}}) \ne \varnothing \end{equation*} \begin{equation*} \beta \triangleright_{call} x \iff L(\mathcal{R}_1(\alpha))\cap L(\mathcal{M}_{x, \triangleright_{call}}) \ne \varnothing, \end{equation*}
 kde $\varphi$ je kořen AST reprezentujícího $\alpha$, $\mathcal{R}_0(\alpha)=(V, G, \delta, \varphi_{in}, \{\beta\})$ a $\mathcal{R}_1(\alpha)=(V, G, \delta, \beta, \{\varphi_{out}\})$.
-$\mathcal{R}(\alpha) = (V, G, \delta, \varphi_{in}, \{\varphi_{out}\})$ je NKA přijímající referenční jazyk daný regexem $\alpha$. Potom jazyk přijímaný $\mathcal{R}_1(\alpha)$ (resp. $\mathcal{R}_0(\alpha)$) obsahuje podřetězce, které může přijat $\mathcal{R}(\alpha)$ s počátečním (resp. jediným koncovým) stavem $\beta$. $\mathcal{M}_{x, \triangleright_{def}}$ přijímá všechny řetězce, v nichž jsou alespoň jedna otevírací závorka definice proměnné $x$ a $\mathcal{M}_{x, \triangleright_{call}}$ přijímá všechny řetězce, v nichž jsou alespoň jedna reference na $x$ a před danou referencí neexistuje žádná definice na tuto proměnnou. Průnik jazyků $L(\mathcal{R}_0(\alpha))\cap L(\mathcal{M}_{x, \triangleright_{def}})$ je prázdný jazyk, právě když v $\mathcal{R}(\alpha)$ z počátečního stavu do stavu $\beta$ neexistuje posloupnost přechodů, pomocí níž automat přečte řetězec obsahující otevírací závorku pro definici proměnné $x$ (toto odpovídá binární relace $x \ntriangleright_{def} \beta$). Průnik jazyků $L(\mathcal{R}_1(\alpha))\cap L(\mathcal{M}_{x, \triangleright_{call}})$ není prázdný jazyk, právě když v $\mathcal{R}(\alpha)$ z počátečního stavu do stavu $\beta$ existuje posloupnost přechodů, pomocí níž automat přečte řetězec, v němž existuje alespoň jedna reference na $x$ před nějakou definici ($\dots x \dots [\,_x \dots ]\,_x$), což odpovídá binární relace $\beta \triangleright_{call} x$.
+$\mathcal{R}(\alpha) = (V, G, \delta, \varphi_{in}, \{\varphi_{out}\})$ je NKA přijímající referenční jazyk daný regexem $\alpha$. Potom jazyk přijímaný $\mathcal{R}_1(\alpha)$ (resp. $\mathcal{R}_0(\alpha)$) obsahuje podřetězce, které může přijat $\mathcal{R}(\alpha)$ s~počátečním (resp. jediným koncovým) stavem $\beta$. $\mathcal{M}_{x, \triangleright_{def}}$ přijímá všechny řetězce, v~nichž je alespoň jedna otevírací závorka definice proměnné $x$ a $\mathcal{M}_{x, \triangleright_{call}}$ přijímá všechny řetězce, v~nichž je alespoň jedna reference na $x$ a před danou referencí neexistuje žádná definice na tuto proměnnou. Průnik jazyků $L(\mathcal{R}_0(\alpha))\cap L(\mathcal{M}_{x, \triangleright_{def}})$ je prázdný jazyk, právě když v~$\mathcal{R}(\alpha)$ z~počátečního stavu do stavu $\beta$ neexistuje posloupnost přechodů, pomocí níž automat přečte řetězec obsahující otevírací závorku pro definici proměnné $x$ (toto odpovídá binární relaci $x \ntriangleright_{def} \beta$). Průnik jazyků $L(\mathcal{R}_1(\alpha))\cap L(\mathcal{M}_{x, \triangleright_{call}})$ není prázdný jazyk, právě když v~$\mathcal{R}(\alpha)$ z~počátečního stavu do stavu $\beta$ existuje posloupnost přechodů, pomocí níž automat přečte řetězec, v~němž existuje alespoň jedna reference na $x$ před nějakou definici ($\dots x \dots [\,_x \dots ]\,_x$), což odpovídá binární relaci $\beta \triangleright_{call} x$. \cite{schmidref}
 \end{pozorovani}
 
 \begin{figure}[ht] % ’ht’ tells LaTeX to place the figure ’here’ or at the top of the page
@@ -1793,7 +1794,7 @@ $\mathcal{R}(\alpha) = (V, G, \delta, \varphi_{in}, \{\varphi_{out}\})$ je NKA p
 	\label{fig:avd2}
 \end{figure}
 
-Parametr $avd$ nám neformálně říká, že automat přijímající jazyk daný $\alpha$ musí v nějakém kroku výpočtu mít vyhrazenou paměť alespoň pro $avd(\alpha)$ proměnných.
+Parametr $avd$ nám neformálně říká, že automat přijímající jazyk daný $\alpha$ musí v~nějakém kroku výpočtu mít vyhrazenou paměť alespoň pro $avd(\alpha)$ proměnných.
 
 \begin{algorithm}
  \caption{Výpočet parametru $avd$}\label{alg:avdcomp}
@@ -1809,7 +1810,7 @@ Parametr $avd$ nám neformálně říká, že automat přijímající jazyk dan�
 
 	Nechť $\varphi$ je kořen AST reprezentujícího $\alpha$, $G\gets\Sigma\cup X\cup\{\varepsilon\}\cup\Gamma$\;
 	Sestroj graf $\mathcal{H}(\alpha)=(V, E, f)$\;
-	$\delta \ : \ V \times G \rightarrow \wp(V)$\;
+	$\delta \ : \ v~\times G \rightarrow \wp(V)$\;
 	($\forall p, q \in V$)($\forall a \in G$) $p \in \delta(q, a) \iff e=(q, p) \in E \ \wedge \ f(e)=a$\;
 	$avd \gets 0$\;
 	\For{$\beta \in V$}{
@@ -1827,18 +1828,18 @@ Parametr $avd$ nám neformálně říká, že automat přijímající jazyk dan�
 \KwRet avd\;
 \end{algorithm}
 
-\begin{theorem}\label{avdcomp}Algoritmus \ref{alg:avdcomp} spočítá pro regex $\alpha \in RV_{\Sigma, X}$ parametr $avd$ v čase $\mathcal{O}(|X|\cdot|\alpha|^2)$. \cite{schmidref}
+\begin{theorem}\label{avdcomp}Algoritmus \ref{alg:avdcomp} spočítá pro regex $\alpha \in RV_{\Sigma, X}$ parametr $avd$ v~čase $\mathcal{O}(|X|\cdot|\alpha|^2)$. \cite{schmidref}
 \end{theorem}
-Důkaz předchozí věty je podrobně uveden v \cite[s. 7]{schmidref}. V kroku 12 se dvakrát použije algoritmus pro skládání automatu \cite[s. 54--56]{sestakova} a pro dva výsledné NKA $\mathcal{M}_1$ a $\mathcal{M}_2$ pro průnik odpovídajících jazyků je potřeba ověřit, jestli nejsou přijímané jazyky $L(\mathcal{M}_1)$ a $L(\mathcal{M}_2)$ prázdné (neexistuje žádná posloupnost přechodů z počáteční konfigurace do koncové).
+Důkaz předchozí věty je podrobně uveden v~\cite[s. 7]{schmidref}. v~kroku 12 se dvakrát použije algoritmus pro skládání automatu \cite[s. 54--56]{sestakova} a pro dva výsledné NKA $\mathcal{M}_1$ a $\mathcal{M}_2$ pro průnik odpovídajících jazyků je potřeba ověřit, jestli nejsou přijímané jazyky $L(\mathcal{M}_1)$ a $L(\mathcal{M}_2)$ prázdné (neexistuje žádná posloupnost přechodů z~počáteční konfigurace do koncové).
 
 \section{Algoritmus \texttt{avdMemory}}
 
 V této sekci je popsán způsob, jak lze převést regex na ekvivalentní memory automat tak, že počet pamětí záleží pouze na parametru \emph{avd} tohoto regexu. 
-Uvedený algoritmus byl převzat z \cite[kapitola 3]{schmidref}.
+Uvedený algoritmus byl převzat z~\cite[kapitola 3]{schmidref}.
 
 Nechť $k=avd(\alpha)$, kde $\alpha$ je vstupní regex, a nechť je dána množina $\Gamma = \{x, ]\,_x, [\,_x \mid x \in var(\alpha)\}$. Jelikož parametr $avd$ může být menší než počet proměnných ve výrazu, výsledný automat bude fungovat tak, že jedna paměť je sdílena mezi více proměnnými. 
 
-Množina stavů výsledného automatu $Q$ je vytvořena z množiny vrcholů grafu $\mathcal{H}(\alpha)$ následovně:
+Množina stavů výsledného automatu $Q$ je vytvořena z~množiny vrcholů grafu $\mathcal{H}(\alpha)$ následovně:
 \begin{itemize}
 	\item Každý stav $q \in Q$ je dvojicí $(v, \langle i_0, \dots, i_{k-1}  \rangle)$, kde $v \in V(\mathcal{H}(\alpha))$ a ${i_j \in var(\alpha) \cup \{\bot\}}$ pro $\forall j \in \{0, \dots, k-1\}$. Posloupnost $ i_0, \dots, i_{k-1}$ se nazývá \emph{memory list}. Tato modifikace množiny stavů nám říká, že nachází-li se automat ve stavu $q$, $j$-tá paměť je vyhrazena pro proměnnou $x$, právě když $i_j = x$. Pokud je $j$-tá paměť volná, platí $i_j = \bot$.
 	\item Počáteční stav automatu je $q_0 = (\varphi_{in}, \langle \bot, \dots, \bot \rangle)$, kde $\varphi$ je kořen AST pro $\alpha$.
@@ -1848,27 +1849,27 @@ Množina stavů výsledného automatu $Q$ je vytvořena z množiny vrcholů graf
 Buď $q=(v, \langle i_0, \dots, i_{k-1} \rangle), p=(w, \langle j_0, \dots, j_{k-1} \rangle) \in Q$. Přechodová funkce je definována následovně.
 \begin{enumerate}
 	\item{\label{avd:call} Pro libovolnou hranu $p \in \delta(q, t)$ (kde ${t \in \Sigma \cup \{\varepsilon\} \cup \Gamma}$) a proměnnou $x \in X$ platí:	\begin{equation}\forall l \in \{0, \dots, k-1\} \big( w \ntriangleright_{call} x \implies j_l \ne x) \end{equation}
-	Ve stavu $p$ by neměla být vyhrazena paměť pro proměnnou $x$, protože ze stavu $w$ lze přečíst pouze referenční slovo, v němž bude před každou následující referencí existovat nová definice této proměnné (plyne z~definice relace $\triangleright_{call}$).
+	Ve stavu $p$ by neměla být vyhrazena paměť pro proměnnou $x$, protože ze stavu $w$ lze přečíst pouze referenční slovo, v~němž bude před každou následující referencí existovat nová definice této proměnné (plyne z~definice relace $\triangleright_{call}$).
 		}
 	\item\label{rule2}{Pro $a \in \Sigma\cup\{\varepsilon\}$ 
 			\begin{equation}
 			p \in \delta(q, a) \iff (v, w) \in E(\mathcal{H}(\alpha)) \ \wedge \ f((v, w))=a
 			\end{equation} a pro každé $l \in \{0, \dots, k-1\} \  j_l = i_l$, pokud $w \triangleright_{call} i_l$ (jinak $j_l = \bot$ podle pravidla \ref{avd:call}).
 			
-		Pro všechny přechody, při nichž automat neprovádí operace s pamětí, seznam proměnných $i_0, \dots, i_k$ se jenom překopíruje ze stavu $q$ do $p$ (příp. se uvolní odpovídající paměť dle pravidla \ref{rule1}). } 
+		Pro všechny přechody, při nichž automat neprovádí operace s~pamětí, seznam proměnných $i_0, \dots, i_k$ se jenom překopíruje ze stavu $q$ do $p$ (příp. se uvolní odpovídající paměť dle pravidla \ref{avd:call}). } 
  
 	\item{\label{rule3}Pro $x \in X$ a $\varphi \in \{[\,_x, ]\,_x\}$
 	 \begin{equation} p \in \delta(q, \varepsilon) \iff (v, w) \in E(\mathcal{H}(\alpha)) \ \wedge \ f((v, w))=\varphi \ \wedge \  w \ntriangleright_{call} x
 	\end{equation}  a 
 			pro každé $l \in \{0, \dots, k-1\} \  j_l = i_l$, pokud $w \triangleright_{call} i_l$ (jinak $j_l = \bot$ podle pravidla \ref{avd:call}).
 
-Pokud ze stavu $w$ lze přečíst pouze referenční slovo, v němž bude před každou následující referencí existovat nová definice této proměnné, není potřeba ani vyhrazovat paměť pro $x$.}
+Pokud ze stavu $w$ lze přečíst pouze referenční slovo, v~němž bude před každou následující referencí existovat nová definice této proměnné, není potřeba ani vyhrazovat paměť pro $x$.}
 	\item{Pro $x \in X$ 
 		\begin{equation}p \in \delta(q, \varepsilon) \iff (v, w) \in E(\mathcal{H}(\alpha)) \ \wedge \ f((v, w))= x \ \wedge \ (\nexists s) i_s = x
 		\end{equation} a 
 			pro každé $l \in \{0, \dots, k-1\} \  j_l = i_l$, pokud $w \triangleright_{call} i_l$ (jinak $j_l = \bot$ podle pravidla \ref{avd:call}).
 	
-	S $x$-přechodem ze stavu $q$ lze zacházet jako s $\varepsilon$-přechodem, pokud v $q$ není vyhrazena žádná paměť pro $x$.}
+	S $x$-přechodem ze stavu $q$ lze zacházet jako s~$\varepsilon$-přechodem, pokud v~$q$ není vyhrazena žádná paměť pro $x$.}
 	\item{Pro $x \in X$
 	 \begin{equation}\begin{split}&p \in \delta(q, s) \iff (v, w) \in E(\mathcal{H}(\alpha)) \ \wedge \ f((v, x))=\varphi \ \wedge \  (\exists s) i_s = x \\
 						   &p \in \delta(q, ]\,_s) \iff (v, w) \in E(\mathcal{H}(\alpha)) \ \wedge \ f((v, ]\,_x))=\varphi \ \wedge \  (\exists s) i_s = x \\
@@ -1885,32 +1886,29 @@ Automat ze stavu $q$ (v tomto stavu $s$-tá paměť je vyhrazena pro $x$) čte r
 		Pokud ve stavu $q$ je vyhrazena paměť pro $x$, automat při čtení definice ponechá \emph{memory list} beze změn, jinak najde nějakou volnou paměť $p$ a nastaví $s_p \gets \texttt{O}$ (tvrzení \ref{tvrzA}).
 	
 	}
-	
+	\end{enumerate}
 	Výsledný automat $\mathcal{M} = (Q, \Sigma, \delta, q_0, F)$ je $\mu KA(k)$, kde $k = avd(\alpha)$.
-	Příklad převodu regexu na memory automat pomocí uvedeného algoritmu lze najít v příloze \ref{ukazka:avd}.
+	Příklad převodu regexu na memory automat pomocí uvedeného algoritmu lze najít v~příloze \ref{ukazka:avd}.
 
-	Algoritmus, který přijme na vstup AST pro regex $\alpha$ a vstupní slovo $w$, zkonstruuje ekvivalentní memory automat $\mathcal{M}$ pomocí výše popsaného algoritmu a nasimuluje výpočet $\mathcal{M}$ pro vstup $w$, se v této práci nazývá \texttt{avdMemory}.
+	Algoritmus, který přijme na vstup AST pro regex $\alpha$ a vstupní slovo $w$, zkonstruuje ekvivalentní memory automat $\mathcal{M}$ pomocí výše popsaného algoritmu a nasimuluje výpočet $\mathcal{M}$ pro vstup $w$, se v~této práci nazývá \texttt{avdMemory}.
 	\begin{theorem}
 		Časová složitost \texttt{avdMemory} je $\mathcal{O}(|X|^k\cdot|w|^{k+1}\cdot|\alpha|^2)$, kde $k = avd(\alpha)$.
 	\end{theorem}
 	\begin{proof}
-		Konstrukce memory automatu se skládá ze tří části: výpočet $avd$, konstrukce grafu $\mathcal{H}(a)$ a vytvoření stavů a přechodů pomocí výše popsaných pravidel. Výpočet parametru $avd$ spotřebuje čas $\mathcal{O}(|X|\cdot|\alpha|^2)$ (věta \ref{avdcomp}). Konstrukce grafu $\mathcal{H}(\alpha)$ spotřebuje čas $\mathcal{O}(|\alpha|)$ \cite[lemma~3]{schmidref}. Pro každý vrchol z $V(\mathcal{H}(\alpha))$ se vytvoří $\mathcal{O}(|X|^k)$ stavů, kde $k = avd(\alpha)$, a pro každou hranu se do přechodové funkce $\delta$ přidá $\mathcal{O}(k)$ přechodů (pravidlo \ref{rule7}). Jelikož počet hran a vrcholů v $\mathcal{H}(\alpha)$ je $\mathcal{O}(|\alpha|)$ (plyne z~definice grafu), celkem převod regexu na memory automat potrvá $\mathcal{O}(|X|\cdot|\alpha|^2 + |\alpha|\cdot(k+|X|^k)) = \mathcal{O}(|X|^k\cdot|\alpha|^2)$.
+		Konstrukce memory automatu se skládá ze tří části: výpočet $avd$, konstrukce grafu $\mathcal{H}(a)$ a vytvoření stavů a přechodů pomocí výše popsaných pravidel. Výpočet parametru $avd$ spotřebuje čas $\mathcal{O}(|X|\cdot|\alpha|^2)$ (věta \ref{avdcomp}). Konstrukce grafu $\mathcal{H}(\alpha)$ spotřebuje čas $\mathcal{O}(|\alpha|)$ \cite[lemma~3]{schmidref}. Pro každý vrchol z~$V(\mathcal{H}(\alpha))$ se vytvoří $\mathcal{O}(|X|^k)$ stavů, kde $k = avd(\alpha)$, a pro každou hranu se do přechodové funkce $\delta$ přidá $\mathcal{O}(k)$ přechodů (pravidlo \ref{rule7}). Jelikož počet hran a vrcholů v~$\mathcal{H}(\alpha)$ je $\mathcal{O}(|\alpha|)$ (plyne z~definice grafu), celkem převod regexu na memory automat potrvá $\mathcal{O}(|X|\cdot|\alpha|^2 + |\alpha|\cdot(k+|X|^k)) = \mathcal{O}(|X|^k\cdot|\alpha|^2)$.
 	
-	Simulace výsledného automatu je procházení grafem konfigurací. Celkem výpočet memory automatu $\mathcal{M}$ pro vstup $w$ trvá ${\mathcal{O}(|Q|\cdot|w|^{k+1})} = {\mathcal{O}(|\alpha|\cdot|X|^k\cdot|w|^{k+1})}$ \cite[lemma 3]{schmidref}.
+	Simulace výsledného automatu je procházení grafem konfigurací. Celkem výpočet memory automatu $\mathcal{M}$ pro vstup $w$ spotřebuje čas ${\mathcal{O}(|Q|\cdot|w|^{k+1})} = {\mathcal{O}(|\alpha|\cdot|X|^k\cdot|w|^{k+1})}$ \cite[lemma 3]{schmidref}.
 	\end{proof}
 
-\end{enumerate}
-
-Příklad převodu regexu na memory automat pomocí uvedeného algoritmu lze najít v příloze \ref{ukazka:avd}.
 	
 \chapter{Realizace}
-Pro implementaci byl autorem zvolen programovací jazyk C++. Bylo rozhodnuto realizovat tři algoritmy na zpracování regexů: \texttt{simpleTM}, \texttt{simpleMemory} a \texttt{avdMemory}. V následujících sekcích jsou popsány implementace jednotlivých částí prostředku pro práci s regexy.
+Pro implementaci byl autorem zvolen programovací jazyk C++. Bylo rozhodnuto realizovat tři algoritmy pro zpracování regexů: \texttt{simpleTM}, \texttt{simpleMemory} a \texttt{avdMemory}. v~následujících sekcích jsou popsány implementace jednotlivých částí prostředku pro práci s~regexy.
 
 \section{Implementace lexeru a parseru}
 Zdrojové soubory \texttt{lexer.h} a \texttt{lexer.cpp} obsahují realizaci lexikálního analyzátoru. Lexer vytváří pro parser tokeny, které jsou definovány pomocí výčtového typu \texttt{Token}. Jako promenné lexer rozeznává latinské kapitálky. Abeceda regexu je omezena na 27 malých písmen latinské abecedy. Pro jednoduchost se používají symboly \verb|?| pro $\varepsilon$ a \verb|0| pro prázdný regulární výraz. Například \verb|X{a*+?}X| je potom zápis regexu $x\{a^\ast+\varepsilon\} \ x$.
 Všimněte si, že se pro lexer používá objekt typu \textbf{istringstream}, do něhož nejprve je zapsán textový řetězec reprezentující vstupní regex.
 
-Zavoláním metody \texttt{getToken()} dojde k načtení tokenu, jehož hodnota se uloží do proměnné \texttt{val}. 
+Zavoláním metody \texttt{getToken()} dojde k~načtení tokenu, jehož hodnota se uloží do proměnné \texttt{val}. 
 
 \begin{figure}[ht]
 	\begin{verbatim}
@@ -1929,12 +1927,12 @@ unique_ptr<NodeAST> ParseARest(unique_ptr<NodeAST> left) {
     }
 }
 	\end{verbatim}
-	\caption{Funkce z metody rekurzivního sestupu pro neterminál $A^\prime$}\label{source:parser}
+	\caption{Funkce z~metody rekurzivního sestupu pro neterminál $A^\prime$}\label{source:parser}
 \end{figure}
 
-Parser dostává na vstup tokeny z lexeru (metoda \texttt{getNextToken()}) a vytváří vnitřní reprezentaci regexu. Realizaci parseru lze najít ve zdrojových souborech \texttt{parser.h} a \texttt{parser.cpp}. Překlad definovaný LL(1) atributovou gramatikou z sekce \ref{sec:semantic} je realizován pomocí tzv. \emph{metody rekurzivního sestupu} s~parametry. Například pro neterminál $A^\prime$ je vytvořena funkce \texttt{ParseARest} (viz obrázek \ref{source:parser}), jejíž vstupní parametr \texttt{left} odpovídá dědičnému atributu $dnode$. Výstupní parametr odpovídá syntetizovanému atributu $snode$. Hodnoty obou dvou atributů jsou ukazatele na vytvořené abstraktní syntaktické stromy, které jsou realizovány pomocí základní třídy \texttt{NodeAST} a odvozených tříd. Metoda \texttt{ExpandError} je volána, pokud dojde k chybě při expanzi. Vznikne-li chyba při srovnání, metoda \texttt{MatchError} vypíše odpovídající chybovou zprávu na standardní výstup.   
+Parser dostává na vstup tokeny z~lexeru (metoda \texttt{getNextToken()}) a vytváří vnitřní reprezentaci regexu. Realizaci parseru lze najít ve zdrojových souborech \texttt{parser.h} a \texttt{parser.cpp}. Překlad definovaný LL(1) atributovou gramatikou z~sekce \ref{sec:semantic} je realizován pomocí tzv. \emph{metody rekurzivního sestupu} s~parametry. Například pro neterminál $A^\prime$ je vytvořena funkce \texttt{ParseARest} (viz obrázek \ref{source:parser}), jejíž vstupní parametr \texttt{left} odpovídá dědičnému atributu $dnode$. Výstupní parametr odpovídá syntetizovanému atributu $snode$. Hodnoty obou dvou atributů jsou ukazatele na vytvořené abstraktní syntaktické stromy, které jsou realizovány pomocí základní třídy \texttt{NodeAST} a odvozených tříd. Metoda \texttt{ExpandError} je volána, pokud dojde k~chybě při expanzi. Vznikne-li chyba při srovnání, metoda \texttt{MatchError} vypíše odpovídající chybovou zprávu na standardní výstup.   
 
-Dále následuje popis jednotlivých tříd, které jsou definovány v  \texttt{ast.h} a \texttt{ast.cpp}.
+Dále následuje popis jednotlivých tříd, které jsou definovány v~ \texttt{ast.h} a \texttt{ast.cpp}.
 \begin{itemize}
 	\item{Abstraktní třída \texttt{NodeAST} reprezentuje uzel syntaktického stromu. Tato třída obsahuje abstraktní metody \texttt{constructTM} a \texttt{constructAvdFA}, jež se používají při konstrukci TS a memory automatu (viz sekce~\ref{sec:implTM}--\ref{sec:implAvd}).} 
 	\item{Třída \texttt{AtomAST} definuje uzel stromu reprezentující elementární regulární výraz. Jediným atributem je ASCII hodnota znaku (\texttt{m\_Val}).}  
@@ -1943,7 +1941,7 @@ Dále následuje popis jednotlivých tříd, které jsou definovány v  \texttt{
 \end{itemize}
 
 \section{Reprezentace vícepáskového TS}
-Způsob, jakým je automat reprezentován, byl převzat z \cite{ndtmsim}. 
+Způsob, jakým je automat reprezentován, byl převzat z~\cite{ndtmsim}. 
 
 Zdrojové soubory \texttt{tape.h}, \texttt{tape.cpp} obsahují realizaci pásky TS pomocí třídy \texttt{Tape}. Tato třída definuje atributy \texttt{m\_Head} (pozice čtecí hlavy) a \texttt{m\_Cells} (obsah pásky). Typ pohybu čtecí hlavy je definován pomocí výčtového typu \texttt{ShiftType} (názvy ve výčtu jsou \texttt{left, noShift} a \texttt{right}). Posuv čtecí hlavy se provede zavoláním \texttt{moveHead} se vstupním parametrem typu \texttt{ShiftType}. Metoda \texttt{readSymbol} vrátí znak, na něhož ukazuje čtecí hlava. Zápis znaku na pásku je realizován pomocí metody \texttt{writeSymbol(char)}. 
 
@@ -1957,11 +1955,11 @@ Zdrojové soubory \texttt{tape.h}, \texttt{tape.cpp} obsahují realizaci pásky 
 \end{itemize}
 Pro simulátor TS stavy automatu jsou reprezentovány celými čísly. Přidání nového stavu odpovídá inkrementaci proměnné \texttt{m\_StateCnt}. Číslo nového stavu odpovídá hodnotě \texttt{m\_StateCnt} před inkrementací.
 
-Třída \texttt{NDTM} reprezentuje vícepáskový nedeterministický TS. Přechodová funkce automatu je reprezentována jako mapa, kde klíčem je pár $(q, w)$ ($q$ je stav automatu a $w$ jsou symboly, na něž ukazují čtecí hlavy pásek). Prvkem mapy je vektor párů $(q, o)$, kde $o$ označuje operace prováděny s odpovídající páskou ($o = (c, shift)$, kde c je symbol, který se má zapsat, a $shift$ je typ pohybu hlavy). Taková reprezentace přechodové funkce byla zvolena z~důvodu co největší podobnosti s formální definici. Mezi atributy také patří \texttt{m\_Tapes} (vektor pásek automatu) a \texttt{m\_Blank} (blank symbol). Zavoláním metody \texttt{addTransition} se do přechodové funkce přídá přechod, který odpovídá vstupním parametrům.
+Třída \texttt{NDTM} reprezentuje vícepáskový nedeterministický TS. Přechodová funkce automatu je reprezentována jako mapa, kde klíčem je pár $(q, w)$ ($q$ je stav automatu a $w$ jsou symboly, na něž ukazují čtecí hlavy pásek). Prvkem mapy je vektor párů $(q, o)$, kde $o$ označuje operace prováděny s~odpovídající páskou ($o = (c, shift)$, kde c je symbol, který se má zapsat, a $shift$ je typ pohybu hlavy). Taková reprezentace přechodové funkce byla zvolena z~důvodu co největší podobnosti s~formální definicí. Mezi atributy také patří \texttt{m\_Tapes} (vektor pásek automatu) a \texttt{m\_Blank} (blank symbol). Zavoláním metody \texttt{addTransition} se do přechodové funkce přídá přechod, který odpovídá vstupním parametrům.
 
 Metoda \texttt{initialize(w : string)} nastaví počáteční konfiguraci pro řetězec~\texttt{w} tak, že zavolá \texttt{loadTape}, která inicializuje obsah pracovních pásek hodnotou $B^{|w|+2}$, kde $B$ je blank symbol TS, a nastaví pozice čtecích hlav na~$1$. Po volání předchozí metody obsah vstupní pásky bude odpovídat řetězci $BwB$. 
 
-Výpočet TS je realizován metodou \texttt{accepts()} (viz obrázek \ref{code:accepts}), která vrátí \texttt{true}, pokud existuje posloupnost přechodů z aktuální konfigurace do nějaké koncové. Nejprve je ověřeno, jestli se aktuální konfigurace už předtím ve výpočtu vyskytla (\texttt{hasCycle()}). Pokud ne, konfigurace pásek pro aktuální stav se uloží do paměti konfigurací (atribut \texttt{m\_ConfigurationsMemory}). Pokud ano, je potřeba výpočet pro tuto větev ukončit a vrátit \texttt{false}, jinak se automat zacyklí (viz příklad \ref{ex:cycle}). Po kontrole opakování konfigurací se pro každý možný přechod z aktuální konfigurace vytvoří hluboká kopie automatu (\texttt{clone()}), pro vytvořenou kopii se provede odpovídající přechod (\texttt{execTransition()}) a zavolá se na ni metoda \texttt{accepts()}. Pokud ani jedno z volání \texttt{accepts} nevrátí \texttt{true}, zjistí se, není-li aktuální konfigurace koncová. 
+Výpočet TS je realizován metodou \texttt{accepts()} (viz obrázek \ref{code:accepts}), která vrátí \texttt{true}, pokud existuje posloupnost přechodů z~aktuální konfigurace do nějaké koncové. Nejprve je ověřeno, jestli se aktuální konfigurace už předtím ve výpočtu vyskytla (\texttt{hasCycle()}). Pokud ne, konfigurace pásek pro aktuální stav se uloží do paměti konfigurací (atribut \texttt{m\_ConfigurationsMemory}). Pokud ano, je potřeba výpočet pro tuto větev ukončit a vrátit \texttt{false}, jinak se automat zacyklí (viz příklad \ref{ex:cycle}). Po kontrole opakování konfigurací se pro každý možný přechod z~aktuální konfigurace vytvoří hluboká kopie automatu (\texttt{clone()}), pro vytvořenou kopii se provede odpovídající přechod (\texttt{execTransition()}) a zavolá se na ni metoda \texttt{accepts()}. Pokud ani jedno z~volání \texttt{accepts} nevrátí \texttt{true}, zjistí se, není-li aktuální konfigurace koncová. 
 
 \begin{figure}[ht]
 	\begin{verbatim}
@@ -1979,24 +1977,24 @@ bool accepts() {
 	m_FinalStates.find(m_CurState) != m_FinalStates.end();
 }
 	\end{verbatim}
-	\caption{Definice metody \texttt{accepts()} z \texttt{ndtm.cpp}}\label{code:accepts}
+	\caption{Definice metody \texttt{accepts()} z~\texttt{ndtm.cpp}}\label{code:accepts}
 \end{figure}
 
 
 \section{Implementace algoritmu \texttt{simpleTM}}\label{sec:implTM}
-Programovou realizaci prostředku pro práci s regexy (anglicky \emph{regex matcher}) lze najít ve zdrojových souborech \texttt{matcher.h} a \texttt{mather.cpp}. Ve funkci \texttt{main} se vytvoří instance parseru a simulátoru TS s počátečním a koncovým stavem a zavolá se konstruktor třídy \texttt{Matcher} se dvěma parametry \texttt{parser} (ukazatel na parser) a \texttt{option = "0"} (volba algoritmu). Metoda \texttt{ParseA()} vrátí ukazatel na kořen AST pro vstupní regex (\texttt{m\_Root}). Počet pásek automatu se nastaví na počet proměnných, které parser byl schopen rozpoznat, zvětšený o jednu. Přidání stavů a přechodů se do instance třídy \texttt{NDTM} provede zavoláním na ukazatel na \texttt{m\_Root} virtuální metody \texttt{constructTM} (viz deklaraci v \texttt{ast.h}), která bude očekávat následující parametry:
+Programovou realizaci prostředku pro práci s~regexy (anglicky \emph{regex matcher}) lze najít ve zdrojových souborech \texttt{matcher.h} a \texttt{mather.cpp}. Ve funkci \texttt{main} se vytvoří instance parseru a simulátoru TS s~počátečním a koncovým stavem a zavolá se konstruktor třídy \texttt{Matcher} se dvěma parametry \texttt{parser} (ukazatel na parser) a \texttt{option = "0"} (volba algoritmu). Metoda \texttt{ParseA()} vrátí ukazatel na kořen AST pro vstupní regex (\texttt{m\_Root}). Počet pásek automatu se nastaví na počet proměnných, které parser byl schopen rozpoznat, zvětšený o jednu. Přidání stavů a přechodů se do instance třídy \texttt{NDTM} provede zavoláním na ukazatel na \texttt{m\_Root} virtuální metody \texttt{constructTM} (viz deklaraci v~\texttt{ast.h}), která bude očekávat následující parametry:
 \begin{itemize}
 	\item{\texttt{tm} je ukazatel na TS,}
-	\item{\texttt{tapes} je reference na \texttt{vector<bool>}, odpovídá tabulce $T[1,\dots,k]$ v algoritmu \ref{alg:turing}, }
+	\item{\texttt{tapes} je reference na \texttt{vector<bool>}, odpovídá tabulce $T[1,\dots,k]$ v~algoritmu \ref{alg:turing}, }
 	\item{\texttt{memory} je reference na \texttt{map<char, int>}, odpovídá zobrazení $num$,}
 	\item{\texttt{start} je počáteční stav pro uzel,}
 	\item{\texttt{end} je koncový stav pro uzel.}
 \end{itemize}
-Každá z tříd odvozených od \texttt{NodeAST} implementuje \texttt{constructTM} takovým způsobem, aby implementace této metody odpovídala funkci \texttt{buildTM} z algoritmu \texttt{simpleTM}. 
+Každá z~tříd odvozených od \texttt{NodeAST} implementuje \texttt{constructTM} takovým způsobem, aby implementace této metody odpovídala funkci \texttt{buildTM} z~algoritmu \texttt{simpleTM}. 
 
-Definice metody \texttt{match} se vstupním parametrem \texttt{w} se skládá z nastavení počáteční konfigurace simulátoru (pomocí \texttt{initialize(w)}) a simulace výpočtu  metodou \texttt{accepts}.
+Definice metody \texttt{match} se vstupním parametrem \texttt{w} se skládá z~nastavení počáteční konfigurace simulátoru (pomocí \texttt{initialize(w)}) a simulace výpočtu  metodou \texttt{accepts}.
 \section{Implementace algoritmů \texttt{simpleMemory} a \texttt{avdMemory}}\label{sec:implAvd}
-Analogicky jako v předchozí sekci se z funkce \text{main} zavolá konstruktor \texttt{Matcher} s parametry \texttt{parser} a \texttt{option} (volba algoritmu: \texttt{"1"} pro \texttt{simpleMemory} a \texttt{"2"} pro \texttt{avdMemory}). 
+Analogicky jako v~předchozí sekci se z~funkce \text{main} zavolá konstruktor \texttt{Matcher} s~parametry \texttt{parser} a \texttt{option} (volba algoritmu: \texttt{"1"} pro \texttt{simpleMemory} a \texttt{"2"} pro \texttt{avdMemory}). 
 
 Vytvoří se instance třídy \texttt{AvdFA} (reprezentuje NKA, přijímající referenční jazyk vstupního regexu). Konstrukce daného automatu se provede zavoláním na ukazatel na \texttt{m\_Root} virtuální metody \texttt{constructAvdFA} (viz deklaraci v~\texttt{ast.h}), která bude očekávat následující parametry:
 \begin{itemize}
@@ -2013,52 +2011,52 @@ Výsledný $\mu$KA je reprezentován pomocí šablonové třídy \texttt{MemoryA
 	\item{\texttt{m\_Memory : vector<pair<bool, string>>} je paměť automatu (stav a obsah paměti),}
 	\item{\texttt{m\_CurState : T} je aktuální stav,}
 	\item{\texttt{m\_StateCnt :  map<T, vector<pair<string, T>>>} reprezentuje přechodovou funkci automatu,}
-	\item{\texttt{m\_ConfigurationMemory : map<T, pair<int, vector<string>>>} je paměť konfigurací (pomocí této paměti lze zabránit vzniku cyklů v memory automatu).}
+	\item{\texttt{m\_ConfigurationMemory : map<T, pair<int, vector<string>>>} je paměť konfigurací (pomocí této paměti lze zabránit vzniku cyklů v~memory automatu).}
 \end{itemize}
 
 Při volbě \texttt{"1"} se program zavoláním metody \texttt{simpleMemory} (se vstupním parametrem \texttt{vars}, který odpovídá množině proměnných regexu) na instanci třídy \texttt{AvdFA} vytvoří objekt \texttt{MemoryAutomaton} (stavy jsou opět reprezentovány datovým typem \texttt{int}).
 
 Při volbě \texttt{"2"} program vypočte parametr $avd$ regexu.
 
-Pomocí metod \texttt{constructR0} a \texttt{constructR1} je implementován algoritmus pro skládání automatu (viz krok 12 algoritmu \ref{alg:avdcomp}). Metoda \texttt{constructR0} se vstupními parametry \texttt{state} a \texttt{var} vrátí ukazatel na automat přijímající jazyk $L(\mathcal{R}_0(\alpha))\cap L(\mathcal{M}_{x, \triangleright_{def}})$, kde $\mathcal{R}_0(\alpha)$ je NKA $\mathcal{R}$ přijímající referenční jazyk $\alpha$ s~jediným koncovým stavem \texttt{state}, a \texttt{constructR1} vrátí ukazatel na automat přijímající $L(\mathcal{R}_1(\alpha))\cap L(\mathcal{M}_{x, \triangleright_{call}})$, kde $\mathcal{R}_1(\alpha)$ je $\mathcal{R}$ s počátečním stavem \texttt{state}. Virtuální metoda \texttt{accepts} v třídě \texttt{AvdFA} vrací \texttt{true}, pokud automat přijímá neprázdný jazyk. Jedná se o prohledávání grafu konfigurací automatu pomocí algoritmu DFS.
+Pomocí metod \texttt{constructR0} a \texttt{constructR1} je implementován algoritmus pro skládání automatu (viz krok 12 algoritmu \ref{alg:avdcomp}). Metoda \texttt{constructR0} se vstupními parametry \texttt{state} a \texttt{var} vrátí ukazatel na automat přijímající jazyk $L(\mathcal{R}_0(\alpha))\cap L(\mathcal{M}_{x, \triangleright_{def}})$, kde $\mathcal{R}_0(\alpha)$ je NKA $\mathcal{R}$ přijímající referenční jazyk $\alpha$ s~jediným koncovým stavem \texttt{state}, a \texttt{constructR1} vrátí ukazatel na automat přijímající $L(\mathcal{R}_1(\alpha))\cap L(\mathcal{M}_{x, \triangleright_{call}})$, kde $\mathcal{R}_1(\alpha)$ je $\mathcal{R}$ s~počátečním stavem \texttt{state}. Virtuální metoda \texttt{accepts} v~třídě \texttt{AvdFA} vrací \texttt{true}, pokud automat přijímá neprázdný jazyk. Jedná se o prohledávání grafu konfigurací automatu pomocí algoritmu DFS.
 
-Pomocí předchozích metod se vypočte mohutnost množiny aktivních proměnných pro každý stav z vektoru \texttt{avd}. 
+Pomocí předchozích metod se vypočte mohutnost množiny aktivních proměnných pro každý stav z~vektoru \texttt{avd}. 
 
 Parametr $avd$ program předá jako vstupní parametr metodě \texttt{avdMemory}. Tato metoda implementuje algoritmus pro převod regexu na memory automat, kde počet pamětí je roven  $avd(\alpha)$. Výstupem funkce je instance třídy \texttt{MemoryAutomaton} se šablonovým parametrem typu \texttt{MemoryState}, který reprezentuje stav memory automatu rozšířený o \emph{memory list}.
 
 \chapter{Testování}
 
-Testování proběhlo ve virtuálním stroji s operačním systémem Ubuntu 19.10 v konfiguraci s 2 GB operační paměti a dvěma procesory. 
+Testování proběhlo ve virtuálním stroji s~operačním systémem Ubuntu 19.10 v~konfiguraci s~2 GB operační paměti a dvěma procesory. 
 Hostitelský stroj měl šestijádrový procesor Intel Core i7-8750H @ 2.20 GHz a 16~GB RAM.
 
-Spustitelný soubor \texttt{regexmatcher} se vytvoří příkazem \texttt{make compile}. Při kompilaci je použít kompilátor GNU C++ verze 9.2.1, který se spustí s následujícímu přepínači: \texttt{-std=c++14 -Wall -pedantic -Wno-long-long -O0 -ggdb}. Pro generování dokumentace ve formátu HTML zadejte příkaz \texttt{make doc}.
+Spustitelný soubor \texttt{regexmatcher} se vytvoří příkazem \texttt{make compile}. Při kompilaci je použít kompilátor GNU C++ verze 9.2.1, který se spustí s~následujícímu přepínači: \texttt{-std=c++14 -Wall -pedantic -Wno-long-long -O0 -ggdb}. Pro generování dokumentace ve formátu HTML zadejte příkaz \texttt{make doc}.
 
-Program lze spustit z příkazové řádky, kde vstupní regex je druhý parametr. Vstupní řetězec je zapsán jako třetí argument spouštěného programu. Prvním parametrem je volba algoritmu. Například zadáním příkazu $$\texttt{./regexmatcher 0 X\{a+b\}X+? bbaa}$$ program vytvoří simulátor TS příjímajícího ${L(x\{a+b\}\ x+\varepsilon)}$ pomocí algoritmu \texttt{simpleTM}, provede simulaci výpočtu pro vstupní slovo $bbaa$ a vytiskne na standardní výstup \texttt{yes}, pokud vstupní řetězec odpovídá regexu (jinak vytiskne \texttt{no}).
+Program lze spustit z~příkazové řádky, kde vstupní regex je druhý parametr. Vstupní řetězec je zapsán jako třetí argument spouštěného programu. Prvním parametrem je volba algoritmu. Například zadáním příkazu $$\texttt{./regexmatcher 0 X\{a+b\}X+? bbaa}$$ program vytvoří simulátor TS příjímajícího ${L(x\{a+b\}\ x+\varepsilon)}$ pomocí algoritmu \texttt{simpleTM}, provede simulaci výpočtu pro vstupní slovo $bbaa$ a vytiskne na standardní výstup \texttt{yes}, pokud vstupní řetězec odpovídá regexu (jinak vytiskne \texttt{no}).
 
 \section{Vytvoření testových souborů}
-Pro účely testování bylo vytvořeno šest testovacích sad (vstup a referenční výstup). Soubor \texttt{<název\_sady>.in} má $2n$ řádků a obsahuje celkem $n$ testů. Každý test se skládá ze dvou řádků: na prvním je zapsán regex, na druhém je vstupní slovo. \texttt{<název\_sady>.out} se skládá z $n$ řádků, kde na $i$-tém řádku je referenční řešení pro $i$-tý test. Následuje popis jednotlivých testových sad:
+Pro účely testování bylo vytvořeno šest testovacích sad (vstup a referenční výstup). Soubor \texttt{<název\_sady>.in} má $2n$ řádků a obsahuje celkem $n$ testů. Každý test se skládá ze dvou řádků: na prvním je zapsán regex, na druhém je vstupní slovo. \texttt{<název\_sady>.out} se skládá z~$n$ řádků, kde na $i$-tém řádku je referenční řešení pro $i$-tý test. Následuje popis jednotlivých testovacích sad:
 \begin{itemize}
-	\item{První sada \texttt{simple} obsahuje 20 testů. Regexy z této sady jsou omezeny dvouprvkovou abecedou $\{a, b\}$ a jednoprvkovou množinou proměnných $\{x\}$.}
-	\item{\texttt{simpleReg} obsahuje 20 testů. Regexy z této sady jsou omezeny stejným způsobem jako v sadě \texttt{simple}. Vstupní slovo v testech je většinou delší. Tyto testy mohou zpomalit hlavně simulátor TS nebo memory automatu kvůli většímu počtu volání funkce \texttt{accepts}. }
-	\item{Sada s názvem \texttt{nVar} se skládá z 10 testů. Regexy z této sady jsou omezeny dvouprvkovou abecedou $\{a, b\}$, přičemž parametr $avd$ daných regexů je maximálně 2. Pomocí těchto testů lze porovnat matcher založený na algoritmech \texttt{simpleMemory} (resp. \texttt{avdMemory}) s implementací \texttt{simpleTM}.}
-	\item{Testovací soubor \texttt{nSigma.in} obsahuje 10 testů. Regexy z tohoto souboru jsou omezeny jednoprvkovou množinou proměnných $\{x\}$. Počet různých symbolů abecedy $p$ v libovolném regexu je větší než 5. Takové regexy by mohly zpomalit konstrukci TS hlavně kvůli tzv. \emph{$\varepsilon$-přechodům}, kde se do přechodové funkce přidá $\mathcal{O}(|\alpha|\cdot|p|^{k})$ přechodů ($k$ je počet pásek). }
-	\item{Testovací sada s názvem \texttt{hard} se skládá z $12$ testů. Regexy z tohoto souboru mají větší délku a obsahují velký počet proměnných a symbolů abecedy. Vstupní slova jsou také v těchto testech delší. Účelem dané sady je co nejvíc zatížit každou část prostředku na zpracování regexů.}
-	\item{Poslední sada \texttt{avd} je určena pro porovnání algoritmů \texttt{simpleMemory} a \texttt{avdMemory}. Regexy z této sady mají parametr $avd$ menší nebo rovno 2 a vstupní slova jsou mnohem delší než v ostatních sadách.}
+	\item{První sada \texttt{simple} obsahuje 20 testů. Regexy z~této sady jsou omezeny dvouprvkovou abecedou $\{a, b\}$ a jednoprvkovou množinou proměnných $\{x\}$.}
+	\item{\texttt{simpleReg} obsahuje 20 testů. Regexy z~této sady jsou omezeny stejným způsobem jako v~sadě \texttt{simple}. Vstupní slovo v~testech je většinou delší. Tyto testy mohou zpomalit hlavně simulátor TS nebo memory automatu kvůli většímu počtu volání funkce \texttt{accepts}. }
+	\item{Sada s~názvem \texttt{nVar} se skládá z~10 testů. Regexy z~této sady jsou omezeny dvouprvkovou abecedou $\{a, b\}$, přičemž parametr $avd$ daných regexů je maximálně 2. Pomocí těchto testů lze porovnat matcher založený na algoritmech \texttt{simpleMemory} (resp. \texttt{avdMemory}) s~implementací \texttt{simpleTM}.}
+	\item{Testovací soubor \texttt{nSigma.in} obsahuje 10 testů. Regexy z~tohoto souboru jsou omezeny jednoprvkovou množinou proměnných $\{x\}$. Počet různých symbolů abecedy $p$ v~libovolném regexu je větší než 5. Takové regexy by mohly zpomalit konstrukci TS hlavně kvůli tzv. \emph{$\varepsilon$-přechodům}, kde se do přechodové funkce přidá $\mathcal{O}(|\alpha|\cdot|p|^{k})$ přechodů ($k$ je počet pásek). }
+	\item{Testovací sada s~názvem \texttt{hard} se skládá z~$12$ testů. Regexy z~tohoto souboru mají větší délku a obsahují velký počet proměnných a symbolů abecedy. Vstupní slova jsou také v~těchto testech delší. Účelem dané sady je co nejvíc zatížit každou část prostředku pro zpracování regexů.}
+	\item{Poslední sada \texttt{avd} je určena pro porovnání algoritmů \texttt{simpleMemory} a \texttt{avdMemory}. Regexy z~této sady mají parametr $avd$ menší nebo roven 2 a vstupní slova jsou mnohem delší než v~ostatních sadách.}
 \end{itemize}
 
 Pro spuštění testů, které ověří správnost implementací, zadejte \texttt{./test.sh <název\_sady>}.  
 
-\section{Porovnání s nástroji pro práci s regulárními výrazy}
+\section{Porovnání s~nástroji pro práci s~regulárními výrazy}
  Pro porovnání byly zvoleny tyto nástroje:
  \begin{itemize}
-	\item{program \emph{grep} verze 3.3, který používá syntaxi regexů odpovídající standardu POSIX ERE. Všimněte si, že tato utilita nepodporuje ani celou množinu semiregexů (konkrétně semiregexy, v nichž se zpětná reference na $i$-tou závorku nemůže nacházet před $i$-tou uzavírací závorkou). Navíc existuje omezení na počet číslovaných skupin zachycení (nemůže být větší než 9).}
-	\item{\emph{Perl} verze 5.28.1, kde regulární výrazy odpovídají standardu PCRE. Na regexy v jazyce Perl nejsou kladena omezení na počet proměnných. Perl však nepodporuje například regexy, v nichž se opakují závorkové skupiny se stejným jménem (např. \texttt{(?<A>a*)(?<A>b*)\textbackslash g\{A\}}). Problém také tvoří nedefinované reference na proměnné (např. řetězec \texttt{aa} neodpovídá regexu \texttt{((?<A>a)|(?<B>b))\textbackslash g\{A\}\textbackslash g\{B\}}). }
+	\item{program \emph{grep} verze 3.3, který používá syntaxi regexů odpovídající standardu POSIX ERE. Všimněte si, že tato utilita nepodporuje ani celou množinu semiregexů (konkrétně semiregexy, v~nichž se zpětná reference na $i$-tou závorku nemůže nacházet před $i$-tou uzavírací závorkou). Navíc existuje omezení na počet číslovaných skupin zachycení (nemůže být větší než 9).}
+	\item{\emph{Perl} verze 5.28.1, kde regulární výrazy odpovídají standardu PCRE. Na regexy v~jazyce Perl nejsou kladena omezení na počet proměnných. Perl však nepodporuje například regexy, v~nichž se opakují závorkové skupiny se stejným jménem (např. \texttt{(?<A>a*)(?<A>b*)\textbackslash g\{A\}}). Problém také tvoří nedefinované reference na proměnné (např. řetězec \texttt{aa} neodpovídá regexu \texttt{((?<A>a)|(?<B>b))\textbackslash g\{A\}\textbackslash g\{B\}}). }
  \end{itemize}
 
-Pro každou testovací sadu je vytvořen vstupní soubor, v němž vstupní regexy odpovídají syntaxi použité v nástroji, ale mají tentýž sémanticky význam jako regexy v původním vstupním souboru.   
+Pro testovací sady je vytvořen vstupní soubor, v~němž vstupní regexy odpovídají syntaxi použité v~nástroji, ale mají tentýž sémanticky význam jako regexy v~původním vstupním souboru. Pro některé regexy nebylo možné najít ekvivalentní výraz v~požadované notaci.
 
-Pro měření času je použít příkaz \texttt{time}. Pomocí skriptu \texttt{testTime.sh} (nebo příkazem \texttt{make testTime <název\_sady>}) lze porovnat čas běhu vytvořeného prostředku pro práci s regexy s konkurenčními nástroji pro danou sadu. 
-Naměřené časy (\texttt{real time}) pro jednotlivé testovací sady a nástroje pro práci s~regexy jsou zobrazeny v tabulce~\ref{tab:time}. 
+Pro měření času je použít příkaz \texttt{time}. Pomocí skriptu \texttt{testTime.sh} (nebo příkazem \texttt{make testTime <název\_sady>}) lze porovnat čas běhu vytvořeného prostředku pro práci s~regexy s~konkurenčními nástroji pro danou sadu. 
+Naměřené časy (\texttt{real time}) pro jednotlivé testovací sady a nástroje pro práci s~regexy jsou zobrazeny v~tabulce~\ref{tab:time}. 
 
 \begin{table}
 \begin{center}
@@ -2072,23 +2070,23 @@ Naměřené časy (\texttt{real time}) pro jednotlivé testovací sady a nástro
 \texttt{hard}&             --\footnotemark[7]      & 1,831 &          16,392         &                --\footnotemark[1]     &  --\footnotemark[1] \\ \hline
 \end{tabular}
 \end{center}
-\caption{\label{tab:time} Naměřené časy pro implementace autora a konkurenční implementace pro jednotlivé sady v sekundách}
+\caption{\label{tab:time} Naměřené časy pro implementace autora a konkurenční implementace pro jednotlivé sady v~sekundách}
 \end{table}
-\footnotetext[1]{pro některé regexy neexistuje ekvivalent v daném nástroji (resp. ekvivalentní výraz je mnohem složitější)}
+\footnotetext[1]{pro některé regexy neexistuje ekvivalent v~daném nástroji (resp. ekvivalentní výraz je mnohem složitější)}
 \footnotetext[7]{testy trvají řádově desítky minut}
 
 \section{Zhodnocení výsledků testování}
-Implementace autora jsou výrazně pomalejší než implementace v jazyce Perl pro testovací sadu \texttt{simpleReg}, kde vstupní řetězec je mnohem delší než regex. Je toto ovlivněno hlavně neefektivním sekvenčním algoritmem pro simulaci vícepáskového TS a memory automatu. Oproti programu \emph{grep} implementace \texttt{simpleTM}, \texttt{simpleMemory} a \texttt{avdMemory} podporuje například regexy s definicemi a referencemi v iteraci (například \texttt{(X\{a+b*\}X)*} z testovací sady \texttt{simpleReg}). Z tabulky lze z jistotou tvrdit, že obě konkurenční implementace kladou poměrně striktní omezení na zpětné odkazy a zachytávající skupiny.
+Implementace autora jsou výrazně pomalejší než implementace v~jazyce Perl pro testovací sadu \texttt{simpleReg}, kde vstupní řetězec je mnohem delší než regex. Je toto ovlivněno hlavně neefektivním sekvenčním algoritmem pro simulaci vícepáskového TS a memory automatu. Oproti programu \emph{grep} implementace \texttt{simpleTM}, \texttt{simpleMemory} a \texttt{avdMemory} podporují například regexy s~definicemi a referencemi v~iteraci (například \texttt{(X\{a+b*\}X)*} z~testovací sady \texttt{simpleReg}). z~tabulky lze z~jistotou tvrdit, že obě konkurenční implementace kladou poměrně striktní omezení na zpětné odkazy a zachytávající skupiny.
 
-Co se týče porovnání implementací autora, \texttt{simpleMemory} je efektivnější pro většinu testovacích sad kromě \texttt{avd}. Pokud na vstupu je delší řetězec a kratší regex s parametrem $avd$ menším než 3 (což odpovídá specifikaci testovací sady \texttt{avd}), algoritmus \texttt{avdMemory} může být efektivnější (i když při konstrukci je potřeba spočítat $avd$ regexu a výsledný memory automat má větší počet přechodů a stavů). Naopak algoritmus \texttt{simpleTM} se ve srovnání s ostatními implementacemi ukázal mnohem pomalejší: testy z sad \texttt{nVar}, \texttt{hard} a \texttt{avd} mohou trvat řádově desítky minut.
+Co se týče porovnání implementací autora, \texttt{simpleMemory} je efektivnější pro většinu testovacích sad kromě \texttt{avd}. Pokud na vstupu je delší řetězec a kratší regex s~parametrem $avd$ menším než 3 (což odpovídá specifikaci testovací sady \texttt{avd}), algoritmus \texttt{avdMemory} může být efektivnější (i když při konstrukci je potřeba spočítat $avd$ regexu a výsledný memory automat má větší počet přechodů a stavů). Naopak algoritmus \texttt{simpleTM} se ve srovnání s~ostatními implementacemi ukázal mnohem pomalejší: testy z~sad \texttt{nVar}, \texttt{hard} a \texttt{avd} mohou trvat řádově desítky minut.
 
 \begin{conclusion}
 Cílem teoretické části této práce bylo zformulovat problém zpracování regexů a podrobně popsat algoritmy pro zpracování těchto výrazů.  
 Mezi přínosy práce lze řadit důkaz věty o NP-úplnosti problému založený na pojmu referenčního slova.
 
-Praktická část této práce si kladla za cíl implementovat a otestovat jeden z algoritmů. Výsledkem práce je funkční implementace dvou algoritmů založených na konstrukci memory automatu (\texttt{simpleMemory} a \texttt{avdMemory}) a jednoho na konstrukci TS (\texttt{simpleTM}). Z výsledků měření lze považovat algoritmus \texttt{simpleMemory} za efektivnější. Oproti konkurenčním implementacím vypracovaná konzolová aplikace neklade striktní omezení na vstupní regex.  Autorem implementované algoritmy se však ve srovnání s existujícími nástroji pro práci s regulárními výrazy ukázaly méně výkonné na třech z šesti vytvořených testovacích sad.
+Praktická část této práce si kladla za cíl implementovat a otestovat jeden z~algoritmů. Výsledkem práce je funkční implementace dvou algoritmů založených na konstrukci memory automatu (\texttt{simpleMemory} a \texttt{avdMemory}) a jednoho na konstrukci TS (\texttt{simpleTM}). z~výsledků měření lze považovat algoritmus \texttt{simpleMemory} za efektivnější. Oproti konkurenčním implementacím vypracovaná konzolová aplikace neklade striktní omezení na vstupní regex.  Autorem implementovaný prostředek pro zpracování regexů se však ve srovnání s~existujícími nástroji pro práci s~regulárními výrazy ukázal méně výkonný na třech z~šesti vytvořených testovacích sad.
 
-V budoucnosti by bylo zajímavé paralelizovat simulaci výpočtu TS a memory automatu, která z~výsledků testování nejvíc zpomalovala běh celé implementace. Větší pozornost by mohla být věnována také parametrizovanému problému zpracování regexu.  
+V budoucnosti by bylo zajímavé paralelizovat simulaci výpočtu TS a memory automatu, která z~výsledků testování nejvíc zpomalovala běh celé implementace. Větší pozornost by mohla být věnována také parametrizovanému problému zpracování regexů.  
 
 \end{conclusion}
 
@@ -2098,7 +2096,7 @@ V budoucnosti by bylo zajímavé paralelizovat simulaci výpočtu TS a memory au
 \appendix
 
 \chapter{Ukázka fungování algoritmů pro zpracování regexů}
-Nechť $\Sigma = \{a, b\}$ je abeceda a $X = \{x, y\}$ je množina proměnných. Regex $\alpha = y\{b^\ast\} \ x\{a^\ast\} \ b \ x$ je validní řetězec z množiny $RV_{\Sigma, X}$. Abstraktní syntaktický strom pro $\alpha$ je zobrazen na obrázku \ref{fig:ast1}.
+Nechť $\Sigma = \{a, b\}$ je abeceda a $X = \{x, y\}$ je množina proměnných. Regex $\alpha = y\{b^\ast\} \ x\{a^\ast\} \ b \ x$ je validní řetězec z~množiny $RV_{\Sigma, X}$. Abstraktní syntaktický strom pro $\alpha$ je zobrazen na obrázku \ref{fig:ast1}.
 
 \begin{figure}[h]
 \centering
@@ -2476,7 +2474,7 @@ Zobrazení $num$ lze definovat například takto: $num(x) := 1; \ num(y) := 2$, 
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
-% % Tuto kapitolu z výsledné práce ODSTRAŇTE.
+% % Tuto kapitolu z~výsledné práce ODSTRAŇTE.
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % 
 % \chapter{Návod k~použití této šablony}
@@ -2553,7 +2551,7 @@ Zobrazení $num$ lze definovat například takto: $num(x) := 1; \ num(y) := 2$, 
 % % Gnuplot BW i barevně
 % Může se hodit mít více verzí stejného obrázku, např. pro barevný či černobílý tisk a nebo pro prezentaci. S~pomocí některých nástrojů na generování grafiky je to snadné.
 % 
-% Máte-li například graf vytvořený v programu Gnuplot, můžete jeho černobílou variantu (viz obr. \ref{fig:gnuplot-bw}) vytvořit parametrem \verb|monochrome dashed| příkazu \verb|set term|. Barevnou variantu (viz obr. \ref{fig:gnuplot-col}) vhodnou na prezentace lze vytvořit parametrem \verb|colour solid|.
+% Máte-li například graf vytvořený v~programu Gnuplot, můžete jeho černobílou variantu (viz obr. \ref{fig:gnuplot-bw}) vytvořit parametrem \verb|monochrome dashed| příkazu \verb|set term|. Barevnou variantu (viz obr. \ref{fig:gnuplot-col}) vhodnou na prezentace lze vytvořit parametrem \verb|colour solid|.
 % 
 % \begin{figure}\centering
 % 	\includegraphics{gnuplot-bw}
@@ -2594,8 +2592,8 @@ Zobrazení $num$ lze definovat například takto: $num(x) := 1; \ num(y) := 2$, 
 		.2 impl\DTcomment{zdrojové kódy implementace}.
 		.2 Makefile.
 		.2 test.sh\DTcomment{skript určený pro testování správnosti implementací}.
-		.2 testGrep.sh\DTcomment{skript určený pro spuštění testů v programu grep}.
-		.2 testPerl.sh\DTcomment{skript určený pro spuštění testů v jazyce Perl}.
+		.2 testGrep.sh\DTcomment{skript určený pro spuštění testů v~programu grep}.
+		.2 testPerl.sh\DTcomment{skript určený pro spuštění testů v~jazyce Perl}.
 		.2 testTime.sh\DTcomment{skript určený pro měření času běhu}.
 		.2 tests\DTcomment{datové sady použité pro testování}.
 		.2 thesis\DTcomment{zdrojová forma práce ve formátu \LaTeX{}}.
