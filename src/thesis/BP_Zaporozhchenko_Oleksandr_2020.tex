@@ -68,7 +68,7 @@ initial text=$start$, % sets the text that appears on the start arrow}
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
 \keywordsCS{regulární výraz, zpětná reference, Turingův stroj, referenční slovo, problém zpracování, důkaz NP-úplnosti, parametrizovaná složitost, aktivní proměnná, implementace, C++, vytvoření testovacích sad, grep, Perl}
-\keywordsEN{regex, backreference, Turing machine, ref-word, regex matching problem, NP-complete proof, parametrized complexity, active variable, implementation, C++, test set creation, grep, Perl}
+\keywordsEN{regex, backreference, Turing machine, ref-word, regex matching problem, NP-completeness proof, parametrized complexity, active variable, implementation, C++, test set creation, grep, Perl}
 % \website{http://site.example/thesis} %volitelná URL práce, objeví se v~tiráži - úplně odstraňte, nemáte-li URL práce
 
 \begin{document}
@@ -141,7 +141,7 @@ Buď $\Sigma$ abeceda, buď $X$ množina proměnných. Hvězdná výška $\lambd
 \end{example}
 
 \section {Hodnota regexu a REGEX jazyky}
-V této sekci je zkoumána vyjadřovací síla regexů a definována třída \textsc{Regex} jazyků. Nejprve se zavede pojem \emph{hodnoty regexu}. Podobně jako u regulárních výrazů, hodnota je definována jako formální jazyk, který daný výraz popisuje. Při definování bude vycházeno z~\cite{schmidrefwords} a\cite{fsdeter}.
+V této sekci je zkoumána vyjadřovací síla regexů a definována třída \textsc{Regex} jazyků. Nejprve se zavede pojem \emph{hodnoty regexu}. Podobně jako u regulárních výrazů, hodnota je definována jako formální jazyk, který daný výraz popisuje. Při definování bude vycházeno z~\cite{schmidrefwords} a \cite{fsdeter}.
 
 \begin{definition}
 Buď $\Sigma$ abeceda, buď $X$ konečná množina proměnných a buď $\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$. Konečná posloupnost znaků z~$\Sigma \cup X \cup \Gamma$ se nazývá \emph{referenční slovo}. Referenční jazyk je konečná množina referenčních slov. \cite{schmidrefwords}
@@ -178,7 +178,7 @@ Z předchozího příkladu vyplývá, že ne každé referenční slovo lze vyge
 Buď $\Sigma$ abeceda, buď $X$ konečná množina proměnných a buď $\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$. Referenční slovo $r$ nad $\Sigma \cup X \cup \Gamma$  je \emph{validní}, pokud existuje $\alpha \in RV_{\Sigma, X}$ tak, že platí $r \in R\left(\alpha\right)$.
 \end{definition}
 
-\uv{Výskyt proměnné $x \in X$ v~referenčním slově funguje jako ukazatel na nejbližší podřetězec tvaru $[\,_x \alpha  ]\,_x$, který se nachází vlevo}. \cite{fsdeter} v~další definici je ukázáno, jak lze formálně převést referenční slovo nad $\Sigma \cup X \cup \Gamma$ na slovo nad $\Sigma$ (v původním textu se této operaci říká \emph{dereference}). Zjednodušeně lze níže uvedené kroky popsat následovně:
+\uv{Výskyt proměnné $x \in X$ v~referenčním slově funguje jako ukazatel na nejbližší podřetězec tvaru $[\,_x \alpha  ]\,_x$, který se nachází vlevo}. \cite{fsdeter} V~další definici je ukázáno, jak lze formálně převést referenční slovo nad $\Sigma \cup X \cup \Gamma$ na slovo nad $\Sigma$ (v původním textu se této operaci říká \emph{dereference}). Zjednodušeně lze níže uvedené kroky popsat následovně:
    
 \emph{Každá proměnná $x$ se substituuje za příslušný podřetězec, na nějž daná proměnná odkazuje (nebo za $\varepsilon$, pokud se nalevo nevyskytuje podřetězec $[\,_x \dots \ ]\,_x$), a všechny znaky z~$\Gamma = \{ [\,_x , ]\,_x \mid x \in X \}$ z~řetězce budou odstraněny.}
 \begin{definition}
@@ -242,7 +242,7 @@ Pro porovnání hodnoty referenčního slova se vstupním řetězcem lze použí
 		}
 	}
 }
-\lIf{$j=|w|+1$}{\KwRet true}
+\lIf{$j=|w|$}{\KwRet true}
 \lElse{\KwRet false}
   
 \end{algorithm}
@@ -269,7 +269,7 @@ Referenční slovo $r$ obsahuje \emph{zbytečnou definici proměnné} $x$, práv
 \end{definition}
 
 \begin{example}
-	Referenční slovo $r = c [\,_x c ]\,_x [\,_x d ]\,_x [\,_y x ]\,_y$ nad $\Sigma\cup X\cup\Gamma$ má dvě zbytečné definice, První definice ve výrazu ($[\,_x c ]\,_x$) je zbytečná, protože jediná zpětná reference, která se vyskytuje napravo, odkazuje na definici nacházející bezprostředně po dané definici ($ [\,_x d ]\,_x$), což splňuje bod \ref{eq:def2}. Poslední definice je zbytečná, protože napravo od ní neexistuje žádná reference na proměnnou $y$ (je splněn bod \ref{eq:def1}). Závorky, které ohraničují zbytečnou definici, je možné z~referenčního slova odstranit, přičemž hodnota výsledného řetězce zůstane stejná: $D(c [\,_x c ]\,_x [\,_x d ]\,_x [\,_y x ]\,_y)=D(c c [\,_x d ]\,_x x)=ccdd$.
+	Referenční slovo $r = c [\,_x c ]\,_x [\,_x d ]\,_x [\,_y x ]\,_y$ nad $\Sigma\cup X\cup\Gamma$ má dvě zbytečné definice. První definice ve výrazu ($[\,_x c ]\,_x$) je zbytečná, protože jediná zpětná reference, která se vyskytuje napravo, odkazuje na definici nacházející bezprostředně po dané definici ($ [\,_x d ]\,_x$), což splňuje bod \ref{eq:def2}. Poslední definice je zbytečná, protože napravo od ní neexistuje žádná reference na proměnnou $y$ (je splněn bod \ref{eq:def1}). Závorky, které ohraničují zbytečnou definici, je možné z~referenčního slova odstranit, přičemž hodnota výsledného řetězce zůstane stejná: $D(c [\,_x c ]\,_x [\,_x d ]\,_x [\,_y x ]\,_y)=D(c c [\,_x d ]\,_x x)=ccdd$.
 \end{example}
 
 Z definice \ref{def:refword} plyne, že referenční slovo může \uv{dosvědčit} příslušnost slova k~hodnotě regexu. V~této práci je poprvé zformulováno a dokázáno tvrzení, že pro každé slovo $w$, které je popsáno nějakým regexem $\alpha$, existuje referenční slovo, jehož délka je polynomiální vzhledem k~$|\alpha|^2\cdot|w|$.
