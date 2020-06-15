@@ -142,8 +142,8 @@ private:
     /**
      * A transition function Q \ F  x (I U {B})^k -> 2^(Q x ((I U {B}) x {L, N, R})^k).
      */
-    std::map<std::pair<int, std::string>,
-            std::vector<std::pair<int, tapesOperations>>, comp> m_Transitions;
+    std::shared_ptr<std::map<std::pair<int, std::string>,
+            std::vector<std::pair<int, tapesOperations>>, comp>> m_Transitions;
 
 };
 

@@ -224,7 +224,7 @@ template<class T>
 bool MemoryAutomaton<T>::accepts() {
     if (Automaton<T>::m_CurState >= 0) {
         if (this->checkCycle()) return false;
-        auto trans = m_Transitions[Automaton<T>::m_CurState];
+        const auto & trans = (*m_Transitions)[Automaton<T>::m_CurState];
         for (auto it = trans.begin(); it != trans.end(); it++) {
             std::shared_ptr<MemoryAutomaton < T>>
             automaton = this->getClone();
@@ -253,7 +253,7 @@ MemoryAutomaton<T>::MemoryAutomaton(const MemoryAutomaton <T> &automaton) : Auto
             m_Transitions[it0->first].push_back(std::make_pair(it->first, it->second));
         }
     }*/
-    m_Transitions = automaton.m_Transitions;
+    m_Transitions = std::move(automaton.m_Transitions);
     m_Pos = automaton.m_Pos;
     m_Vars = automaton.m_Vars;
     m_Memory.resize(automaton.m_Memory.size());
@@ -333,7 +333,7 @@ void MemoryAutomaton<T>::print() {
     std::cout << "})" << std::endl;
 
     std::cout << "Transition function f:" << std::endl;
-    for (auto it = m_Transitions.begin(); it != m_Transitions.end(); it++) {
+    for (auto it = m_Transitions->begin(); it != m_Transitions->end(); it++) {
         std::cout << it->first << " ->\n";
         for (auto it1 = it->second.begin(); it1 != it->second.end(); it1++) {
             std::cout << "\t(" << it1->first << "," << it1->second << ")\n";
@@ -369,11 +369,12 @@ MemoryAutomaton<T>::MemoryAutomaton(T start, T end, int memSize, std::set<char> 
     m_Vars = vars;
     m_States.insert(start);
     m_States.insert(end);
+    m_Transitions = std::make_shared<std::map<T, std::vector<std::pair<std::string, T>>>>();
 }
 
 template<class T>
 void MemoryAutomaton<T>::addTransition(T state, std::string readSym, T newState) {
-    m_Transitions[state].push_back(std::make_pair(readSym, newState));
+    (*m_Transitions)[state].push_back(std::make_pair(readSym, newState));
 }
 
 template<class T>

@@ -3,12 +3,15 @@
 #include <iostream>
 #include "ndtm.h"
 
-NDTM::NDTM() : Automaton(0, 1), m_Blank('B') {}
+NDTM::NDTM() : Automaton(0, 1), m_Blank('B') {
+	m_Transitions = std::make_shared<std::map<std::pair<int, std::string>,
+            std::vector<std::pair<int, tapesOperations>>, comp>>();
+}
 
 
 NDTM::NDTM(const NDTM &tm) : Automaton(tm) {
     this->m_Blank = tm.m_Blank;
-    this->m_Transitions = tm.m_Transitions;
+    this->m_Transitions = std::move(tm.m_Transitions);
     for (auto tape = tm.m_Tapes.begin(); tape != tm.m_Tapes.end(); tape++) {
         this->m_Tapes.emplace_back((*tape)->clone());
     }
@@ -43,7 +46,7 @@ std::string NDTM::readSymbols() {
 }
 
 void NDTM::addTransition(int state, std::string readSym, int newState, tapesOperations moves) {
-    m_Transitions[std::make_pair(state, readSym)].push_back(std::make_pair(newState, moves));
+    (*m_Transitions)[std::make_pair(state, readSym)].push_back(std::make_pair(newState, moves));
 }
 
 void NDTM::execTransition(std::pair<int, tapesOperations> trans) {
@@ -58,7 +61,7 @@ void NDTM::execTransition(std::pair<int, tapesOperations> trans) {
 }
 
 bool NDTM::accepts() {
-    auto trans = m_Transitions[std::make_pair(m_CurState, this->readSymbols())];
+    const auto & trans = (*m_Transitions)[std::make_pair(m_CurState, this->readSymbols())];
     if (this->checkCycle()) return false;
     for (int i = 0; i < (int) trans.size(); i++) {
         auto tm = this->clone();
@@ -99,16 +102,16 @@ void NDTM::print() {
     std::cout << "})" << std::endl;
 
     std::cout << "Transition function f:" << std::endl;
-    for (auto it = m_Transitions.begin(); it != m_Transitions.end(); it++) {
+    for (auto it = m_Transitions->begin(); it != m_Transitions->end(); it++) {
         std::cout << "f(" << it->first.first;
-        for (int i = 0; i < (int) m_Transitions.begin()->first.second.size(); i++) {
+        for (int i = 0; i < (int) m_Transitions->begin()->first.second.size(); i++) {
             if (it->first.second[i] == m_Blank) std::cout << ",B";
             else std::cout << "," << it->first.second[i];
         }
         std::cout << ") = {";
         for (auto it1 = it->second.begin(); it1 != it->second.end(); it1++) {
             std::cout << "\n\t(" << it1->first;
-            for (int i = 0; i < (int) m_Transitions.begin()->first.second.size(); i++) {
+            for (int i = 0; i < (int) m_Transitions->begin()->first.second.size(); i++) {
                 if (it1->second[i].first == m_Blank) std::cout << ",<B," << it1->second[i].second - 1 << ">";
                 else std::cout << ",<" << it1->second[i].first << "," << it1->second[i].second - 1 << ">";
             }

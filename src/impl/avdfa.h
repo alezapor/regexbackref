@@ -114,7 +114,7 @@ private:
     /**
      * A transition function
      */
-    std::map<T, std::vector<std::pair<std::string, T>>> m_Transitions;
+    std::shared_ptr<std::map<T, std::vector<std::pair<std::string, T>>>> m_Transitions;
 
     /**
      * A memory of tapes states for each state -> used to avoid infinite cycle

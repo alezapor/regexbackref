@@ -1,7 +1,7 @@
 PROGRAM=regexmatcher
 
 CC=g++
-CFLAGS=-std=c++14 -Wall -pedantic -Wno-long-long -O0 -ggdb
+CFLAGS=-std=c++14 -Wall -pedantic -Wno-long-long -O3 -ggdb
 
 all: compile doc 
 

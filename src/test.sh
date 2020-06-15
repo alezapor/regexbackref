@@ -14,8 +14,8 @@ fi
 touch "$avdOut"
 > "$avdOut"
 #uncomment for testing simpleTM
-#touch "$simpleOut"
-#> "$simpleOut"
+touch "$simpleOut"
+> "$simpleOut"
 touch "$avd2Out"
 > "$avd2Out"
 
@@ -25,17 +25,17 @@ then
 	do
 		line1=$(cat "$in"  | tail -n +$((2*i+1)) | head -n 1)
 		line2=$(cat "$in"  | tail -n +$((2*i+2)) | head -n 1) 
-		#./regexmatcher 0 "$line1" "$line2" >> "$simpleOut"
+		./regexmatcher 0 "$line1" "$line2" >> "$simpleOut"
 		./regexmatcher 1 "$line1" "$line2" >> "$avdOut"
 		./regexmatcher 2 "$line1" "$line2" >> "$avd2Out"
 	done
 	#uncomment for testing simpleTM
-	#if diff "$simpleOut" "$ref";
-	#then	
-	#	echo "All tests from $1 passed for simpleTM"
-	#else
-	#	echo "There is an error for some test of $1 for simpleTM"	
-	#fi
+	if diff "$simpleOut" "$ref";
+	then	
+		echo "All tests from $1 passed for simpleTM"
+	else
+		echo "There is an error for some test of $1 for simpleTM"	
+	fi
 	if diff "$avdOut" "$ref";
 	then	
 		echo "All tests from $1 passed for simpleMemory"

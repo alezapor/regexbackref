@@ -19,7 +19,7 @@ void Parser::ExpandError(std::string nonTerminal, Token token) {
 std::unique_ptr<NodeAST> Parser::ParseA() {
     if (m_CurTok == tokenAtom ||
         m_CurTok == '(' || m_CurTok == tokenVar) {
-        return std::move(ParseARest(std::move(ParseB())));
+        return ParseARest(ParseB());
     } else {
         ExpandError("A", (Token) m_CurTok);
         return nullptr;
@@ -30,10 +30,10 @@ std::unique_ptr<NodeAST> Parser::ParseA() {
 std::unique_ptr<NodeAST> Parser::ParseARest(std::unique_ptr<NodeAST> left) {
     if (m_CurTok == tokenUnion) {
         getNextToken();
-        auto right = std::move(ParseA());
+        auto right = ParseA();
         return std::make_unique<UnionAST>(std::move(left), std::move(right));
     } else if (m_CurTok == tokenEOF || m_CurTok == ')' || m_CurTok == '}') {
-        return std::move(left);
+        return left;
     } else {
         ExpandError("A'", (Token) m_CurTok);
         return nullptr;
@@ -44,7 +44,7 @@ std::unique_ptr<NodeAST> Parser::ParseARest(std::unique_ptr<NodeAST> left) {
 std::unique_ptr<NodeAST> Parser::ParseB() {
     if (m_CurTok == tokenAtom ||
         m_CurTok == '(' || m_CurTok == tokenVar) {
-        return std::move(ParseBRest(std::move(ParseC())));
+        return ParseBRest(ParseC());
     } else {
         ExpandError("B", (Token) m_CurTok);
         return nullptr;
@@ -55,11 +55,11 @@ std::unique_ptr<NodeAST> Parser::ParseB() {
 std::unique_ptr<NodeAST> Parser::ParseBRest(std::unique_ptr<NodeAST> left) {
     if (m_CurTok == tokenAtom ||
         m_CurTok == '(' || m_CurTok == tokenVar) {
-        auto right = std::move(ParseB());
+        auto right = ParseB();
         return std::make_unique<ConcatenationAST>(std::move(left), std::move(right));
     } else if (m_CurTok == tokenUnion || m_CurTok == ')' || m_CurTok == '}' ||
                m_CurTok == tokenEOF) {
-        return std::move(left);
+        return left;
     } else {
         ExpandError("B'", (Token) m_CurTok);
         return nullptr;
@@ -70,7 +70,7 @@ std::unique_ptr<NodeAST> Parser::ParseBRest(std::unique_ptr<NodeAST> left) {
 std::unique_ptr<NodeAST> Parser::ParseC() {
     if (m_CurTok == tokenAtom ||
         m_CurTok == '(' || m_CurTok == tokenVar) {
-        return std::move(ParseCRest(std::move(ParseD())));
+        return ParseCRest(ParseD());
     } else {
         ExpandError("C", (Token) m_CurTok);
         return nullptr;
@@ -84,7 +84,7 @@ std::unique_ptr<NodeAST> Parser::ParseCRest(std::unique_ptr<NodeAST> left) {
         return std::make_unique<IterationAST>(std::move(left));
     } else if (m_CurTok == tokenUnion || m_CurTok == ')' || m_CurTok == '}' || m_CurTok == tokenVar ||
                m_CurTok == tokenEOF || m_CurTok == '(' || m_CurTok == tokenAtom) {
-        return std::move(left);
+        return left;
     } else {
         ExpandError("C'", (Token) m_CurTok);
         return nullptr;
@@ -95,7 +95,7 @@ std::unique_ptr<NodeAST> Parser::ParseCRest(std::unique_ptr<NodeAST> left) {
 std::unique_ptr<NodeAST> Parser::ParseD() {
     if (m_CurTok == '(') {
         getNextToken();
-        auto expr = std::move(ParseA());
+        auto expr = ParseA();
         if (m_CurTok != ')') {
             MatchError((Token) m_CurTok);
             return nullptr;
@@ -109,12 +109,12 @@ std::unique_ptr<NodeAST> Parser::ParseD() {
         }
         auto prim = std::make_unique<AtomAST>(m_Lexer->val);
         getNextToken();
-        return std::move(prim);
+        return prim;
     } else if (m_CurTok == tokenVar) {
         int val = m_Lexer->val;
         m_Vars.insert(m_Lexer->val);
         getNextToken();
-        return std::move(ParseFRest(val));
+        return ParseFRest(val);
     } else {
         ExpandError("D", (Token) m_CurTok);
         return nullptr;
@@ -125,7 +125,7 @@ std::unique_ptr<NodeAST> Parser::ParseD() {
 std::unique_ptr<NodeAST> Parser::ParseFRest(int var) {
     if (m_CurTok == '{') {
         getNextToken();
-        auto expr = std::move(ParseA());
+        auto expr = ParseA();
         if (m_CurTok != '}') {
             MatchError((Token) m_CurTok);
             return nullptr;
