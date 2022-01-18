@@ -1,70 +1,37 @@
-# Stručný popis obsahu CD
+A regex matcher that supports backreferences. A backreference makes regular expressions much more powerful powerful formalism for defining **not only** regular languages.
+Three algorithms were implemented: the first one uses an LBA approach, the other two are based on memory automata described by Marcus L. Schmid [here](https://arxiv.org/pdf/1903.05896.pdf).
 
-| adresář/soubor | popis obsahu |
-| ------ | ------ |
-| BP_Zaporozhchenko_Oleksandr_2020.pdf | text práce |
-| src/Doxyfile | konfigurační soubor nástroje Doxygen |
-| src/impl | adresář obsahující zdrojové kódy implementace prostředku pro zpracování regexů|
-| src/test.sh | skript určený pro testování správnosti implementací | 
-| src/testGrep.sh | skript určený pro spuštění testů v programu grep | 
-| src/testPerl.sh | skript určený pro spuštění testů v jazyce Perl | 
-| src/testTime.sh | skript určený pro měření času běhu | 
-| src/tests | adresář obsahující datové sady použité pro testování |
-| src/tests/out | adresář, do kterého se ukládají výstupy z testů |
-| src/thesis | adresář obsahující zdrojovou formu práce ve formátu LaTeX |
+![workflow](https://github.com/alezapor/regexbackref/actions/workflows/cmake.yml/badge.svg?event=push)
 
+## Prerequisutes
+* You must have CMake version 3.10 or later installed. 
+* Boost System and Test Libraries are also needed to run tests.
 
-# regex_matcher -- uživatelská příručka
-
-Implementace prostředku pro zpracování regulárních výrazů se zpetnými referencemi.
-
-## Building
+## Build
+Go to the directory of the CMake source code tree and create a build directory.
 ```bash
-cd src
+mkdir build
+cd build
+cmake ..
 ```
 
 ```bash
-make compile
+cmake --build .
 ```
 
-## Spuštění
+## Run
 
-Pro spuštění zadejte `./regexmatcher <volba algoritmu> <regex> <vstupni retezec> `  
-**Volba algoritmu:**  
+Try to use the newly built `matcher` this way: `matcher <algorithm> <regex> <text> `  
+**Selecting the algorithm:**  
 0 = simpleTM  
 1 = simpleMemory  
 2 = avdMemory  
 
-### Příklad
+### Example with backreferences
 ```bash
-./regex_matcher 1 "X{a*+b*}X*" "aabbbb" 
+matcher 1 "X{a*+b*}X*" "aabbbb" 
 ```
 
-## Testy
+## Tests
+To run some final tests use `ctest -C Debug` from the binary directory.
 
-Pro spuštění testů zadejte: `./test.sh <nazev_sady>`  
-Skripty určené pro spuštění testů v grepu (*testGrep.sh*) a perlu (*testPerl.sh*)  
-Skript pro měření času výpočtu: *testTime.sh*  
-{- Pozor! -} Pokud chcete změřit čas implementace algoritmu simpleTM, odkomentujte odpovídající řádky ve skriptu *testTime.sh* (pro sady **avd**, **hard** a **nVar** může trvat řádově desítky minut).  
-
-### Příklady
-```bash
-./test.sh simpleReg
-./testPerl.sh nSigma
-./testTime hard
-```
-Pro spuštění všech testů zadejte:
-```bash
-make tests
-make time
-```
-## Generování dokumentace
-Dokumentace ve formatu HTML se vytvoří v adresari *doc*.
-```bash
-make doc
-```
-## Úklid
-Smazat spustitelné, objektové soubory, soubory dokumentace a výstupy z testů lze příkazem
-```bash
-make clean
-```
