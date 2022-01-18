@@ -1,0 +1,2 @@
+#define RegexMatcher_VERSION_MAJOR @RegexMatcher_VERSION_MAJOR@
+#define RegexMatcher_VERSION_MINOR @RegexMatcher_VERSION_MINOR@

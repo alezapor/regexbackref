@@ -28,12 +28,12 @@ void NDTM::loadTapes(std::shared_ptr<Tape> t) {
     for (auto it = m_ConfigurationsMemory.begin(); it != m_ConfigurationsMemory.end(); it++) {
         it->first = "";
     }
-    int size = m_Tapes.size();
+    int size = (int) m_Tapes.size();
     m_Tapes.erase(m_Tapes.begin(), m_Tapes.end());
     m_Tapes.emplace_back(t);
 
     for (int i = 1; i < size; i++) {
-        m_Tapes.push_back(std::make_shared<Tape>(t->getMCells().size(), 1));
+        m_Tapes.push_back(std::make_shared<Tape>((int)t->getMCells().size(), 1));
     }
 }
 
@@ -156,7 +156,7 @@ void NDTM::epsilonTransitionHelper(std::vector<std::string> &readSymbols, std::v
             operations.push_back(s1);
         }
         auto it = alphabet.begin();
-        int size = readSymbols.size();
+        int size = (int) readSymbols.size();
         for (int i = 0; i < (int) alphabet.size() * size; i++) {
             if (i >= size) {
                 std::string s = readSymbols[i % size];

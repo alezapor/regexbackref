@@ -39,7 +39,7 @@ public:
      * A constructor
      * @param is a file stream that contains a regular expression to be parsed
      */
-    Parser(std::istringstream *is);
+    Parser(const char*);
 
     std::set<char> &getInput();
 
