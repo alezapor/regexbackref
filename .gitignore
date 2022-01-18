@@ -1,3 +1,6 @@
-/src/doc/*
-/src/objs/*
-/src/tests/out/*
+/src/doc/
+/src/objs/
+/src/tests/out/
+/out/
+/.vs/
+/.idea/

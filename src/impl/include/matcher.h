@@ -6,6 +6,8 @@
 #include <memory>
 #include "parser.h"
 
+bool matches(const char*, const char*, const char*);
+
 /**
  * A class that represents regex matcher
  */
@@ -20,7 +22,7 @@ public:
      * @param parser a pointer to regex parser
      * @param option the chosen algorithm 
      */
-    Matcher(std::shared_ptr<Parser> parser, char *option);
+    Matcher(std::unique_ptr<Parser> parser, const char *option);
 
     /**
      * A function that simulates regex matching
@@ -33,7 +35,7 @@ private:
     /**
      * A poiner to regex parser
      */
-    std::shared_ptr<Parser> m_Parser;
+    std::unique_ptr<Parser> m_Parser;
     /**
      * A pointer to generated automaton that accepts language of the regex
      */

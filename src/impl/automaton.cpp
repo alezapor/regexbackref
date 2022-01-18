@@ -1,11 +1,11 @@
 
 #include "automaton.h"
 
+
 template<class T>
 Automaton<T>::Automaton(T start, T end) : m_InitialState(start), m_CurState(start), m_StateCnt(2) {
     m_FinalStates.insert(end);
 }
-
 
 template<class T>
 Automaton<T>::Automaton(const Automaton <T> &automaton) {

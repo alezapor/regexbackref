@@ -6,7 +6,7 @@ Matcher::Matcher() {
 
 }
 
-Matcher::Matcher(std::shared_ptr<Parser> parser, char *option) :
+Matcher::Matcher(std::unique_ptr<Parser> parser, const char *option) :
         m_Parser(std::move(parser)) {
     std::vector<bool> tapes;
     std::map<char, int> memory;
@@ -27,10 +27,10 @@ Matcher::Matcher(std::shared_ptr<Parser> parser, char *option) :
         tapes.resize(m_Parser->getVars().size(), false);
 
         for (auto it = m_Parser->getVars().begin(); it != m_Parser->getVars().end(); it++) {
-            memory[*it] = std::distance(m_Parser->getVars().begin(), it) + 1;
+            memory[*it] = (int) std::distance(m_Parser->getVars().begin(), it) + 1;
         }
         NDTM *tm = new NDTM();
-        tm->setMTapeCnt(m_Parser->getVars().size() + 1);
+        tm->setMTapeCnt((int) m_Parser->getVars().size() + 1);
         tm->setInput(m_Parser->getInput());
         m_Root->constructTM(tm, tapes, memory, tm->getMInitialState(),
                             *tm->getMFinalStates().begin());
@@ -73,3 +73,9 @@ bool Matcher::match(std::string w) {
 Matcher::~Matcher() {
     delete m_Simulator;
 }
+
+bool matches(const char* regex, const char* option, const char* text) {
+    auto matcher = std::make_unique<Matcher>(std::make_unique<Parser>(regex), option);
+    return matcher->match(text);
+}
+

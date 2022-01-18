@@ -15,7 +15,7 @@
  * A comparator for a transition function represented with a map
  */
 struct comp {
-    bool operator()(const std::pair<int, std::string> &o1, const std::pair<int, std::string> &o2) {
+    bool operator()(const std::pair<int, std::string> &o1, const std::pair<int, std::string> &o2) const {
         if (o1.first == o2.first) return o1.second < o2.second;
         return o1.first < o2.first;
     }

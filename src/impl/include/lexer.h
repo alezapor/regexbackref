@@ -5,6 +5,8 @@
 #include <cstdio>
 #include <string>
 #include <sstream>
+#include <iostream>
+#include <utility>
 
 /**
  * An enumeration that represents token types of a lexer
@@ -26,11 +28,12 @@ enum Token {
  */
 class Lexer {
 public:
-    Lexer(std::istringstream * is) {this->is = is;}
+    Lexer(const char* str) : lastChar(' '), is(str) { }
 
     int val;
+    int lastChar;
     int getTok();
-    std::istringstream * is;
+    std::istringstream is;
 };
 
 
