@@ -1,5 +1,5 @@
-A regex matcher that supports backreferences. A backreference makes regular expressions much more powerful powerful formalism for defining **not only** regular languages.
-Three algorithms were implemented: the first one uses an LBA approach, the other two are based on memory automata described by Marcus L. Schmid [here](https://arxiv.org/pdf/1903.05896.pdf).
+A regex matcher that supports backreferences. A backreference makes regular expressions much more powerful formalism for defining **not only** regular languages.
+Three algorithms were implemented: the first one uses an LBA approach, the other two are based on memory automata described [here](https://arxiv.org/pdf/1903.05896.pdf) by Marcus L. Schmid.
 
 ![workflow](https://github.com/alezapor/regexbackref/actions/workflows/cmake.yml/badge.svg?event=push)
 
